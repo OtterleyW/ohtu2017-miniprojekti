@@ -15,9 +15,3 @@ before_install:
   - mkdir geckodriver
   - tar -xzf geckodriver-v0.15.0-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
-
-  install:
-    - TERM=dumb ./gradlew assemble
-
-  script:
-    - TERM=dumb ./gradlew check
