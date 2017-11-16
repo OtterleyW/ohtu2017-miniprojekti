@@ -26,20 +26,7 @@ public class Controllers {
     public String testi() {
 
         try {
-            kirjaDao.lisaaKirja("testikirja", "testikirjoittaja");
-        } catch (Exception e) {
-
-        }
-        return "Pöö!";
-    }
-
-    @GetMapping("/testi2")
-    @ResponseBody
-    public String testi2() {
-
-        Kirja k = new Kirja("kuinka selviytyä ohtusta", "jumala");
-        try {
-            kirjaDao.lisaaKirja(k.getOtsikko(), k.getKirjoittaja());
+            kirjaDao.lisaaKirja("kirjoittaja", "kirja");
         } catch (Exception e) {
 
         }
