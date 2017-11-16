@@ -43,6 +43,6 @@ public class Controllers {
         } catch (Exception e) {
 
         }
-        return "Lisätty kirja " + k.getOtsikko() + " (kirjoittanut " + k.getKirjoittaja() + ")";
+        return "Hei Maailma!";
     }
 }
