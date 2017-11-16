@@ -27,11 +27,14 @@ run {
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/snapshot' }
+    jcenter()
 }
     
 mainClassName='ohtu.Main'
 
 dependencies {
+
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11'
 
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
