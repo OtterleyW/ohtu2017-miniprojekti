@@ -12,7 +12,7 @@ public class Controllers {
     @GetMapping("/")
     @ResponseBody
     public String home() {
-        return "<a href='/testi2'>lisää kirja</a>";
+        return "<a href='/other'>linkki</a>";
     }
 
     @GetMapping("/other")
@@ -43,6 +43,6 @@ public class Controllers {
         } catch (Exception e) {
 
         }
-        return "Hei Maailma!";
+        return ":D";
     }
 }
