@@ -5,7 +5,7 @@ public class Kirja {
     private String otsikko;
     private String kirjoittaja;
 
-    public Kirja(String otsikko, String kirjoittaja) {
+    public Kirja(String kirjoittaja, String otsikko) {
 
         this.kirjoittaja = kirjoittaja;
         this.otsikko = otsikko;
