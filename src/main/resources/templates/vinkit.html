@@ -9,7 +9,7 @@
         <h1>Lisätyt lukuvinkit</h1>
         
         <ul>
-            <li th:each="kirja : ${vinkit}">
+            <li th:each="kirja : ${kirjat}">
                 <span th:text="${kirja.otsikko}">kirja</span>
             </li>
         </ul>
