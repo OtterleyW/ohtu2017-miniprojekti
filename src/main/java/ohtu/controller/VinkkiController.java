@@ -10,6 +10,10 @@ public class VinkkiController {
 
     private KirjaDao kirjaDao;
 
+    public VinkkiController() {
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
+    }
+
     @GetMapping("/vinkit")
     public String listaaVinkit(Model model) throws Exception {
         model.addAttribute("kirjat", kirjaDao.haeKirjat());
