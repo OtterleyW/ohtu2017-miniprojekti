@@ -5,11 +5,11 @@
     </head>
     <body>
         <h2> Muokkaa kirjaa </h2>
-        <form method="POST" action="/muokkaa">
+        <form method="POST" action="muokkaa_kirjaa">
             <h5> Kirjoittaja: </h5>
-            <input type="text" name="kirjoittaja" />
+            <input type="text" name="kirjoittaja" th:value="${kirja.kirjoittaja}" />
             <h5> Kirjan nimi: </h5>
-            <input type="text" name="otsikko"/>
+            <input type="text" name="otsikko" th:value="${kirja.otsikko}"/>
             <input type="submit" value="Muokkaa"/>
         </form>
 

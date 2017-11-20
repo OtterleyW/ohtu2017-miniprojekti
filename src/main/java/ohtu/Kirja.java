@@ -1,9 +1,10 @@
 package ohtu;
 
 public class Kirja {
-
+    
     private String otsikko;
     private String kirjoittaja;
+    private String id;
 
     public Kirja(String otsikko, String kirjoittaja) {
 
@@ -25,6 +26,14 @@ public class Kirja {
 
     public void setKirjoittaja(String kirjoittaja) {
         this.kirjoittaja = kirjoittaja;
+    }
+    
+    public String getId(){
+        return id;
+    }
+    
+    public void setId(String id){
+        this.id = id;
     }
 
 }

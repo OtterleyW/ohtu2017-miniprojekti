@@ -55,6 +55,23 @@ public class KirjaDao {
         ResultSet rs = stmt.executeQuery();
         
         Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"));
+        kirja.setId(id);
+        
+        rs.close();
+        conn.close();
+        
         return kirja;
+    }
+    
+    public void muokkaaKirjaa(String id, String kirjoittaja, String otsikko) throws Exception {
+       
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET kirjoittaja = ?, otsikko= ? WHERE id = ? ");
+        stmt.setString(1, kirjoittaja);
+        stmt.setString(2, otsikko);
+        stmt.setString(3, id);
+        stmt.execute();
+        stmt.close();
+        conn.close();
     }
 }
