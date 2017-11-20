@@ -17,13 +17,7 @@ public class Controllers {
     @GetMapping("/")
     @ResponseBody
     public String home() {
-        return "<a href='/other'>linkki</a>";
-    }
-
-    @GetMapping("/other")
-    @ResponseBody
-    public String other() {
-        return "Hei Maailma!";
+        return "<a href='/testi'>Lisää kirja</a>";
     }
 
     @GetMapping("/testi")
