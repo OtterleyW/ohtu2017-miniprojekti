@@ -47,4 +47,14 @@ public class KirjaDao {
         
         return kirjat;
     }
+    
+    public Kirja haeKirja(String id) throws Exception{
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja WHERE id = ?");
+        stmt.setString(1, id);
+        ResultSet rs = stmt.executeQuery();
+        
+        Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"));
+        return kirja;
+    }
 }
