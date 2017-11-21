@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Error;
 
 public class KirjaDao {
 
@@ -27,6 +28,7 @@ public class KirjaDao {
         stmt.execute();
         stmt.close();
         conn.close();
+
     }
 
     public List<Kirja> haeKirjat() throws Exception {
@@ -44,27 +46,27 @@ public class KirjaDao {
 
         rs.close();
         conn.close();
-        
+
         return kirjat;
     }
-    
-    public Kirja haeKirja(String id) throws Exception{
+
+    public Kirja haeKirja(String id) throws Exception {
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja WHERE id = ?");
         stmt.setString(1, id);
         ResultSet rs = stmt.executeQuery();
-        
+
         Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"));
         kirja.setId(id);
-        
+
         rs.close();
         conn.close();
-        
+
         return kirja;
     }
-    
+
     public void muokkaaKirjaa(String id, String kirjoittaja, String otsikko) throws Exception {
-       
+
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET kirjoittaja = ?, otsikko= ? WHERE id = ? ");
         stmt.setString(1, kirjoittaja);

@@ -32,7 +32,7 @@ public class Controllers {
     public String lisaakirja(@RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
 
         try {
-            kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+           kirjaDao.lisaaKirja(kirjoittaja, otsikko);
         } catch (Exception ex) {
             return "ERRRRRROR! " + "<a href='/testi'>Takaisin</a>";
         }
