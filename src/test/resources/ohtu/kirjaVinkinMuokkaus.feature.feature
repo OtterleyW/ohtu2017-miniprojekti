@@ -4,7 +4,7 @@
 #   Given user has sellected command Muokkaa kirjaa
 #   When user has entered writer "Jussi Väisälä" and title "Topolgia I"
 #   When exixting book is modified
-
+#
 #Scenario: user cant modify non exixting book
 #     Given user has sellected command Muokkaa kirjaa
 #     When user has entered writer "Homeros" and title "Ilias & Odysseia"
