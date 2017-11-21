@@ -10,7 +10,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.springframework.web.servlet.ModelAndView;
 
 public class Stepdefs {
 
@@ -25,18 +24,13 @@ public class Stepdefs {
         }
         String absolutePath = file.getAbsolutePath();
         System.setProperty("webdriver.gecko.driver", absolutePath);
-
         this.driver = new FirefoxDriver();
-    }
 
-    @After
-    public void tearDown() {
-        driver.quit();
     }
 
 //    @Given("^user is at the main page$")
 //    public void user_is_at_the_main_page() throws Throwable {
-//        driver.get("http://localhost:" + 8080 + "/" );
+//        driver.get("http://localhost:8080");
 //        Thread.sleep(1000);        
 //    }
 //
@@ -53,89 +47,66 @@ public class Stepdefs {
 //                .getText().contains(arg1));
 //    }
     @Given("^command lisaakirja is sellected$")
-    public void command_lisaakirja_is_sellected() throws Throwable {
-        driver.get("http://localhost:" + 8080 + "/");
-        Thread.sleep(100);
+    public void command_lisaakirja_is_selected() throws Throwable {
+        driver.get("http://localhost:8080");
+        Thread.sleep(200);
+        System.out.println(driver.getPageSource());
         WebElement element = driver.findElement(By.linkText("Lisää kirja"));
         element.click();
-        Thread.sleep(100);
-
+        Thread.sleep(200);
     }
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
-    public void when_user_has_entered_an_writer_and_title(String kirjoittaja, String otsikko) throws Throwable {
+    public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
         WebElement element = driver.findElement(By.name("kirjoittaja"));
-        element.sendKeys(kirjoittaja);
-        Thread.sleep(100);
+        element.sendKeys(writer);
         element = driver.findElement(By.name("otsikko"));
-        element.sendKeys(otsikko);
+        element.sendKeys(tittle);
         Thread.sleep(200);
-//        element = driver.findElement(By.("Lisää"));
+        element = driver.findElement(By.name("Lisää"));
         element.submit();
-        Thread.sleep(400);
+        Thread.sleep(200);
     }
+
     @When("^user has sellected command takaisin$")
     public void user_has_sellected_command_takaisin() throws Throwable {
-         WebElement element = driver.findElement(By.linkText("Takaisin"));
-            element.click();
-        
-         }
+        WebElement element = driver.findElement(By.linkText("Takaisin"));
+        element.click();
+    }
+
+    @Then("^new book is added$")
+    public void new_book_is_added() throws Throwable {
+        pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä! ");
+        WebElement element = driver.findElement(By.linkText("Takaisin"));
+    }
 
     @Then("^user is redirect to mainpage$")
     public void user_is_redirect_to_mainpage() throws Throwable {
         pageHasContent("Lisää kirja");
-   }
+    }
+
     @Then("^system sent message sent error message$")
     public void system_sent_message_sent_error_message() throws Throwable {
-        
-         }
-
-
-    
-
-
-    @Then("^new book is added$")
-    public void new_book_is_added() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Takaisin"));
-        pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä!");
-        element.click();
-        Thread.sleep(200);
-    }
-    @Given("^user has sellected command Muokkaa kirjaa$")
-public void user_has_sellected_command_Muokkaa_kirjaa() throws Throwable {
-//        driver.get("http://localhost:" + 8080 + "/'>muokkaa_kirja<");
-//       WebElement element = driver.findElement(By.linkText("Muokkaa kirjaa"));
-//       element.click();
-//       Thread.sleep(200);
+//         pageHasContent("Book Topologia I from writer Jussi Väisälä exist already in database");
     }
 
-    @When("^user has entered writer \"([^\"]*)\" and title \"([^\"]*)\"$")
-    public void user_has_entered_writer_and_title(String kirjoittaja, String otsikko) throws Throwable {
-//        WebElement element = driver.findElement(By.name("kirjoittaja"));
-//        element.sendKeys(kirjoittaja);
-//        element = driver.findElement(By.name("otsikko"));
-//        element.sendKeys(otsikko);
-//        element.submit();
+    @After
+    public void tearDown() {
+        driver.quit();
     }
 
-    @When("^exixting book is modified$")
-    public void exixting_book_is_modified() throws Throwable {
-        }
-
-
-    private void clickLinkWithText(String text) {
-        int trials = 0;
-        while (trials++ < 5) {
-            try {
-                WebElement element = driver.findElement(By.linkText(text));
-                element.click();
-                break;
-            } catch (Exception e) {
-                System.out.println(e.getStackTrace());
-            }
-        }
-    }
-
+//    private void clickLinkWithText(String text) {
+//        int trials = 0;
+//        while (trials++ < 5) {
+//            try {
+//                WebElement element = driver.findElement(By.linkText(text));
+//                element.click();
+//                break;
+//            } catch (Exception e) {
+//                System.out.println(e.getStackTrace());
+//            }
+//        }
+//    }
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }

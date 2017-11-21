@@ -10,7 +10,8 @@ Feature: user can add new book with hint
     When user has sellected command takaisin
     Then user is redirect to mainpage
 
-#Scenario: user try add exist book with exist element
-#    Given command lisaakirja is sellected
-#    When user has entered an writer "Jussi Väisälä" and title "Topologia I"
-#    Then system sent message sent error message
+Scenario: user try add existing book with same title
+    Given command lisaakirja is sellected
+    When user has entered an writer "Jussi Väisälä" and title "Topologia I"
+    Then system sent message sent error message
+
