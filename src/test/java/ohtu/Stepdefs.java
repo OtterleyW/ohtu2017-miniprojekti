@@ -30,20 +30,21 @@ public class Stepdefs {
         kontrol = new KirjaVinkkiController();
 
     }
+
     @Given("^command lisaakirja is sellected$")
     public void command_lisaakirja_is_selected() throws Throwable {
         driver.get("http://localhost:8080");
-      WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
-         element.click();
+        WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
+        element.click();
         Thread.sleep(200);
     }
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
     public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
-         Thread.sleep(200);
+        Thread.sleep(200);
         WebElement element = driver.findElement(By.name("kirjoittaja"));
         element.sendKeys(writer);
-         Thread.sleep(200);
+        Thread.sleep(200);
         element = driver.findElement(By.name("otsikko"));
         element.sendKeys(tittle);
         Thread.sleep(200);
@@ -54,20 +55,21 @@ public class Stepdefs {
 
     @When("^user has sellected command takaisin$")
     public void user_has_sellected_command_takaisin() throws Throwable {
-    WebElement element = driver.findElement(By.linkText("Takaisin"));
+        WebElement element = driver.findElement(By.linkText("Takaisin"));
         element.click();
     }
 
     @Then("^new book is added$")
     public void new_book_is_added() throws Throwable {
         pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä! ");
-        
+
     }
 
     @Then("^user is redirect to mainpage$")
     public void user_is_redirect_to_mainpage() throws Throwable {
-        pageHasContent("(lisaa kirja)");
-        pageHasContent("(listaa kirjavinkit)");
+        Thread.sleep(300);
+        WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
+        element = driver.findElement(By.partialLinkText("listaa kirjavinkit"));
         
     }
 
@@ -96,5 +98,4 @@ public class Stepdefs {
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
-
 }
