@@ -10,7 +10,9 @@
         
         <ul>
             <li th:each="kirja : ${kirjat}">
-                <span th:text="${kirja.otsikko}">kirja</span>
+                <span th:text="${kirja.otsikko}">otsikko</span>
+                <span th:text=" kirjoittajalta "></span>
+                <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
             </li>
         </ul>
         
