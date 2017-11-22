@@ -64,8 +64,9 @@ public class Stepdefs {
 
     @Then("^user is redirect to mainpage$")
     public void user_is_redirect_to_mainpage() throws Throwable {
-        pageHasContent("lisaa kirja");
-        pageHasContent("listaa kirjavinkit");
+        pageHasContent("(lisaa kirja)");
+        pageHasContent("(listaa kirjavinkit)");
+        
     }
 
     @Then("^system sent message sent error message$")
