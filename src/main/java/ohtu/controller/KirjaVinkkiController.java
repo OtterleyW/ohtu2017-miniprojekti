@@ -29,7 +29,7 @@ public class KirjaVinkkiController {
     @GetMapping("/")
     @ResponseBody
     public String home() {
-        return "<a href='/testi'>Lisää kirja</a> " + "<a href='/vinkit'>Listaa kirjavinkit</a> ";
+        return "<a href='/testi'>(lisää kirja)</a> " + "<a href='/vinkit'>(listaa kirjavinkit)</a> ";
     }
 
     @GetMapping("/testi")
@@ -44,10 +44,10 @@ public class KirjaVinkkiController {
         try {
             kirjaDao.lisaaKirja(kirjoittaja, otsikko);
         } catch (Exception ex) {
-            return "ERRRRRROR! " + "<a href='/testi'>Takaisin</a>";
+            return "ERRRRRROR! " + "<a href='/testi'>(takaisin)</a>";
         }
 
-        return "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/testi'>Takaisin</a>";
+        return "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/'>(takaisin)</a>";
     }
 
     @GetMapping("/{id}/muokkaa")
@@ -65,9 +65,9 @@ public class KirjaVinkkiController {
         try {
             kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko);
         } catch (Exception ex) {
-            return "ERRRRRROR! " + "<a href='/'>Takaisin</a>";
+            return "ERRRRRROR! " + "<a href='/'>(takaisin)</a>";
         }
 
-        return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/'>Takaisin</a>";
+        return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
     }
 }

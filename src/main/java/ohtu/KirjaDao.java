@@ -38,10 +38,14 @@ public class KirjaDao {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Kirja");
 
         while (rs.next()) {
+            String id = rs.getString("id");
             String kirjoittaja = rs.getString("kirjoittaja");
             String otsikko = rs.getString("otsikko");
 
-            kirjat.add(new Kirja(kirjoittaja, otsikko));
+            Kirja k = new Kirja(kirjoittaja, otsikko);
+            k.setId(id);
+
+            kirjat.add(k);
         }
 
         rs.close();

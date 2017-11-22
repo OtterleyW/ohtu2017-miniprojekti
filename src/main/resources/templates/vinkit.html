@@ -7,17 +7,18 @@
 
     <body>
         <h1>Lisätyt lukuvinkit</h1>
-        
+
         <ul>
             <li th:each="kirja : ${kirjat}">
                 <span th:text="${kirja.otsikko}">otsikko</span>
                 <span th:text=" kirjoittajalta "></span>
                 <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
+               <a th:href="@{/{id}/muokkaa(id=${kirja.id})}">(muokkaa)</a>
             </li>
         </ul>
-        
+
         <a th:href="@{/}">Takaisin pääsivulle</a>
-        
+
     </body>
-    
+
 </html>
