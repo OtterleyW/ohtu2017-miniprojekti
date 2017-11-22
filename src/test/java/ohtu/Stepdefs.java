@@ -5,6 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.io.File;
+import ohtu.controller.KirjaVinkkiController;
 import static org.junit.Assert.assertTrue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -14,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class Stepdefs {
 
     WebDriver driver;
+    KirjaVinkkiController kontrol;
 
     public Stepdefs() {
         File file;
@@ -25,34 +27,14 @@ public class Stepdefs {
         String absolutePath = file.getAbsolutePath();
         System.setProperty("webdriver.gecko.driver", absolutePath);
         this.driver = new FirefoxDriver();
+        kontrol = new KirjaVinkkiController();
 
     }
-
-//    @Given("^user is at the main page$")
-//    public void user_is_at_the_main_page() throws Throwable {
-//        driver.get("http://localhost:8080");
-//        Thread.sleep(1000);        
-//    }
-//
-//    @When("^a link is clicked$")
-//    public void a_link_is_clicked() throws Throwable {
-//        Thread.sleep(1000);  
-//        clickLinkWithText("linkki" );
-//        Thread.sleep(1000);  
-//    }    
-//   
-//    @Then("^\"([^\"]*)\" is shown$")
-//    public void is_shown(String arg1) throws Throwable {
-//        assertTrue(driver.findElement(By.tagName("body"))
-//                .getText().contains(arg1));
-//    }
     @Given("^command lisaakirja is sellected$")
     public void command_lisaakirja_is_selected() throws Throwable {
         driver.get("http://localhost:8080");
-        Thread.sleep(200);
-        System.out.println(driver.getPageSource());
-        WebElement element = driver.findElement(By.linkText("Lisää kirja"));
-        element.click();
+      WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
+         element.click();
         Thread.sleep(200);
     }
 
@@ -63,26 +45,27 @@ public class Stepdefs {
         element = driver.findElement(By.name("otsikko"));
         element.sendKeys(tittle);
         Thread.sleep(200);
-        element = driver.findElement(By.name("Lisää"));
-        element.submit();
-        Thread.sleep(200);
+        element = driver.findElement(By.name("lisaa"));
+        element.click();
+        Thread.sleep(500);
     }
 
     @When("^user has sellected command takaisin$")
     public void user_has_sellected_command_takaisin() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Takaisin"));
+    WebElement element = driver.findElement(By.linkText("Takaisin"));
         element.click();
     }
 
     @Then("^new book is added$")
     public void new_book_is_added() throws Throwable {
         pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä! ");
-        WebElement element = driver.findElement(By.linkText("Takaisin"));
+        
     }
 
     @Then("^user is redirect to mainpage$")
     public void user_is_redirect_to_mainpage() throws Throwable {
-        pageHasContent("Lisää kirja");
+        pageHasContent("lisaa kirja");
+        pageHasContent("listaa kirjavinkit");
     }
 
     @Then("^system sent message sent error message$")

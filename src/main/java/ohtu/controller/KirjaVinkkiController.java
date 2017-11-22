@@ -29,7 +29,7 @@ public class KirjaVinkkiController {
     @GetMapping("/")
     @ResponseBody
     public String home() {
-        return "<a href='/testi'>(lisää kirja)</a> " + "<a href='/vinkit'>(listaa kirjavinkit)</a> ";
+        return "<a href='/testi'>(lisaa kirja)</a> " + "<a href='/vinkit'>(listaa kirjavinkit)</a> ";
     }
 
     @GetMapping("/testi")
