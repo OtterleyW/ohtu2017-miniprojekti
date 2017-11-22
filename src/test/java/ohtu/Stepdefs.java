@@ -40,8 +40,10 @@ public class Stepdefs {
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
     public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
+         Thread.sleep(200);
         WebElement element = driver.findElement(By.name("kirjoittaja"));
         element.sendKeys(writer);
+         Thread.sleep(200);
         element = driver.findElement(By.name("otsikko"));
         element.sendKeys(tittle);
         Thread.sleep(200);
