@@ -7,3 +7,5 @@ Ominaisuus on valmis, kun...
 * ominaisuudelle löytyy JUnit- ja Cucumber-testejä riittävällä rivikattavuudella (80% tai yli)
 * ominaisuus on integroitu sovellukseen ja se toimii yhdessä muiden valmiiden ominaisuuksien kanssa
 * sovellus läpäisee Travis-testit
+
+(tiimi: ilman muuta tee muutoksia tähän määritelmään)
