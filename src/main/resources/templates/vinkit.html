@@ -8,7 +8,7 @@
     <body>
         <h1>Lisätyt lukuvinkit</h1>
 
-        <ul>
+        <ul id="listId">
             <li th:each="kirja : ${kirjat}">
                 <span th:text="${kirja.otsikko}">otsikko</span>
                 <span th:text=" kirjoittajalta "></span>
