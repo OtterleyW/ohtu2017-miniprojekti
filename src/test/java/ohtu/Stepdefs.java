@@ -31,7 +31,7 @@ public class Stepdefs {
 
     }
 
-    @Given("^command lisaakirja is sellected$")
+    @Given("^command lisaakirja is selected$")
     public void command_lisaakirja_is_selected() throws Throwable {
         driver.get("http://localhost:8080");
         WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
@@ -53,8 +53,8 @@ public class Stepdefs {
         Thread.sleep(500);
     }
 
-    @When("^user has sellected command takaisin$")
-    public void user_has_sellected_command_takaisin() throws Throwable {
+    @When("^user has selected command takaisin$")
+    public void user_has_selected_command_takaisin() throws Throwable {
         WebElement element = driver.findElement(By.linkText("Takaisin"));
         element.click();
     }
