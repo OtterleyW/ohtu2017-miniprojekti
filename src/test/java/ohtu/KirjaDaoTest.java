@@ -1,4 +1,3 @@
-
 package ohtu;
 
 import java.util.ArrayList;
@@ -11,41 +10,46 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 public class KirjaDaoTest {
-    
+
     KirjaDao kirjaDao;
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
         this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
     }
-    
+
     @After
     public void tearDown() {
     }
 
     @Test
-    public void loytyykoLisattyKirjaTietokannasta() throws Exception {
+    public void haeKirjatToimii() throws Exception {
         String otsikko = UUID.randomUUID().toString().substring(0, 10);
         this.kirjaDao.lisaaKirja("kalevi", otsikko);
         boolean loytyi = false;
-        
+
         for (Kirja kirja : this.kirjaDao.haeKirjat()) {
             if (kirja.getOtsikko().equals(otsikko)) {
                 loytyi = true;
             }
         }
-        
+
         assertEquals(true, loytyi);
-        
+
     }
+
+//    @Test
+//    public void haeKirjaToimii() throws Exception {
+//        
+//        
+//    }
 }
