@@ -1,6 +1,9 @@
 
 package ohtu;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,8 +14,7 @@ import static org.junit.Assert.*;
 
 public class KirjaDaoTest {
     
-    public KirjaDaoTest() {
-    }
+    KirjaDao kirjaDao;
     
     @BeforeClass
     public static void setUpClass() {
@@ -24,11 +26,26 @@ public class KirjaDaoTest {
     
     @Before
     public void setUp() {
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
     }
     
     @After
     public void tearDown() {
     }
 
-    
+    @Test
+    public void loytyykoLisattyKirjaTietokannasta() throws Exception {
+        String otsikko = UUID.randomUUID().toString().substring(0, 10);
+        this.kirjaDao.lisaaKirja("kalevi", otsikko);
+        boolean loytyi = false;
+        
+        for (Kirja kirja : this.kirjaDao.haeKirjat()) {
+            if (kirja.getOtsikko().equals(otsikko)) {
+                loytyi = true;
+            }
+        }
+        
+        assertEquals(true, loytyi);
+        
+    }
 }
