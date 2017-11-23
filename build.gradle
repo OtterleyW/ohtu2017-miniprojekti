@@ -71,3 +71,10 @@ test {
     testLogging.showStandardStreams = true
     systemProperties System.getProperties()
 }
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
