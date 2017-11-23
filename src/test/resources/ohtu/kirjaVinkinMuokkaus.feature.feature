@@ -5,7 +5,6 @@ Given user has selected command Muokkaa kirjaa
 When user has entered an writer "Jussi Väisälä" and title "Topologia II"
 Then existing book is modified
 #
-#Scenario: user cant modify non existing book
-#     Given user has sellected command Muokkaa kirjaa
-#     When user has entered writer "Homeros" and title "Ilias & Odysseia"
-#     Then system will respond with error message
+Scenario: user can not modify non existing book
+Given user tries to edit a non-existing book
+Then user will end up on the error page

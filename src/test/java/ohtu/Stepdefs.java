@@ -46,7 +46,11 @@ public class Stepdefs {
         element.click();
         Thread.sleep(200);
     }
-
+    
+   @Given ("^user tries to edit a non-existing book$")
+    public void edit_non_existing_book() throws Throwable {
+        driver.get("http://localhost:8080/99999/muokkaa");
+    }
     
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
     public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
@@ -93,6 +97,11 @@ public class Stepdefs {
     @Then("^system sent message sent error message$")
     public void system_sent_message_sent_error_message() throws Throwable {
 //         pageHasContent("Book Topologia I from writer Jussi Väisälä exist already in database");
+    }
+    
+    @Then("^user will end up on the error page$")
+    public void end_up_on_the_error_page() throws Throwable {
+        pageHasContent("Tapahtui virhe");
     }
 
     @After
