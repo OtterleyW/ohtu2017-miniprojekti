@@ -1,15 +1,19 @@
 package ohtu;
 
-public class Kirja {
-    
+import ohtu.interfaces.Vinkki;
+
+public class Kirja implements Vinkki {
+
     private String otsikko;
     private String kirjoittaja;
     private String id;
+    private boolean luettu;
 
     public Kirja(String kirjoittaja, String otsikko) {
 
         this.kirjoittaja = kirjoittaja;
         this.otsikko = otsikko;
+        this.luettu = false;
     }
 
     public String getOtsikko() {
@@ -27,13 +31,17 @@ public class Kirja {
     public void setKirjoittaja(String kirjoittaja) {
         this.kirjoittaja = kirjoittaja;
     }
-    
-    public String getId(){
+
+    public String getId() {
         return id;
     }
-    
-    public void setId(String id){
+
+    public void setId(String id) {
         this.id = id;
     }
 
+    @Override
+    public void merkitseLuetuksi() {
+        this.luettu = true;
+    }
 }
