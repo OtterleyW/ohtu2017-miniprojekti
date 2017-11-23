@@ -60,6 +60,12 @@ public class KirjaTest {
         assertEquals(k.getId(), "1456");
     }
     
-
+@Test
+public void merkitseLuetuksiToimii() {
+    
+    Kirja k = new Kirja("kirjailija", "kirja");
+    k.merkitseLuetuksi();
+    assertEquals(true, k.getLuettu());
+}
     
 }

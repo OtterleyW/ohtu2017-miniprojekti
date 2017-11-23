@@ -44,4 +44,8 @@ public class Kirja implements Vinkki {
     public void merkitseLuetuksi() {
         this.luettu = true;
     }
+
+    public boolean getLuettu() {
+        return luettu;
+    }
 }
