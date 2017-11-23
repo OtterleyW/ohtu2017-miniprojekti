@@ -52,9 +52,12 @@ public class KirjaVinkkiController {
 
     @GetMapping("/{id}/muokkaa")
     public String muokkaaKirjaa(Model model, @PathVariable String id) throws Exception {
-        Kirja k = kirjaDao.haeKirja(id);
-        model.addAttribute("kirja", k);
-        System.out.println(k);
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            model.addAttribute("kirja", k);
+        } catch (Exception ex) {
+            return "error";
+        }
         return "muokkaa_kirjaa";
     }
 
