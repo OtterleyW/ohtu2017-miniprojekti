@@ -44,11 +44,10 @@ public class Kirja implements Vinkki {
 
     @Override
     public void merkitseLuetuksi() {
-        if(this.luettu == "1"){
-            System.out.println("Merkitty ei luetuksi");
+        if(this.luettu.equals("1")){
             this.luettu = "0";
         } else {
-            this.luettu = "1";
+        this.luettu = "1";
         }
         
     }
