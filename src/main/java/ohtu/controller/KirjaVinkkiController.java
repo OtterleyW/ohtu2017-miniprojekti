@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class KirjaVinkkiController {
@@ -72,5 +73,18 @@ public class KirjaVinkkiController {
         }
 
         return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
+    }
+    
+    @GetMapping("/{id}/onko_luettu")
+    public RedirectView merkitseOnkoLuettu(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            k.merkitseLuetuksi();
+            kirjaDao.muutaOnkoLuettu(k.getLuettu(), id);
+            
+        } catch (Exception ex) {
+            return new RedirectView("error");
+        }
+        return new RedirectView("/vinkit");
     }
 }
