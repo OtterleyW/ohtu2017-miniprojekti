@@ -13,12 +13,10 @@ public class KirjaDao {
     private String tietokantaosoite;
 
     public KirjaDao(String tietokantaosoite) {
-
         this.tietokantaosoite = tietokantaosoite;
     }
 
     public void lisaaKirja(String kirjoittaja, String otsikko) throws Exception {
-
         Kirja kirja = new Kirja(kirjoittaja, otsikko, "0");
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu) "
@@ -64,12 +62,21 @@ public class KirjaDao {
 
         Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"), rs.getString("luettu"));
         kirja.setId(id);
-  
 
         rs.close();
         conn.close();
 
         return kirja;
+    }
+
+    public void poistaKirja(String id) throws Exception {
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja WHERE id = ?");
+        stmt.setString(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        rs.close();
+        conn.close();
     }
 
     public void muokkaaKirjaa(String id, String kirjoittaja, String otsikko) throws Exception {
@@ -83,8 +90,8 @@ public class KirjaDao {
         stmt.close();
         conn.close();
     }
-    
-    public void muutaOnkoLuettu(String onkoLuettu, String id) throws Exception{
+
+    public void muutaOnkoLuettu(String onkoLuettu, String id) throws Exception {
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET luettu = ? WHERE id = ? ");
         stmt.setString(1, onkoLuettu);
@@ -93,4 +100,5 @@ public class KirjaDao {
         stmt.close();
         conn.close();
     }
+
 }
