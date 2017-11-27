@@ -9,11 +9,15 @@ public class Kirja implements Vinkki {
     private String id;
     private boolean luettu;
 
-    public Kirja(String kirjoittaja, String otsikko) {
+    public Kirja(String kirjoittaja, String otsikko, String luettu) {
 
         this.kirjoittaja = kirjoittaja;
         this.otsikko = otsikko;
+        if(luettu == "1"){
+            this.luettu = true;
+        } else {
         this.luettu = false;
+        }
     }
 
     public String getOtsikko() {
@@ -39,6 +43,7 @@ public class Kirja implements Vinkki {
     public void setId(String id) {
         this.id = id;
     }
+    
 
     @Override
     public void merkitseLuetuksi() {

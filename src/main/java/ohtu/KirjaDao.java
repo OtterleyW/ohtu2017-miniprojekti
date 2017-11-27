@@ -19,12 +19,13 @@ public class KirjaDao {
 
     public void lisaaKirja(String kirjoittaja, String otsikko) throws Exception {
 
-        Kirja kirja = new Kirja(kirjoittaja, otsikko);
+        Kirja kirja = new Kirja(kirjoittaja, otsikko, "0");
         Connection conn = DriverManager.getConnection(tietokantaosoite);
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko) "
-                + "VALUES ( ?, ? )");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu) "
+                + "VALUES ( ?, ?, ? )");
         stmt.setString(1, kirja.getKirjoittaja());
         stmt.setString(2, kirja.getOtsikko());
+        stmt.setString(3, "0");
         stmt.execute();
         stmt.close();
         conn.close();
@@ -41,8 +42,9 @@ public class KirjaDao {
             String id = rs.getString("id");
             String kirjoittaja = rs.getString("kirjoittaja");
             String otsikko = rs.getString("otsikko");
+            String onkoLuettu = rs.getString("luettu");
 
-            Kirja k = new Kirja(kirjoittaja, otsikko);
+            Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu);
             k.setId(id);
 
             kirjat.add(k);
@@ -60,8 +62,9 @@ public class KirjaDao {
         stmt.setString(1, id);
         ResultSet rs = stmt.executeQuery();
 
-        Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"));
+        Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"), rs.getString("luettu"));
         kirja.setId(id);
+  
 
         rs.close();
         conn.close();
@@ -76,6 +79,16 @@ public class KirjaDao {
         stmt.setString(1, kirjoittaja);
         stmt.setString(2, otsikko);
         stmt.setString(3, id);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+    }
+    
+    public void muutaOnkoLuettu(String onkoLuettu, String id) throws Exception{
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET luettu = ? WHERE id = ? ");
+        stmt.setString(1, onkoLuettu);
+        stmt.setString(2, id);
         stmt.execute();
         stmt.close();
         conn.close();
