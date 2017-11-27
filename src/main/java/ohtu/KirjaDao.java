@@ -25,7 +25,7 @@ public class KirjaDao {
                 + "VALUES ( ?, ?, ? )");
         stmt.setString(1, kirja.getKirjoittaja());
         stmt.setString(2, kirja.getOtsikko());
-        stmt.setString(3, "0");
+        stmt.setString(3, kirja.getLuettu());
         stmt.execute();
         stmt.close();
         conn.close();
