@@ -45,9 +45,8 @@ public class KirjaVinkkiController {
         try {
             kirjaDao.lisaaKirja(kirjoittaja, otsikko);
         } catch (Exception ex) {
-            return "ERRRRRROR! " + "<a href='/testi'>(takaisin)</a>";
+            return "error";
         }
-
         return "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/'>(takaisin)</a>";
     }
 
@@ -62,6 +61,31 @@ public class KirjaVinkkiController {
         return "muokkaa_kirjaa";
     }
 
+    @GetMapping("/{id}/poista")
+    public String poistaKirjaVarmistus(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            model.addAttribute("kirja", k);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "poista_kirja";
+    }
+
+    @PostMapping("/{id}/poista_kirja")
+    @ResponseBody
+    public String poistaKirja(@PathVariable String id) throws Exception {
+
+        Kirja k = kirjaDao.haeKirja(id);
+        try {
+            kirjaDao.poistaKirja(id);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "Poistettu kirja " + k.getOtsikko() + " kirjoittajalta " + k.getKirjoittaja() + ". <a href='/vinkit'>(vinkkilistaukseen)</a>";
+
+    }
+
     @PostMapping("/{id}/muokkaa_kirjaa")
     @ResponseBody
     public String muokkaaKirjaa(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
@@ -69,19 +93,18 @@ public class KirjaVinkkiController {
         try {
             kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko);
         } catch (Exception ex) {
-            return "ERRRRRROR! " + "<a href='/'>(takaisin)</a>";
+            return "error";
         }
-
         return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
     }
-    
+
     @GetMapping("/{id}/onko_luettu")
     public RedirectView merkitseOnkoLuettu(Model model, @PathVariable String id) throws Exception {
         try {
             Kirja k = kirjaDao.haeKirja(id);
             k.merkitseLuetuksi();
             kirjaDao.muutaOnkoLuettu(k.getLuettu(), id);
-            
+
         } catch (Exception ex) {
             return new RedirectView("error");
         }

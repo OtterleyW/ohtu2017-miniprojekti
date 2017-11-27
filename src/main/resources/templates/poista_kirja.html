@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Poista kirja</title>
+    </head>
+    <body>
+        <h2> Poista kirja </h2>
+        <h4> Haluatko varmasti poistaa kirjan <a th:text="${kirja.otsikko}">otsikko</a> kirjoittajalta <a th:text="${kirja.kirjoittaja}">kirjoittaja</a> ?</h4>
+        <form method="POST" action="poista_kirja">
+            <input type="submit" value="Poista"/>
+        </form>
+        <p></p>
+        <a th:href="@{/vinkit}">Takaisin vinkkilistaukseen</a>
+    </body>
+</html>

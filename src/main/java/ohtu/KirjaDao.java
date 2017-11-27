@@ -73,9 +73,8 @@ public class KirjaDao {
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja WHERE id = ?");
         stmt.setString(1, id);
-        ResultSet rs = stmt.executeQuery();
-
-        rs.close();
+        stmt.execute();
+        stmt.close();
         conn.close();
     }
 
