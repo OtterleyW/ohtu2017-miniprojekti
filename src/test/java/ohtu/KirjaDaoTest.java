@@ -24,7 +24,7 @@ public class KirjaDaoTest {
 
     @Before
     public void setUp() {
-        this.kirjaDao = new KirjaDao("jdbc:sqlite:testitietokanta.db");
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
     }
 
     @After

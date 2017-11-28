@@ -28,7 +28,7 @@ public class Stepdefs {
         String absolutePath = file.getAbsolutePath();
         System.setProperty("webdriver.gecko.driver", absolutePath);
         this.driver = new FirefoxDriver();
-        kontrol = new KirjaVinkkiController("jdbc:sqlite:testitietokanta.db");
+        kontrol = new KirjaVinkkiController();
         
     }
     

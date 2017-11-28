@@ -20,10 +20,6 @@ public class KirjaVinkkiController {
     public KirjaVinkkiController() {
         this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
     }
-    
-    public KirjaVinkkiController(String tietokantaosoite) {
-        this.kirjaDao = new KirjaDao("jdbc:sqlite:testitietokanta.db");
-    }
 
     @GetMapping("/vinkit")
     public String listaaVinkit(Model model) throws Exception {
