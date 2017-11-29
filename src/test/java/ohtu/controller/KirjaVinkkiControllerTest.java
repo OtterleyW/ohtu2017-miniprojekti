@@ -44,7 +44,8 @@ public class KirjaVinkkiControllerTest {
     public void vinkitStatusOkJaModelissaVinkit() throws Exception {
         mockMvc.perform(get("/vinkit"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("kirjat"));
+                .andExpect(model().attributeExists("lukemattomat"))
+                .andExpect(model().attributeExists("luetut"));
     }
 
     @Test
