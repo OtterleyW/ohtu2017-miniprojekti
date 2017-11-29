@@ -23,7 +23,8 @@ public class VideoVinkkiController {
 
     @GetMapping("/videovinkit")
     public String listaaVideoVinkit(Model model) throws Exception {
-        model.addAttribute("videot", videoDao.haeVideot());
+        model.addAttribute("videot", videoDao.haeVideotKatsotunPerusteella("0"));
+        model.addAttribute("katsotutVideot", videoDao.haeVideotKatsotunPerusteella("1"));
         return "videovinkit";
     }
 
@@ -31,7 +32,7 @@ public class VideoVinkkiController {
     public ModelAndView videonlisaaminen() {
         return new ModelAndView("video");
     }
-    
+
     @PostMapping("/lisaavideo")
     @ResponseBody
     public String lisaavideo(@RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
@@ -41,12 +42,12 @@ public class VideoVinkkiController {
         } catch (Exception ex) {
             return "error";
         }
-        if(lisatty){
-        return "Lisätty video " + otsikko + " url: " + url +  "<a href='/'>(takaisin)</a>";
+        if (lisatty) {
+            return "Lisätty video " + otsikko + " url: " + url + "<a href='/'>(takaisin)</a>";
         }
-           return "Videon nimi tai url ei voi olla tyhjä! <a href='/videonlisaaminen'>(takaisin)</a>";
+        return "Videon nimi tai url ei voi olla tyhjä! <a href='/videonlisaaminen'>(takaisin)</a>";
     }
-    
+
     @GetMapping("/{id}/muokkaavideota")
     public String muokkaaVideota(Model model, @PathVariable String id) throws Exception {
         try {
@@ -57,7 +58,7 @@ public class VideoVinkkiController {
         }
         return "muokkaa_videota";
     }
-    
+
     @PostMapping("/{id}/muokkaa_videota")
     @ResponseBody
     public String muokkaaVideotaTietokantaan(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
@@ -73,7 +74,7 @@ public class VideoVinkkiController {
 
         return "Videon nimi tai url ei voi olla tyhjä! <a href='/" + id + "/muokkaavideota'>(takaisin)</a>";
     }
-    
+
     @GetMapping("/{id}/poistavideo")
     public String poistaVideoVarmistus(Model model, @PathVariable String id) throws Exception {
         try {
@@ -98,7 +99,7 @@ public class VideoVinkkiController {
         return "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ". <a href='/videovinkit'>(vinkkilistaukseen)</a>";
 
     }
-    
+
     @GetMapping("/{id}/onko_katsottu")
     public RedirectView merkitseOnkoKatsottu(Model model, @PathVariable String id) throws Exception {
         try {
