@@ -115,4 +115,34 @@ public class VideoDao {
         return true;
     }
 
+    public List<Video> haeVideotKatsotunPerusteella(String katsottu) throws Exception {
+        List<Video> videot = new ArrayList();
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Video WHERE luettu = ?");
+        stmt.setObject(1, katsottu);
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            if (katsottu.equals(rs.getString("luettu"))) {
+                String id = rs.getString("id");
+                String otsikko = rs.getString("otsikko");
+                String url = rs.getString("url");
+                String onkoLuettu = rs.getString("luettu");
+
+                Video video = new Video(otsikko, url, onkoLuettu);
+                video.setId(id);
+
+                videot.add(video);
+            }
+        }
+
+        stmt.close();
+        rs.close();
+        conn.close();
+
+        return videot;
+    }
+
 }
