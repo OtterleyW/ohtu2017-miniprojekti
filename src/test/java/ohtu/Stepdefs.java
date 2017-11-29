@@ -67,6 +67,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("merkitse luetuksi"));
         element.click();
+        Thread.sleep(200);
     }
     
     @Given("^command merkitselukemattomaksi is selected$")
@@ -74,6 +75,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("merkitse lukemattomaksi"));
         element.click();
+        Thread.sleep(200);
     }
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
