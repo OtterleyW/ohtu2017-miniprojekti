@@ -68,6 +68,13 @@ public class Stepdefs {
         WebElement element = driver.findElement(By.partialLinkText("merkitse luetuksi"));
         element.click();
     }
+    
+    @Given("^command merkitselukemattomaksi is selected$")
+    public void mark_hint_to_unread() throws Throwable {
+        driver.get("http://localhost:8080/vinkit");
+        WebElement element = driver.findElement(By.partialLinkText("merkitse lukemattomaksi"));
+        element.click();
+    }
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
     public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
@@ -139,6 +146,11 @@ public class Stepdefs {
     @Then("^the hint is marked as read$")
     public void the_hint_is_marked_as_read() throws Throwable {
         pageHasContent("merkitse lukemattomaksi");
+    }
+    
+    @Then("^the hint is marked as unread$")
+    public void the_hint_is_marked_as_unread() throws Throwable {
+        pageHasContent("merkitse luetuksi");
     }
 
     @After
