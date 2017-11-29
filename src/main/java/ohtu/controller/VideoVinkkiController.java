@@ -32,13 +32,16 @@ public class VideoVinkkiController {
     @PostMapping("/lisaavideo")
     @ResponseBody
     public String lisaavideo(@RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
-
+        Boolean lisatty = false;
         try {
-            videoDao.lisaaVideo(otsikko, url);
+            lisatty = videoDao.lisaaVideo(otsikko, url);
         } catch (Exception ex) {
             return "error";
         }
+        if(lisatty){
         return "Lisätty video " + otsikko + " url: " + url +  "<a href='/'>(takaisin)</a>";
+        }
+           return "Videon nimi tai url ei voi olla tyhjä! <a href='/videonlisaaminen'>(takaisin)</a>";
     }
 
 }

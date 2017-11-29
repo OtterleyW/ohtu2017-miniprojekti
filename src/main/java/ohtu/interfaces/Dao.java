@@ -6,4 +6,5 @@ public interface Dao {
     
     Vinkki haeYksi(String id);
     List<Vinkki> haeKaikki();
+    
 }
