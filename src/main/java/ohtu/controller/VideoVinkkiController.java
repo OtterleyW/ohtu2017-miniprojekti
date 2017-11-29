@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class VideoVinkkiController {
@@ -96,6 +97,19 @@ public class VideoVinkkiController {
         }
         return "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ". <a href='/videovinkit'>(vinkkilistaukseen)</a>";
 
+    }
+    
+    @GetMapping("/{id}/onko_katsottu")
+    public RedirectView merkitseOnkoKatsottu(Model model, @PathVariable String id) throws Exception {
+        try {
+            Video v = videoDao.haeVideo(id);
+            v.merkitseLuetuksi();
+            videoDao.muutaOnkoLuettu(v.getLuettu(), id);
+
+        } catch (Exception ex) {
+            return new RedirectView("error");
+        }
+        return new RedirectView("/videovinkit");
     }
 
 }
