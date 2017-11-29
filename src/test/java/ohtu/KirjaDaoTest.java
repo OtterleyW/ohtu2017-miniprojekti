@@ -24,7 +24,7 @@ public class KirjaDaoTest {
 
     @Before
     public void setUp() {
-        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:testikanta.db");
     }
 
     @After
@@ -46,10 +46,30 @@ public class KirjaDaoTest {
         assertEquals(true, loytyi);
 
     }
+    
+    @Test
+    public void validMetodiToimiiKunAnnettaanOtsikkoJaKirjoittaja() throws Exception {
+        String otsikko = "Testikirja";
+        String kirjoittaja = "Testikirjailija";
+        
+       assertEquals(true, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
+    }
+    
+    @Test
+    public void validMetodiToimiiKunAnnettaanTyhjaOtsikkoMuttaOikeaKirjoittaja() throws Exception {
+        String otsikko = "";
+        String kirjoittaja = "Testikirjailija";
 
-//    @Test
-//    public void haeKirjaToimii() throws Exception {
-//        
-//        
-//    }
+        assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
+    }
+    
+    @Test
+    public void validMetodiToimiiKunAnnettaanOikeaOtsikkoMuttaTyhjaKirjoittaja() throws Exception {
+        String otsikko = "Testikirja";
+        String kirjoittaja = "";
+
+        assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
+    }
+
+
 }
