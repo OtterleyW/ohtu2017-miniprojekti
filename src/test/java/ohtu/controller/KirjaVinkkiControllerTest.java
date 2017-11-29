@@ -30,7 +30,7 @@ public class KirjaVinkkiControllerTest {
 
     @Before
     public void setUp() {
-        this.kirjaDao = new KirjaDao("jdbc:sqlite:testikanta.db");
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
@@ -80,39 +80,29 @@ public class KirjaVinkkiControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void kirjanMuokkausToimii() throws Exception {
-//        String otsikko = UUID.randomUUID().toString().substring(0, 10);
-//        kirjaDao.lisaaKirja("Myös Kirjailija", otsikko);
-//        String uusiOtsikko = UUID.randomUUID().toString().substring(0, 15);
-//
-//        List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
-//        List<Kirja> luetut = kirjaDao.haeLuettuStatuksenPerusteella("1");
-//
-//        String id = "";
-//
-//        for (Kirja kirja : lukemattomat) {
-//            if (kirja.getKirjoittaja().equals("Myös Kirjailija") && kirja.getOtsikko().equals(otsikko)) {
-//                id = kirja.getId();
-//                break;
-//            }
-//        }
-//
-//        if (id.isEmpty()) {
-//            for (Kirja kirja : luetut) {
-//                if (kirja.getKirjoittaja().equals("Myös Kirjailija") && kirja.getOtsikko().equals(otsikko)) {
-//                    id = kirja.getId();
-//                    break;
-//                }
-//            }
-//        }
-//
-//        mockMvc.perform(post("/" + id + "/muokkaa_kirjaa")
-//                .param("id", id)
-//                .param("kirjoittaja", "Minua on muokattu! :)")
-//                .param("otsikko", uusiOtsikko));
-//
-//        assertTrue(kirjaDao.haeKirja(id).getKirjoittaja().equals("Minua on muokattu! :)")
-//                && kirjaDao.haeKirja(id).getOtsikko().equals(uusiOtsikko));
-//    }
+    @Test
+    public void kirjanMuokkausToimii() throws Exception {
+        String otsikko = UUID.randomUUID().toString().substring(0, 10);
+        kirjaDao.lisaaKirja("Myös Kirjailija", otsikko);
+        String uusiOtsikko = UUID.randomUUID().toString().substring(0, 15);
+
+        List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
+
+        String id = "";
+
+        for (Kirja kirja : lukemattomat) {
+            if (kirja.getKirjoittaja().equals("Myös Kirjailija") && kirja.getOtsikko().equals(otsikko)) {
+                id = kirja.getId();
+                break;
+            }
+        }
+    
+        mockMvc.perform(post("/" + id + "/muokkaa_kirjaa")
+                .param("id", id)
+                .param("kirjoittaja", "Minua on muokattu! :)")
+                .param("otsikko", uusiOtsikko));
+
+        assertTrue(kirjaDao.haeKirja(id).getKirjoittaja().equals("Minua on muokattu! :)")
+                && kirjaDao.haeKirja(id).getOtsikko().equals(uusiOtsikko));
+    }
 }
