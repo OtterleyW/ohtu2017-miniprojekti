@@ -45,7 +45,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("Poista"));
         element.click();
-        Thread.sleep(300);
+        Thread.sleep(1000);
     }
 
     @Given("^user is sellected command heakirjat$")
@@ -131,7 +131,7 @@ public class Stepdefs {
         pageHasContent("Poista kirja");
         WebElement element = driver.findElement(By.linkText("Takaisin vinkkilistaukseen"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
     }
 
     @When("^user click element poista$")
