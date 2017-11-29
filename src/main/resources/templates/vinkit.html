@@ -6,10 +6,10 @@
     </head>
 
     <body>
-        <h1>Lisätyt lukuvinkit</h1>
+        <h1>Lisätyt lukuvinkit, joita ei ole vielä luettu</h1>
 
         <ul id="listId">
-            <li th:each="kirja : ${kirjat}">
+            <li th:each="kirja : ${lukemattomat}">
                 <span th:text="${kirja.otsikko}">otsikko</span>
                 <span th:text=" kirjoittajalta "></span>
                 <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
@@ -29,8 +29,31 @@
             </li>
         </ul>
 
-        <a th:href="@{/}">Takaisin paasivulle</a>
+        <h1>Luetut lukuvinkit</h1>
 
-    </body>
+                <ul id="listId">
+                    <li th:each="kirja : ${luetut}">
+                        <span th:text="${kirja.otsikko}">otsikko</span>
+                        <span th:text=" kirjoittajalta "></span>
+                        <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
+                        <span th:switch="${kirja.luettu}"> 
+                            <span th:case="0">Ei luettu</span>
+                            <span th:case="1">Luettu</span>
+                        </span>
 
-</html>
+
+                        <a th:href="@{/{id}/muokkaa(id=${kirja.id})}">(muokkaa)</a>
+                        <a th:href="@{/{id}/poista(id=${kirja.id})}">(poista)</a>
+                        <span th:switch="${kirja.luettu}"> 
+                            <span th:case="0"><a th:href="@{/{id}/onko_luettu(id=${kirja.id})}">(merkitse luetuksi)</a></span>
+                            <span th:case="1"><a th:href="@{/{id}/onko_luettu(id=${kirja.id})}">(merkitse lukemattomaksi)</a></span>
+                        </span>
+
+                    </li>
+                </ul>
+
+                <a th:href="@{/}">Takaisin paasivulle</a>
+
+                </body>
+
+                </html>
