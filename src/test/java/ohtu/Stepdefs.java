@@ -35,7 +35,7 @@ public class Stepdefs {
     @Given("^user has selected command poista$")
     public void user_has_selected_command_poista() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
-        WebElement element = driver.findElement(By.partialLinkText("poista"));
+        WebElement element = driver.findElement(By.partialLinkText("Poista"));
         element.click();
         Thread.sleep(300);
     }
