@@ -1,5 +1,88 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Vinkkikirjasto</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-<html>
-    <a href='/testi'>(lisaa kirja)</a>  + <a href='/vinkit'>(listaa kirjavinkit)</a> + <a href='/videonlisaaminen'>(videon lisaaminen)</a> + <a href='/videovinkit'>(listaa videot)</a>
+        <style>
+            .sisalto{
+                margin-top: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Vinkkikirjasto</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/testi">Lisää kirjavinkki</a></li>
+                        <li><a href="/vinkit">Näytä kirjavinkit</a></li>
+                        <li><a href="/videonlisaaminen">Lisää videovinkki</a></li>
+                        <li><a href="/videovinkit">Näytä videovinkit</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container sisalto text-center">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-3">Meemimestareiden vinkkikirjasto</h1>
+                    <p class="lead">Ohjelmistotuontantokurssin miniprojekti syksy 2017</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Lisää uusi kirjavinkki vinkkikirjastoon</p>
+                            <a href="/testi" class="btn btn-primary">Lisää kirjavinkki</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Näytä kaikki kirjavinkit</p>
+                            <a href="/vinkit" class="btn btn-primary">Näytä kirjavinkit</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Lisää uusi videovinkki vinkkikirjasoton</p>
+                            <a href="/videonlisaaminen" class="btn btn-primary">Lisää videovinkki</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Näytä kaikki videovinkit</p>
+                            <a href="/videovinkit" class="btn btn-primary">Näytä videovinkit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    </body>
 </html>
