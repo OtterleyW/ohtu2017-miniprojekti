@@ -35,7 +35,7 @@ public class Stepdefs {
     @Given("^user is sellected command heakirjat$")
     public void user_is_sellected_command_heakirjat() throws Throwable {
         driver.get("http://localhost:8080");
-        WebElement element = driver.findElement(By.partialLinkText("listaa kirjavinkit"));
+        WebElement element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
         element.click();
         Thread.sleep(500);
 
@@ -44,7 +44,7 @@ public class Stepdefs {
     @Given("^command lisaakirja is selected$")
     public void command_lisaakirja_is_selected() throws Throwable {
         driver.get("http://localhost:8080");
-        WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
+        WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
         element.click();
         Thread.sleep(200);
     }
@@ -52,7 +52,7 @@ public class Stepdefs {
     @Given("^user has selected command Muokkaa kirjaa$")
     public void command_muokkaakirjaa_is_selected() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
-        WebElement element = driver.findElement(By.partialLinkText("muokkaa"));
+        WebElement element = driver.findElement(By.partialLinkText("Muokkaa"));
         element.click();
         Thread.sleep(200);
     }
@@ -65,7 +65,7 @@ public class Stepdefs {
     @Given("^command merkitseluetuksi is selected$")
     public void mark_hint_to_read() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
-        WebElement element = driver.findElement(By.partialLinkText("merkitse luetuksi"));
+        WebElement element = driver.findElement(By.partialLinkText("Merkitse luetuksi"));
         element.click();
         Thread.sleep(200);
     }
@@ -73,7 +73,7 @@ public class Stepdefs {
     @Given("^command merkitselukemattomaksi is selected$")
     public void mark_hint_to_unread() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
-        WebElement element = driver.findElement(By.partialLinkText("merkitse lukemattomaksi"));
+        WebElement element = driver.findElement(By.partialLinkText("Merkitse lukemattomaksi"));
         element.click();
         Thread.sleep(200);
     }
@@ -104,8 +104,8 @@ public class Stepdefs {
     public void all_existing_books_are_listed() throws Throwable {
         pageHasContent("Lisätyt lukuvinkit");
         WebElement element = driver.findElement(By.id("listId"));
-        List<WebElement> kirjaLista = driver.findElements(By.tagName("li"));
-        element = driver.findElement(By.linkText("Takaisin paasivulle"));
+        List<WebElement> kirjaLista = driver.findElements(By.tagName("td"));
+        element = driver.findElement(By.linkText("Takaisin pääsivulle"));
         element.click();
 
     }
@@ -134,8 +134,8 @@ public class Stepdefs {
     @Then("^user is redirect to mainpage$")
     public void user_is_redirect_to_mainpage() throws Throwable {
         Thread.sleep(300);
-        WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
-        element = driver.findElement(By.partialLinkText("listaa kirjavinkit"));
+        WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
+        element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
 
     }
 
@@ -152,18 +152,18 @@ public class Stepdefs {
     @Then("^user return to brevious page$")
     public void user_can_return_brevious_page() throws Throwable {
         Thread.sleep(500);
-        WebElement element = driver.findElement(By.partialLinkText("lisaa kirja"));
-        element = driver.findElement(By.partialLinkText("listaa kirjavinkit"));
+        WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
+        element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
     }
 
     @Then("^the hint is marked as read$")
     public void the_hint_is_marked_as_read() throws Throwable {
-        pageHasContent("merkitse lukemattomaksi");
+        pageHasContent("Merkitse lukemattomaksi");
     }
     
     @Then("^the hint is marked as unread$")
     public void the_hint_is_marked_as_unread() throws Throwable {
-        pageHasContent("merkitse luetuksi");
+        pageHasContent("Merkitse luetuksi");
     }
 
     @After

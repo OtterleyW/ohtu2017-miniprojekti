@@ -43,7 +43,7 @@
         <div class="container sisalto">
             <h2 class="text-center">Lisätyt lukuvinkit</h2>
 
-            <table class="table-striped" style="width: 100%">
+            <table class="table-striped" style="width: 100%" id="listId">
                 <tr th:each="kirja : ${kirjat}">
                     <td>
                         <span th:text="${kirja.otsikko}">otsikko</span>
