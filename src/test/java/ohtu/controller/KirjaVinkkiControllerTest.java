@@ -96,7 +96,7 @@ public class KirjaVinkkiControllerTest {
                 break;
             }
         }
-    
+
         mockMvc.perform(post("/" + id + "/muokkaa_kirjaa")
                 .param("id", id)
                 .param("kirjoittaja", "Minua on muokattu! :)")
@@ -104,5 +104,95 @@ public class KirjaVinkkiControllerTest {
 
         assertTrue(kirjaDao.haeKirja(id).getKirjoittaja().equals("Minua on muokattu! :)")
                 && kirjaDao.haeKirja(id).getOtsikko().equals(uusiOtsikko));
+    }
+
+    @Test
+    public void luetuksiMerkkaaminenToimii() throws Exception {
+        // Luodaan varmasti uniikki kirjoittaja & otsikko ettei löydy samaa ennestään
+        String otsikko = UUID.randomUUID().toString().substring(0, 15);
+        String kirjoittaja = UUID.randomUUID().toString().substring(0, 15);
+
+        kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+
+        List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
+
+        String id = "";
+
+        for (Kirja kirja : lukemattomat) {
+            if (kirja.getKirjoittaja().equals(kirjoittaja) && kirja.getOtsikko().equals(otsikko)) {
+                id = kirja.getId();
+            }
+        }
+
+        mockMvc.perform(get("/" + id + "/onko_luettu")
+                .param("id", id));
+
+        boolean loytyiLuetuista = false;
+
+        List<Kirja> luetut = kirjaDao.haeLuettuStatuksenPerusteella("1");
+
+        for (Kirja kirja : luetut) {
+            if (kirja.getId().equals(id)
+                    && kirja.getOtsikko().equals(otsikko)
+                    && kirja.getKirjoittaja().equals(kirjoittaja)) {
+
+                loytyiLuetuista = true;
+            }
+        }
+
+        assertTrue(kirjaDao.haeKirja(id).getLuettu().equals("1") && loytyiLuetuista);
+    }
+
+    @Test
+    public void joLuetunVinkinMerkkaaminenLukemattomaksiToimii() throws Exception {
+        String otsikko = UUID.randomUUID().toString().substring(0, 15);
+        String kirjoittaja = UUID.randomUUID().toString().substring(0, 15);
+
+        kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+
+        List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
+
+        String id = "";
+
+        for (Kirja kirja : lukemattomat) {
+            if (kirja.getKirjoittaja().equals(kirjoittaja) && kirja.getOtsikko().equals(otsikko)) {
+                id = kirja.getId();
+            }
+        }
+
+        mockMvc.perform(get("/" + id + "/onko_luettu")
+                .param("id", id));
+
+        List<Kirja> luetut = kirjaDao.haeLuettuStatuksenPerusteella("1");
+
+        boolean kirjaMerkittyLuetuksi = false;
+
+        for (Kirja kirja : luetut) {
+            if (kirja.getId().equals(id)
+                    && kirja.getOtsikko().equals(otsikko)
+                    && kirja.getKirjoittaja().equals(kirjoittaja)) {
+                kirjaMerkittyLuetuksi = true;
+            }
+        }
+
+        assertTrue(kirjaMerkittyLuetuksi);
+
+        // merkitään kirja lukemattomaksi
+        mockMvc.perform(get("/" + id + "/onko_luettu")
+                .param("id", id));
+
+        lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
+        boolean kirjaLoytyiLukemattomista = false;
+
+        for (Kirja kirja : lukemattomat) {
+            if (kirja.getId().equals(id)
+                    && kirja.getKirjoittaja().equals(kirjoittaja)
+                    && kirja.getOtsikko().equals(otsikko)) {
+
+                kirjaLoytyiLukemattomista = true;
+            }
+        }
+
+        assertTrue(kirjaDao.haeKirja(id).getLuettu().equals("0") && kirjaLoytyiLukemattomista);
     }
 }
