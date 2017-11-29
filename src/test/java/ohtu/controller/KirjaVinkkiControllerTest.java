@@ -30,7 +30,7 @@ public class KirjaVinkkiControllerTest {
 
     @Before
     public void setUp() {
-        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:testikanta.db");
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
