@@ -107,11 +107,16 @@ public class VideoDao {
     }
 
     private boolean valid(String otsikko, String url) {
-        if (otsikko.isEmpty()) {
-            return false;
-        } else if (url.isEmpty()) {
+        if (otsikko == null || url == null) {
             return false;
         }
+
+        if (otsikko.trim().isEmpty()) {
+            return false;
+        } else if (url.trim().isEmpty()) {
+            return false;
+        }
+
         return true;
     }
 

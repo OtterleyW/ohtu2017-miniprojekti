@@ -107,11 +107,16 @@ public class KirjaDao {
     }
 
     private boolean valid(String kirjoittaja, String otsikko) {
-        if (kirjoittaja.isEmpty()) {
-            return false;
-        } else if (otsikko.isEmpty()) {
+        if (kirjoittaja == null || otsikko == null) {
             return false;
         }
+
+        if (kirjoittaja.trim().isEmpty()) {
+            return false;
+        } else if (otsikko.trim().isEmpty()) {
+            return false;
+        }
+
         return true;
     }
 
@@ -137,6 +142,10 @@ public class KirjaDao {
                 kirjat.add(k);
             }
         }
+
+        rs.close();
+        stmt.close();
+        conn.close();
 
         return kirjat;
     }
