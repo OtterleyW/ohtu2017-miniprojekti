@@ -1,6 +1,12 @@
-#Feature: user can delete a hint
-#
-#  Scenario: user delete a hint
-#    Given command poistavinkki is selected
-#    When user select book and a hint
-#    Then A hint is deleted
+Feature: user can delete book
+
+  Scenario: user delete book
+    Given user has selected command poista
+    When user click element poista
+    Then selected book is deleted
+
+  Scenario: user change mind when deleting book
+    Given user has selected command poista
+    When user click the element Takaisin listaukseen
+    Then user is redirected to listing page
+

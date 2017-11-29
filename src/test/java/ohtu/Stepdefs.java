@@ -32,6 +32,14 @@ public class Stepdefs {
 
     }
 
+    @Given("^user has selected command poista$")
+    public void user_has_selected_command_poista() throws Throwable {
+        driver.get("http://localhost:8080/vinkit");
+        WebElement element = driver.findElement(By.partialLinkText("poista"));
+        element.click();
+        Thread.sleep(300);
+    }
+
     @Given("^user is sellected command heakirjat$")
     public void user_is_sellected_command_heakirjat() throws Throwable {
         driver.get("http://localhost:8080");
@@ -69,13 +77,29 @@ public class Stepdefs {
         element.click();
         Thread.sleep(200);
     }
-    
+
     @Given("^command merkitselukemattomaksi is selected$")
     public void mark_hint_to_unread() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("merkitse lukemattomaksi"));
         element.click();
         Thread.sleep(200);
+    }
+
+    @When("^user click the element Takaisin listaukseen$")
+    public void user_click_the_element_Takaisin_listaukseen() throws Throwable {
+        pageHasContent("Poista kirja");
+        WebElement element = driver.findElement(By.linkText("Takaisin vinkkilistaukseen"));
+        element.click();
+        Thread.sleep(200);
+    }
+
+    @When("^user click element poista$")
+    public void user_click_element_poista() throws Throwable {
+        pageHasContent("Poista kirja");
+        WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(300);
     }
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
@@ -110,17 +134,28 @@ public class Stepdefs {
 
     }
 
+    @Then("^user is redirected to listing page$")
+    public void user_is_redirected_to_listing_page() throws Throwable {
+        pageHasContent("Lisätyt lukuvinkit");
+    }
+
+    @Then("^selected book is deleted$")
+    public void selected_book_is_deleted() throws Throwable {
+        pageHasContent("Poistettu kirja");
+
+    }
+
     @Then("^new book is added$")
     public void new_book_is_added() throws Throwable {
         pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä! ");
     }
-    
+
     @Then("^new book is not added and error is shown$")
     public void new_book_is_not_added() throws Throwable {
         pageHasContent("Kirjan nimi tai kirjailija ei voi olla tyhjä!");
     }
-    
-        @Then("^book is not edited and error is shown$")
+
+    @Then("^book is not edited and error is shown$")
     public void book_is_not_edited() throws Throwable {
         pageHasContent("Kirjan nimi tai kirjailija ei voi olla tyhjä!");
     }
@@ -160,7 +195,7 @@ public class Stepdefs {
     public void the_hint_is_marked_as_read() throws Throwable {
         pageHasContent("merkitse lukemattomaksi");
     }
-    
+
     @Then("^the hint is marked as unread$")
     public void the_hint_is_marked_as_unread() throws Throwable {
         pageHasContent("merkitse luetuksi");
@@ -171,18 +206,19 @@ public class Stepdefs {
         driver.quit();
     }
 
-//    private void clickLinkWithText(String text) {
-//        int trials = 0;
-//        while (trials++ < 5) {
-//            try {
-//                WebElement element = driver.findElement(By.linkText(text));
-//                element.click();
-//                break;
-//            } catch (Exception e) {
-//                System.out.println(e.getStackTrace());
-//            }
-//        }
-//    }
+    private void clickLinkWithText(String text) {
+        int trials = 0;
+        while (trials++ < 5) {
+            try {
+                WebElement element = driver.findElement(By.linkText(text));
+                element.click();
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
+            }
+        }
+    }
+
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
