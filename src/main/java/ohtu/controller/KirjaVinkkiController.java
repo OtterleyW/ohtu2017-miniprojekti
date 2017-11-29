@@ -92,13 +92,17 @@ public class KirjaVinkkiController {
     @PostMapping("/{id}/muokkaa_kirjaa")
     @ResponseBody
     public String muokkaaKirjaa(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
-
+        Boolean muokattu = false;
         try {
-            kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko);
+            muokattu = kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko);
         } catch (Exception ex) {
             return "error";
         }
+        if(muokattu){
         return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
+        }
+        
+        return "Kirjan nimi tai kirjailija ei voi olla tyhjä! <a href='/"+ id +"/muokkaa'>(takaisin)</a>";
     }
 
     @GetMapping("/{id}/onko_luettu")
