@@ -37,7 +37,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080");
         WebElement element = driver.findElement(By.linkText("Lisää videovinkki"));
         element.click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     @Given("^user has selected command poista$")
@@ -53,7 +53,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080");
         WebElement element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
         element.click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
     }
 
@@ -62,7 +62,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080");
         WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
     }
 
     @Given("^user has selected command Muokkaa kirjaa$")
@@ -70,7 +70,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("Muokkaa"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
     }
 
     @Given("^user tries to edit a non-existing book$")
@@ -83,7 +83,7 @@ public class Stepdefs {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("Merkitse luetuksi"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
     }
 
     @Given("^command merkitselukemattomaksi is selected$")
@@ -91,31 +91,31 @@ public class Stepdefs {
         driver.get("http://localhost:8080/vinkit");
         WebElement element = driver.findElement(By.partialLinkText("Merkitse lukemattomaksi"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
     }
     @When("^user click element lisaa$")
     public void user_click_element_lisaa() throws Throwable {
         pageHasContent("Lisää video");
         WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
         }
 
     @When("^user has entered \"([^\"]*)\" and a url \"([^\"]*)\"$")
     public void user_has_entered_and_a_url(String otsikko, String linkki) throws Throwable {
-        Thread.sleep(200);
+        Thread.sleep(1000);
         pageHasContent("Lisää video");
         WebElement element = driver.findElement(By.name("otsikko"));
         element.clear();
         element.sendKeys(otsikko);
-        Thread.sleep(200);
+        Thread.sleep(1000);
         element = driver.findElement(By.name("url"));
         element.clear();
         element.sendKeys(linkki);
-        Thread.sleep(200);
+        Thread.sleep(1000);
         element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     @When("^user click element Takaisin$")
@@ -123,7 +123,7 @@ public class Stepdefs {
         pageHasContent("Lisää video");
         WebElement element = driver.findElement(By.linkText("Takaisin"));
         element.click();
-        Thread.sleep(200);
+        Thread.sleep(1000);
     }
 
     @When("^user click the element Takaisin listaukseen$")
@@ -139,23 +139,23 @@ public class Stepdefs {
         pageHasContent("Poista kirja");
         WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
-        Thread.sleep(300);
+        Thread.sleep(1000);
     }
 
     @When("^user has entered an writer \"([^\"]*)\" and title \"([^\"]*)\"$")
     public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
-        Thread.sleep(200);
+        Thread.sleep(1000);
         WebElement element = driver.findElement(By.name("kirjoittaja"));
         element.clear();
         element.sendKeys(writer);
-        Thread.sleep(200);
+        Thread.sleep(1000);
         element = driver.findElement(By.name("otsikko"));
         element.clear();
         element.sendKeys(tittle);
-        Thread.sleep(200);
+        Thread.sleep(1000);
         element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     @When("^user has selected command takaisin$")
@@ -219,7 +219,7 @@ public class Stepdefs {
 
     @Then("^user is redirect to mainpage$")
     public void user_is_redirect_to_mainpage() throws Throwable {
-        Thread.sleep(300);
+        Thread.sleep(1000);
         WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
         element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
 
@@ -237,7 +237,7 @@ public class Stepdefs {
 
     @Then("^user return to brevious page$")
     public void user_can_return_brevious_page() throws Throwable {
-        Thread.sleep(500);
+        Thread.sleep(1000);
         WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
         element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
     }
