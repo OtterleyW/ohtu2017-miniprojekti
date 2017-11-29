@@ -30,7 +30,7 @@ public class KirjaVinkkiControllerTest {
 
     @Before
     public void setUp() {
-        this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
+        this.kirjaDao = new KirjaDao("jdbc:sqlite:testikanta.db");
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
@@ -44,7 +44,8 @@ public class KirjaVinkkiControllerTest {
     public void vinkitStatusOkJaModelissaVinkit() throws Exception {
         mockMvc.perform(get("/vinkit"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("kirjat"));
+                .andExpect(model().attributeExists("lukemattomat"))
+                .andExpect(model().attributeExists("luetut"));
     }
 
     @Test
