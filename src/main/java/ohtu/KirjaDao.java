@@ -115,4 +115,29 @@ public class KirjaDao {
         return true;
     }
 
+    public List<Kirja> haeLuettuStatuksenPerusteella(String luettu) throws Exception {
+        List<Kirja> kirjat = new ArrayList();
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja WHERE luettu = ?");
+        stmt.setObject(1, luettu);
+
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            if (luettu.equals(rs.getString("luettu"))) {
+                String id = rs.getString("id");
+                String kirjoittaja = rs.getString("kirjoittaja");
+                String otsikko = rs.getString("otsikko");
+                String onkoLuettu = rs.getString("luettu");
+
+                Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu);
+                k.setId(id);
+
+                kirjat.add(k);
+            }
+        }
+
+        return kirjat;
+    }
 }
