@@ -82,9 +82,11 @@ public class Stepdefs {
     public void when_user_has_entered_an_writer_and_title(String writer, String tittle) throws Throwable {
         Thread.sleep(200);
         WebElement element = driver.findElement(By.name("kirjoittaja"));
+        element.clear();
         element.sendKeys(writer);
         Thread.sleep(200);
         element = driver.findElement(By.name("otsikko"));
+        element.clear();
         element.sendKeys(tittle);
         Thread.sleep(200);
         element = driver.findElement(By.cssSelector("input[type='submit']"));
@@ -115,6 +117,11 @@ public class Stepdefs {
     
     @Then("^new book is not added and error is shown$")
     public void new_book_is_not_added() throws Throwable {
+        pageHasContent("Kirjan nimi tai kirjailija ei voi olla tyhjä!");
+    }
+    
+        @Then("^book is not edited and error is shown$")
+    public void book_is_not_edited() throws Throwable {
         pageHasContent("Kirjan nimi tai kirjailija ei voi olla tyhjä!");
     }
 
