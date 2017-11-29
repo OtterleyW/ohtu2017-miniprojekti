@@ -40,13 +40,17 @@ public class KirjaVinkkiController {
     @PostMapping("/lisaakirja")
     @ResponseBody
     public String lisaakirja(@RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
-
+        Boolean lisatty = false;
         try {
-            kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+            lisatty = kirjaDao.lisaaKirja(kirjoittaja, otsikko);
         } catch (Exception ex) {
             return "error";
         }
-        return "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/'>(takaisin)</a>";
+        if (lisatty) {
+            return "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/'>(takaisin)</a>";
+        }
+
+        return "Kirjan nimi tai kirjailija ei voi olla tyhjä! <a href='/testi'>(takaisin)</a>";
     }
 
     @GetMapping("/{id}/muokkaa")

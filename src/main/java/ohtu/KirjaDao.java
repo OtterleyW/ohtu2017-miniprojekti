@@ -15,18 +15,22 @@ public class KirjaDao {
         this.tietokantaosoite = tietokantaosoite;
     }
 
-    public void lisaaKirja(String kirjoittaja, String otsikko) throws Exception {
-        Kirja kirja = new Kirja(kirjoittaja, otsikko, "0");
-        Connection conn = DriverManager.getConnection(tietokantaosoite);
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu) "
-                + "VALUES ( ?, ?, ? )");
-        stmt.setString(1, kirja.getKirjoittaja());
-        stmt.setString(2, kirja.getOtsikko());
-        stmt.setString(3, kirja.getLuettu());
-        stmt.execute();
-        stmt.close();
-        conn.close();
+    public boolean lisaaKirja(String kirjoittaja, String otsikko) throws Exception {
+        if (valid(kirjoittaja, otsikko)) {
+            Kirja kirja = new Kirja(kirjoittaja, otsikko, "0");
+            Connection conn = DriverManager.getConnection(tietokantaosoite);
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu) "
+                    + "VALUES ( ?, ?, ? )");
+            stmt.setString(1, kirja.getKirjoittaja());
+            stmt.setString(2, kirja.getOtsikko());
+            stmt.setString(3, kirja.getLuettu());
+            stmt.execute();
+            stmt.close();
+            conn.close();
 
+            return true;
+        }
+        return false;
     }
 
     public List<Kirja> haeKirjat() throws Exception {
@@ -87,6 +91,7 @@ public class KirjaDao {
         stmt.execute();
         stmt.close();
         conn.close();
+
     }
 
     public void muutaOnkoLuettu(String onkoLuettu, String id) throws Exception {
@@ -97,6 +102,15 @@ public class KirjaDao {
         stmt.execute();
         stmt.close();
         conn.close();
+    }
+
+    private boolean valid(String kirjoittaja, String otsikko) {
+        if (kirjoittaja.isEmpty()) {
+            return false;
+        } else if (otsikko.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
 }
