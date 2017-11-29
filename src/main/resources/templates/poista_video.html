@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Poista video</title>
+    </head>
+    <body>
+        <h2> Poista video</h2>
+        <h4> Haluatko varmasti poistaa videon <a th:text="${video.otsikko}">otsikko</a>, jonka url on <a th:text="${video.url}">url</a>?</h4>
+        <form method="POST" action="poista_video">
+            <input type="submit" value="Poista"/>
+        </form>
+        <p></p>
+        <a th:href="@{/videovinkit}">Takaisin vinkkilistaukseen</a>
+    </body>
+</html>

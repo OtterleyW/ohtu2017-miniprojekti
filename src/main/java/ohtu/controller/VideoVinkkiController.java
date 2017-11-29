@@ -72,5 +72,30 @@ public class VideoVinkkiController {
 
         return "Videon nimi tai url ei voi olla tyhjä! <a href='/" + id + "/muokkaavideota'>(takaisin)</a>";
     }
+    
+    @GetMapping("/{id}/poistavideo")
+    public String poistaVideoVarmistus(Model model, @PathVariable String id) throws Exception {
+        try {
+            Video v = videoDao.haeVideo(id);
+            model.addAttribute("video", v);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "poista_video";
+    }
+
+    @PostMapping("/{id}/poista_video")
+    @ResponseBody
+    public String poistaVideo(@PathVariable String id) throws Exception {
+
+        Video v = videoDao.haeVideo(id);
+        try {
+            videoDao.poistaVideo(id);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ". <a href='/videovinkit'>(vinkkilistaukseen)</a>";
+
+    }
 
 }
