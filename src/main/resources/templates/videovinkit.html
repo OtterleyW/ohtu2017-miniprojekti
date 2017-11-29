@@ -19,11 +19,11 @@
                 </span>
 
 
-                <a th:href="@{/{id}/muokkaa(id=${video.id})}">(muokkaa)</a>
-                <a th:href="@{/{id}/poista(id=${video.id})}">(poista)</a>
+                <a th:href="@{/{id}/muokkaavideota(id=${video.id})}">(muokkaa)</a>
+                <a th:href="@{/{id}/poistavideo(id=${video.id})}">(poista)</a>
                 <span th:switch="${video.luettu}"> 
-                    <span th:case="0"><a th:href="@{/{id}/onko_luettu(id=${video.id})}">(merkitse luetuksi)</a></span>
-                    <span th:case="1"><a th:href="@{/{id}/onko_luettu(id=${video.id})}">(merkitse lukemattomaksi)</a></span>
+                    <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}">(merkitse katsotuksi)</a></span>
+                    <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}">(merkitse katsomattomaksi)</a></span>
                 </span>
 
             </li>

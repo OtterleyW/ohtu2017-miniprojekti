@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Muokkaa videota</title>
+    </head>
+    <body>
+        <h2> Muokkaa videota</h2>
+        <form method="POST" action="muokkaa_videota">
+            <h5> Otsikko: </h5>
+            <input type="text" name="otsikko" th:value="${video.otsikko}" />
+            <h5> URL: </h5>
+            <input type="text" name="url" th:value="${video.url}"/>
+            <input type="submit" value="Muokkaa"/>
+        </form>
+
+    </body>
+</html>
