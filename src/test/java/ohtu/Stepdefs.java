@@ -32,6 +32,14 @@ public class Stepdefs {
 
     }
 
+    @Given("^command lisaavideo is selected$")
+    public void command_lisaavideo_is_selected() throws Throwable {
+        driver.get("http://localhost:8080");
+        WebElement element = driver.findElement(By.linkText("Lisää videovinkki"));
+        element.click();
+        Thread.sleep(500);
+    }
+
     @Given("^user has selected command poista$")
     public void user_has_selected_command_poista() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
@@ -85,6 +93,38 @@ public class Stepdefs {
         element.click();
         Thread.sleep(200);
     }
+    @When("^user click element lisaa$")
+    public void user_click_element_lisaa() throws Throwable {
+        pageHasContent("Lisää video");
+        WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(200);
+        }
+
+    @When("^user has entered \"([^\"]*)\" and a url \"([^\"]*)\"$")
+    public void user_has_entered_and_a_url(String otsikko, String linkki) throws Throwable {
+        Thread.sleep(200);
+        pageHasContent("Lisää video");
+        WebElement element = driver.findElement(By.name("otsikko"));
+        element.clear();
+        element.sendKeys(otsikko);
+        Thread.sleep(200);
+        element = driver.findElement(By.name("url"));
+        element.clear();
+        element.sendKeys(linkki);
+        Thread.sleep(200);
+        element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(500);
+    }
+
+    @When("^user click element Takaisin$")
+    public void user_click_element_Takaisin() throws Throwable {
+        pageHasContent("Lisää video");
+        WebElement element = driver.findElement(By.linkText("Takaisin"));
+        element.click();
+        Thread.sleep(200);
+    }
 
     @When("^user click the element Takaisin listaukseen$")
     public void user_click_the_element_Takaisin_listaukseen() throws Throwable {
@@ -132,6 +172,17 @@ public class Stepdefs {
         element = driver.findElement(By.linkText("Takaisin pääsivulle"));
         element.click();
 
+    }
+
+    @Then("^null video is not added$")
+    public void null_video_is_not_added() throws Throwable {
+        pageHasContent("Videon nimi tai url ei voi olla tyhjä!");
+    }
+
+    @Then("^new video is added$")
+    public void new_video_is_added() throws Throwable {
+        pageHasContent("Lisätty video");
+        pageHasContent("takaisin");
     }
 
     @Then("^user is redirected to listing page$")
