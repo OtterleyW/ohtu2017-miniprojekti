@@ -157,7 +157,7 @@ public class KirjaDaoTest {
         assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
     }
 
-    public Kirja apuLisaaKirjaJaHaeJaPalauta() throws Exception {
+    private Kirja apuLisaaKirjaJaHaeJaPalauta() throws Exception {
 
         kirjaDao.lisaaKirja("jonne", "pelaa es juo cs");
         List<Kirja> kirjat = kirjaDao.haeKirjat();
@@ -166,7 +166,7 @@ public class KirjaDaoTest {
         return k;
     }
 
-    public void apuHaeLuettujaTaiLukemattomiaJaPalauta(String status) throws Exception {
+    private void apuHaeLuettujaTaiLukemattomiaJaPalauta(String status) throws Exception {
 
         List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella(status);
         boolean kaikkiLuettuTaiEiLuettu = true;

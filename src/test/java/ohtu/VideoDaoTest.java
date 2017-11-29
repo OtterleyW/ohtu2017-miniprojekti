@@ -110,7 +110,7 @@ public class VideoDaoTest {
         dao.lisaaVideo("video", "xyz.com");
         List<Video> videot = dao.haeVideot();
         Video v = videot.get(videot.size() - 1);
-        
+
         String id = v.getId();
         dao.muokkaaVideota(id, "uusi nimi", "joku url");
         v = dao.haeVideo(id);
@@ -136,6 +136,26 @@ public class VideoDaoTest {
         assertEquals("1", dao.haeVideo(id).getLuettu());
 
         dao.poistaVideo(id);
+    }
+
+    @Test
+    public void josOtsikkoTaiUrlTyhjaEiLisata() throws Exception {
+
+        assertFalse(dao.lisaaVideo("", "tekijä"));
+        assertFalse(dao.lisaaVideo("nimi", ""));
+        assertFalse(dao.lisaaVideo("", ""));
+    }
+
+    @Test
+    public void josOtsikkoTaiUrlTyhjaEiMuokata() throws Exception {
+
+        dao.lisaaVideo("hauska meemivideo", "sieni.us");
+        List<Video> videot = dao.haeVideot();
+        Video v = videot.get(videot.size() - 1);
+
+        assertFalse(dao.muokkaaVideota(v.getId(), "", "url"));
+        assertFalse(dao.muokkaaVideota(v.getId(), "otsikko", ""));
+        assertFalse(dao.muokkaaVideota(v.getId(), "", ""));
     }
 
 }
