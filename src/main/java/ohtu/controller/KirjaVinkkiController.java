@@ -23,7 +23,9 @@ public class KirjaVinkkiController {
 
     @GetMapping("/vinkit")
     public String listaaVinkit(Model model) throws Exception {
-        model.addAttribute("kirjat", kirjaDao.haeKirjat());
+        //model.addAttribute("kirjat", kirjaDao.haeKirjat());
+        model.addAttribute("lukemattomat", kirjaDao.haeLuettuStatuksenPerusteella("0"));
+        model.addAttribute("luetut", kirjaDao.haeLuettuStatuksenPerusteella("1"));
         return "vinkit";
     }
 
@@ -98,11 +100,11 @@ public class KirjaVinkkiController {
         } catch (Exception ex) {
             return "error";
         }
-        if(muokattu){
-        return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
+        if (muokattu) {
+            return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
         }
-        
-        return "Kirjan nimi tai kirjailija ei voi olla tyhjä! <a href='/"+ id +"/muokkaa'>(takaisin)</a>";
+
+        return "Kirjan nimi tai kirjailija ei voi olla tyhjä! <a href='/" + id + "/muokkaa'>(takaisin)</a>";
     }
 
     @GetMapping("/{id}/onko_luettu")
