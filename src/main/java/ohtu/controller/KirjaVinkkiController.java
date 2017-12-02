@@ -16,14 +16,17 @@ import org.springframework.web.servlet.view.RedirectView;
 public class KirjaVinkkiController {
 
     private KirjaDao kirjaDao;
+    private String viesti; //käyttäjälle näytettävä virheviesti tai muu ilmoitus
 
     public KirjaVinkkiController() {
         this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
+        this.viesti = "";
     }
 
     @GetMapping("/vinkit")
     public String listaaVinkit(Model model) throws Exception {
         //model.addAttribute("kirjat", kirjaDao.haeKirjat());
+        tarkistaOnkoViestia(model);
         model.addAttribute("lukemattomat", kirjaDao.haeLuettuStatuksenPerusteella("0"));
         model.addAttribute("luetut", kirjaDao.haeLuettuStatuksenPerusteella("1"));
         return "vinkit";
@@ -35,30 +38,34 @@ public class KirjaVinkkiController {
     }
 
     @GetMapping("/testi")
-    public ModelAndView testi() {
-        return new ModelAndView("kirja");
+    public String testi(Model model) {
+        tarkistaOnkoViestia(model);
+        return "kirja";
     }
 
     @PostMapping("/lisaakirja")
     @ResponseBody
-    public String lisaakirja(@RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
+    public RedirectView lisaakirja(@RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
         Boolean lisatty = false;
         try {
             lisatty = kirjaDao.lisaaKirja(kirjoittaja, otsikko);
         } catch (Exception ex) {
-            return "error";
+            return new RedirectView("/error");
         }
         if (lisatty) {
-            return "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/'>(takaisin)</a>";
+            viesti = "Lisätty kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "!";
+            return new RedirectView("/vinkit");
         }
 
-        return "Kirjan nimi tai kirjailija ei voi olla tyhjä! <a href='/testi'>(takaisin)</a>";
+        viesti = "Kirjan nimi tai kirjailija ei voi olla tyhjä!";
+        return new RedirectView("/testi");
     }
 
     @GetMapping("/{id}/muokkaa")
     public String muokkaaKirjaa(Model model, @PathVariable String id) throws Exception {
         try {
             Kirja k = kirjaDao.haeKirja(id);
+            tarkistaOnkoViestia(model);
             model.addAttribute("kirja", k);
         } catch (Exception ex) {
             return "error";
@@ -79,32 +86,35 @@ public class KirjaVinkkiController {
 
     @PostMapping("/{id}/poista_kirja")
     @ResponseBody
-    public String poistaKirja(@PathVariable String id) throws Exception {
+    public RedirectView poistaKirja(@PathVariable String id) throws Exception {
 
         Kirja k = kirjaDao.haeKirja(id);
         try {
             kirjaDao.poistaKirja(id);
         } catch (Exception ex) {
-            return "error";
+            return new RedirectView("/error");
         }
-        return "Poistettu kirja " + k.getOtsikko() + " kirjoittajalta " + k.getKirjoittaja() + ". <a href='/vinkit'>(vinkkilistaukseen)</a>";
+        viesti = "Poistettu kirja " + k.getOtsikko() + " kirjoittajalta " + k.getKirjoittaja() + "!";
+        return new RedirectView("/vinkit");
 
     }
 
     @PostMapping("/{id}/muokkaa_kirjaa")
     @ResponseBody
-    public String muokkaaKirjaa(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
+    public RedirectView muokkaaKirjaa(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
         Boolean muokattu = false;
         try {
             muokattu = kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko);
         } catch (Exception ex) {
-            return "error";
+            return new RedirectView("/error");
         }
         if (muokattu) {
-            return "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "! " + "<a href='/vinkit'>(vinkkilistaukseen)</a>";
+            viesti = "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "!";
+            return new RedirectView("/vinkit");
         }
 
-        return "Kirjan nimi tai kirjailija ei voi olla tyhjä! <a href='/" + id + "/muokkaa'>(takaisin)</a>";
+        viesti = "Kirjan nimi tai kirjailija ei voi olla tyhjä!";
+        return new RedirectView("/" + id + "/muokkaa");
     }
 
     @GetMapping("/{id}/onko_luettu")
@@ -115,8 +125,15 @@ public class KirjaVinkkiController {
             kirjaDao.muutaOnkoLuettu(k.getLuettu(), id);
 
         } catch (Exception ex) {
-            return new RedirectView("error");
+            return new RedirectView("/error");
         }
         return new RedirectView("/vinkit");
+    }
+
+    private void tarkistaOnkoViestia(Model model) {
+        if (!viesti.isEmpty()) {
+            model.addAttribute("viesti", viesti);
+            viesti = "";
+        }
     }
 }

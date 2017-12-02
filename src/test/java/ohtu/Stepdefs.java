@@ -198,7 +198,7 @@ public class Stepdefs {
 
     @Then("^new book is added$")
     public void new_book_is_added() throws Throwable {
-        pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä! ");
+        pageHasContent("Lisätty kirja Topologia I kirjoittajalta Jussi Väisälä!");
     }
 
     @Then("^new book is not added and error is shown$")
