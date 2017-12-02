@@ -182,7 +182,6 @@ public class Stepdefs {
     @Then("^new video is added$")
     public void new_video_is_added() throws Throwable {
         pageHasContent("Lisätty video");
-        pageHasContent("takaisin");
     }
 
     @Then("^user is redirected to listing page$")

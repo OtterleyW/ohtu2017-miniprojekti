@@ -40,6 +40,12 @@
 
         <div class="container sisalto text-center">
 				<h2>Lisää video</h2>
+                                
+                                <div th:if="${viesti}">
+                                    <div class="alert alert-info" role="alert">
+                                        <span th:text="${viesti}">otsikko</span>
+                                    </div>
+                                </div>
 
 				<form method="POST" action="/lisaavideo">
 				  <div class="form-group">

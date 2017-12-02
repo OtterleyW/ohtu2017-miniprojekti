@@ -16,42 +16,49 @@ import org.springframework.web.servlet.view.RedirectView;
 public class VideoVinkkiController {
 
     private VideoDao videoDao;
+    private String viesti; //käyttäjälle näytettävä virheviesti tai ilmoitus
 
     public VideoVinkkiController() {
         this.videoDao = new VideoDao("jdbc:sqlite:kirjasto.db");
+        this.viesti = "";
     }
 
     @GetMapping("/videovinkit")
     public String listaaVideoVinkit(Model model) throws Exception {
+        tarkistaOnkoViestia(model);
         model.addAttribute("videot", videoDao.haeVideotKatsotunPerusteella("0"));
         model.addAttribute("katsotutVideot", videoDao.haeVideotKatsotunPerusteella("1"));
         return "videovinkit";
     }
 
     @GetMapping("/videonlisaaminen")
-    public ModelAndView videonlisaaminen() {
-        return new ModelAndView("video");
+    public String videonlisaaminen(Model model) {
+        tarkistaOnkoViestia(model);
+        return "/video";
     }
 
     @PostMapping("/lisaavideo")
     @ResponseBody
-    public String lisaavideo(@RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
+    public RedirectView lisaavideo(@RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
         Boolean lisatty = false;
         try {
             lisatty = videoDao.lisaaVideo(otsikko, url);
         } catch (Exception ex) {
-            return "error";
+            return new RedirectView("/error");
         }
         if (lisatty) {
-            return "Lisätty video " + otsikko + " url: " + url + "<a href='/'>(takaisin)</a>";
+            viesti = "Lisätty video " + otsikko + " url: " + url;
+            return new RedirectView("/videovinkit");
         }
-        return "Videon nimi tai url ei voi olla tyhjä! <a href='/videonlisaaminen'>(takaisin)</a>";
+        viesti = "Videon nimi tai url ei voi olla tyhjä!";
+        return new RedirectView("/videonlisaaminen");
     }
 
     @GetMapping("/{id}/muokkaavideota")
     public String muokkaaVideota(Model model, @PathVariable String id) throws Exception {
         try {
             Video v = videoDao.haeVideo(id);
+            tarkistaOnkoViestia(model);
             model.addAttribute("video", v);
         } catch (Exception ex) {
             return "error";
@@ -61,18 +68,20 @@ public class VideoVinkkiController {
 
     @PostMapping("/{id}/muokkaa_videota")
     @ResponseBody
-    public String muokkaaVideotaTietokantaan(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
+    public RedirectView muokkaaVideotaTietokantaan(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
         Boolean muokattu = false;
         try {
             muokattu = videoDao.muokkaaVideota(id, otsikko, url);
         } catch (Exception ex) {
-            return "error";
+            return new RedirectView("/error");
         }
         if (muokattu) {
-            return "Muokattu video " + otsikko + " url " + url + "! " + "<a href='/videovinkit'>(vinkkilistaukseen)</a>";
+            viesti = "Muokattu video " + otsikko + " url " + url + "!";
+            return new RedirectView("/videovinkit");
         }
 
-        return "Videon nimi tai url ei voi olla tyhjä! <a href='/" + id + "/muokkaavideota'>(takaisin)</a>";
+        viesti = "Videon nimi tai url ei voi olla tyhjä!";
+        return new RedirectView("/"+id+"/muokkaavideota");
     }
 
     @GetMapping("/{id}/poistavideo")
@@ -88,15 +97,16 @@ public class VideoVinkkiController {
 
     @PostMapping("/{id}/poista_video")
     @ResponseBody
-    public String poistaVideo(@PathVariable String id) throws Exception {
+    public RedirectView poistaVideo(@PathVariable String id) throws Exception {
 
         Video v = videoDao.haeVideo(id);
         try {
             videoDao.poistaVideo(id);
         } catch (Exception ex) {
-            return "error";
+            return new RedirectView("/error");
         }
-        return "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ". <a href='/videovinkit'>(vinkkilistaukseen)</a>";
+        viesti = "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ".";
+        return new RedirectView("/videovinkit");
 
     }
 
@@ -111,6 +121,13 @@ public class VideoVinkkiController {
             return new RedirectView("error");
         }
         return new RedirectView("/videovinkit");
+    }
+
+    private void tarkistaOnkoViestia(Model model) {
+        if (!viesti.isEmpty()) {
+            model.addAttribute("viesti", viesti);
+            viesti = "";
+        }
     }
 
 }

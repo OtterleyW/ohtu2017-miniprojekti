@@ -71,6 +71,12 @@
                     </td>
                 </tr>
             </table>
+            
+            <div th:if="${viesti}">
+                <div class="alert alert-info" role="alert">
+                    <span th:text="${viesti}">otsikko</span>
+                </div>
+            </div>
 
             <h2 class="text-center">Katsotut videovinkit</h2>
 
