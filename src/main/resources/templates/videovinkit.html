@@ -49,8 +49,7 @@
                         <span th:text="${video.otsikko}">otsikko</span>
                     </td>
                     <td>
-                        <span th:text=" url "></span>
-                        <span th:text="${video.url}">url</span>
+                        <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
                     </td>
                     <td>
                         <span th:switch="${video.luettu}"> 
@@ -81,8 +80,7 @@
                         <span th:text="${video.otsikko}">otsikko</span>
                     </td>
                     <td>
-                        <span th:text=" url "></span>
-                        <span th:text="${video.url}">url</span>
+                        <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
                     </td>
                     <td>
                         <span th:switch="${video.luettu}"> 
