@@ -84,6 +84,17 @@ public class KirjaVinkkiController {
         return "poista_kirja";
     }
 
+    @GetMapping("/kirja/{id}/info")
+    public String naytaInfo(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            model.addAttribute("kirja", k);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "kirjan_infosivu";
+    }
+
     @PostMapping("/{id}/poista_kirja")
     @ResponseBody
     public RedirectView poistaKirja(@PathVariable String id) throws Exception {
