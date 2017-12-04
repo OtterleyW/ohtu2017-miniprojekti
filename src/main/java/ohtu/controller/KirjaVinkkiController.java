@@ -32,10 +32,10 @@ public class KirjaVinkkiController {
         return "vinkit";
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String home() {
+//        return "index";
+//    }
 
     @GetMapping("/testi")
     public String testi(Model model) {
