@@ -152,4 +152,32 @@ public class KirjaDao {
 
         return kirjat;
     }
+
+    public List<Kirja> haeHakusanaaVastaavat(String hakusana) throws Exception {
+        List<Kirja> kirjat = new ArrayList();
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String kirjoittaja = rs.getString("kirjoittaja");
+            String otsikko = rs.getString("otsikko");
+            String onkoLuettu = rs.getString("luettu");
+            String kuvaus = rs.getString("kuvaus");
+
+            if (kirjoittaja.contains(hakusana) || otsikko.contains(hakusana) || (kuvaus != null && kuvaus.contains(hakusana))) {
+                Kirja kirja = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
+                kirja.setId(id);
+                kirjat.add(kirja);
+            }
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return kirjat;
+    }
 }

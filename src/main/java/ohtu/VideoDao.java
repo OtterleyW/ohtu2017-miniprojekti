@@ -153,4 +153,32 @@ public class VideoDao {
         return videot;
     }
 
+    public List<Video> haeHakusanaaVastaavat(String hakusana) throws Exception {
+        List<Video> videot = new ArrayList();
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Video");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String otsikko = rs.getString("otsikko");
+            String url = rs.getString("url");
+            String onkoLuettu = rs.getString("luettu");
+            String kuvaus = rs.getString("kuvaus");
+
+            if (otsikko.contains(hakusana) || (kuvaus != null && kuvaus.contains(hakusana)) || url.contains(hakusana)) {
+                Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
+                video.setId(id);
+
+                videot.add(video);
+            }
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return videot;
+    }
 }
