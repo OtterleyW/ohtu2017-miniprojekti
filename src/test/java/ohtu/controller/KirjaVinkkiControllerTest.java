@@ -54,7 +54,8 @@ public class KirjaVinkkiControllerTest {
 
         mockMvc.perform(post("/lisaakirja")
                 .param("kirjoittaja", "Kirjoittava Kirjoittaja")
-                .param("otsikko", otsikko));
+                .param("otsikko", otsikko)
+                .param("kuvaus", ""));
 
         MvcResult result = mockMvc.perform(get("/vinkit")).andReturn();
 
@@ -75,7 +76,7 @@ public class KirjaVinkkiControllerTest {
     public void muokkaussivunStatusOk() throws Exception {
         String otsikko = UUID.randomUUID().toString().substring(0, 10);
 
-        kirjaDao.lisaaKirja("Olen Kirjailija", otsikko);
+        kirjaDao.lisaaKirja("Olen Kirjailija", otsikko, "");
         mockMvc.perform(get("/1/muokkaa"))
                 .andExpect(status().isOk());
     }
@@ -83,7 +84,7 @@ public class KirjaVinkkiControllerTest {
     @Test
     public void kirjanMuokkausToimii() throws Exception {
         String otsikko = UUID.randomUUID().toString().substring(0, 10);
-        kirjaDao.lisaaKirja("Myös Kirjailija", otsikko);
+        kirjaDao.lisaaKirja("Myös Kirjailija", otsikko, "");
         String uusiOtsikko = UUID.randomUUID().toString().substring(0, 15);
 
         List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
@@ -112,7 +113,7 @@ public class KirjaVinkkiControllerTest {
         String otsikko = UUID.randomUUID().toString().substring(0, 15);
         String kirjoittaja = UUID.randomUUID().toString().substring(0, 15);
 
-        kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+        kirjaDao.lisaaKirja(kirjoittaja, otsikko, "");
 
         List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
 
@@ -148,7 +149,7 @@ public class KirjaVinkkiControllerTest {
         String otsikko = UUID.randomUUID().toString().substring(0, 15);
         String kirjoittaja = UUID.randomUUID().toString().substring(0, 15);
 
-        kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+        kirjaDao.lisaaKirja(kirjoittaja, otsikko, "");
 
         List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
 

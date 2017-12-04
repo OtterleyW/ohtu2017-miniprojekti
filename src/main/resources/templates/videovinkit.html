@@ -43,10 +43,16 @@
         <div class="container sisalto">
             <h2 class="text-center">Lisätyt videovinkit</h2>
 
+            <div th:if="${viesti}">
+                <div class="alert alert-info" role="alert">
+                    <span th:text="${viesti}">otsikko</span>
+                </div>
+            </div>
+
             <table class="table-striped" style="width: 100%">
                 <tr th:each="video : ${videot}">
                     <td>
-                        <span th:text="${video.otsikko}">otsikko</span>
+                        <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
                     </td>
                     <td>
                         <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
@@ -71,19 +77,13 @@
                     </td>
                 </tr>
             </table>
-            
-            <div th:if="${viesti}">
-                <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
-                </div>
-            </div>
 
             <h2 class="text-center">Katsotut videovinkit</h2>
 
             <table class="table-striped" style="width: 100%">
                 <tr th:each="video : ${katsotutVideot}">
                     <td>
-                        <span th:text="${video.otsikko}">otsikko</span>
+                        <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
                     </td>
                     <td>
                         <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>

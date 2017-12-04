@@ -138,7 +138,7 @@ public class KirjaDaoTest {
         String otsikko = "Testikirja";
         String kirjoittaja = "Testikirjailija";
 
-        assertEquals(true, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
+        assertEquals(true, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, ""));
     }
 
     @Test
@@ -146,7 +146,7 @@ public class KirjaDaoTest {
         String otsikko = "";
         String kirjoittaja = "Testikirjailija";
 
-        assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
+        assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, ""));
     }
 
     @Test
@@ -154,12 +154,12 @@ public class KirjaDaoTest {
         String otsikko = "Testikirja";
         String kirjoittaja = "";
 
-        assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko));
+        assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, ""));
     }
 
     private Kirja apuLisaaKirjaJaHaeJaPalauta() throws Exception {
 
-        kirjaDao.lisaaKirja("jonne", "pelaa es juo cs");
+        kirjaDao.lisaaKirja("jonne", "pelaa es juo cs", "");
         List<Kirja> kirjat = kirjaDao.haeKirjat();
         Kirja k = kirjat.get(kirjat.size() - 1);
 

@@ -15,15 +15,16 @@ public class KirjaDao {
         this.tietokantaosoite = tietokantaosoite;
     }
 
-    public boolean lisaaKirja(String kirjoittaja, String otsikko) throws Exception {
+    public boolean lisaaKirja(String kirjoittaja, String otsikko, String kuvaus) throws Exception {
         if (valid(kirjoittaja, otsikko)) {
-            Kirja kirja = new Kirja(kirjoittaja, otsikko, "0");
+            Kirja kirja = new Kirja(kirjoittaja, otsikko, "0", kuvaus);
             Connection conn = DriverManager.getConnection(tietokantaosoite);
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu) "
-                    + "VALUES ( ?, ?, ? )");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu, kuvaus) "
+                    + "VALUES ( ?, ?, ?, ? )");
             stmt.setString(1, kirja.getKirjoittaja());
             stmt.setString(2, kirja.getOtsikko());
             stmt.setString(3, kirja.getLuettu());
+            stmt.setString(4, kirja.getKuvaus());
             stmt.execute();
             stmt.close();
             conn.close();
@@ -44,8 +45,9 @@ public class KirjaDao {
             String kirjoittaja = rs.getString("kirjoittaja");
             String otsikko = rs.getString("otsikko");
             String onkoLuettu = rs.getString("luettu");
+            String kuvaus = rs.getString("kuvaus");
 
-            Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu);
+            Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
             k.setId(id);
 
             kirjat.add(k);
@@ -63,7 +65,7 @@ public class KirjaDao {
         stmt.setString(1, id);
         ResultSet rs = stmt.executeQuery();
 
-        Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"), rs.getString("luettu"));
+        Kirja kirja = new Kirja(rs.getString("kirjoittaja"), rs.getString("otsikko"), rs.getString("luettu"), rs.getString("kuvaus"));
         kirja.setId(id);
 
         rs.close();
@@ -135,8 +137,9 @@ public class KirjaDao {
                 String kirjoittaja = rs.getString("kirjoittaja");
                 String otsikko = rs.getString("otsikko");
                 String onkoLuettu = rs.getString("luettu");
+                String kuvaus = rs.getString("kuvaus");
 
-                Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu);
+                Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
                 k.setId(id);
 
                 kirjat.add(k);

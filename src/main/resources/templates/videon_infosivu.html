@@ -10,6 +10,8 @@
             .sisalto{
                 margin-top: 100px;
             }
+
+            .td {padding: 25px; margin-top: 10px;}
         </style>
     </head>
     <body>
@@ -38,34 +40,15 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container sisalto text-center">
-            <h2>Lisää video</h2>
-
-            <div th:if="${viesti}">
-                <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
-                </div>
+        <div class="container sisalto">
+            <h2> Videon info </h2>
+            <div>
+                <p>Videon nimi: <span th:text="${video.otsikko}">otsikko</span></p>
+                <p>Videon url: <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a></p>
+                <p>Kuvaus: <span th:text="${video.kuvaus}">kuvaus</span></p>
             </div>
-
-            <form method="POST" action="/lisaavideo">
-                <div class="form-group">
-                    <label for="otsikko">Otsikko:</label>
-                    <input type="text" name="otsikko"/>
-                </div>
-                <div class="form-group">
-                    <label for="url">Videon url:</label>
-                    <input type="text" name="url"/>
-                </div>
-                <div class="form-group">
-                    <label for="otsikko">Videon kuvaus (vapaaehtoinen):</label>
-                    <input type="text" name="kuvaus"/>
-                </div>
-                <input type="submit" value="Lisää" name="lisaa" class="btn btn-default"/>
-            </form>
-
-            <p><a href="/">Takaisin</a></p>
-
-
+            <p></p>
+            <a th:href="@{/videovinkit}">Takaisin vinkkilistaukseen</a>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

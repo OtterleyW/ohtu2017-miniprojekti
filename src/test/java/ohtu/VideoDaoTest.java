@@ -53,8 +53,8 @@ public class VideoDaoTest {
         String otsikko = UUID.randomUUID().toString().substring(0, 15);
         String url = UUID.randomUUID().toString().substring(0, 15);
 
-        Video v = new Video(otsikko, url, "0");
-        dao.lisaaVideo(otsikko, url);
+        Video v = new Video(otsikko, url, "0", "");
+        dao.lisaaVideo(otsikko, url, "");
         List<Video> videot = dao.haeVideot();
 
         boolean lisatty = false;
@@ -85,7 +85,7 @@ public class VideoDaoTest {
     @Test
     public void poistaVideoToimii() throws Exception {
 
-        dao.lisaaVideo("otsikko", "www.com");
+        dao.lisaaVideo("otsikko", "www.com", "");
         List<Video> videot = dao.haeVideot();
 
         Video v = videot.get(videot.size() - 1);
@@ -107,7 +107,7 @@ public class VideoDaoTest {
     @Test
     public void muokkaaVideotaToimii() throws Exception {
 
-        dao.lisaaVideo("video", "xyz.com");
+        dao.lisaaVideo("video", "xyz.com", "");
         List<Video> videot = dao.haeVideot();
         Video v = videot.get(videot.size() - 1);
 
@@ -124,7 +124,7 @@ public class VideoDaoTest {
     @Test
     public void voiMerkitaLuetuksiTaiLukemattomaksi() throws Exception {
 
-        dao.lisaaVideo("platypus", "sieni.es");
+        dao.lisaaVideo("platypus", "sieni.es", "");
         List<Video> videot = dao.haeVideot();
         Video v = videot.get(videot.size() - 1);
 
@@ -141,15 +141,15 @@ public class VideoDaoTest {
     @Test
     public void josOtsikkoTaiUrlTyhjaEiLisata() throws Exception {
 
-        assertFalse(dao.lisaaVideo("", "tekijä"));
-        assertFalse(dao.lisaaVideo("nimi", ""));
-        assertFalse(dao.lisaaVideo("", ""));
+        assertFalse(dao.lisaaVideo("", "tekijä", ""));
+        assertFalse(dao.lisaaVideo("nimi", "", ""));
+        assertFalse(dao.lisaaVideo("", "", ""));
     }
 
     @Test
     public void josOtsikkoTaiUrlTyhjaEiMuokata() throws Exception {
 
-        dao.lisaaVideo("hauska meemivideo", "sieni.us");
+        dao.lisaaVideo("hauska meemivideo", "sieni.us", "");
         List<Video> videot = dao.haeVideot();
         Video v = videot.get(videot.size() - 1);
 

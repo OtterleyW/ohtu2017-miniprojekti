@@ -31,7 +31,7 @@ public class KirjaTest {
     @Test
     public void kirjaAlustetaanOikein() {
 
-        Kirja k = new Kirja("kirjoittaja", "otsikko", "0");
+        Kirja k = new Kirja("kirjoittaja", "otsikko", "0", "");
         assertEquals(k.getKirjoittaja(), "kirjoittaja");
         assertEquals(k.getOtsikko(), "otsikko");
     }
@@ -39,7 +39,7 @@ public class KirjaTest {
     @Test
     public void setKirjoittajaToimii() {
 
-        Kirja k = new Kirja("kirjailija", "kirja", "0");
+        Kirja k = new Kirja("kirjailija", "kirja", "0", "");
         k.setKirjoittaja("toinen kirjailija");
         assertEquals(k.getKirjoittaja(), "toinen kirjailija");
     }
@@ -47,7 +47,7 @@ public class KirjaTest {
     @Test
     public void setOtsikkoToimii() {
 
-        Kirja k = new Kirja("kirjailija", "kirja", "0");
+        Kirja k = new Kirja("kirjailija", "kirja", "0", "");
         k.setOtsikko("miten poistua vimistä");
         assertEquals(k.getOtsikko(), "miten poistua vimistä");
     }
@@ -55,21 +55,21 @@ public class KirjaTest {
     @Test
     public void setIdToimii() {
 
-        Kirja k = new Kirja("kirjailija", "kirja", "0");
+        Kirja k = new Kirja("kirjailija", "kirja", "0", "");
         k.setId("1456");
         assertEquals(k.getId(), "1456");
     }
     
     @Test
     public void merkitseLuetuksiToimiiKunKirjavinkkiLukematon() {
-        Kirja k = new Kirja("kirjailija", "kirja", "0");
+        Kirja k = new Kirja("kirjailija", "kirja", "0", "");
         k.merkitseLuetuksi();
         assertEquals(k.getLuettu(), "1");
     }
     
     @Test
     public void merkitseLuetuksiToimiiKunKirjavinkkiLuettu() {
-        Kirja k = new Kirja("kirjailija", "kirja", "1");
+        Kirja k = new Kirja("kirjailija", "kirja", "1", "");
         k.merkitseLuetuksi();
         assertEquals(k.getLuettu(), "0");
     }

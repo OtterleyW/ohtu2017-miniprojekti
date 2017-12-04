@@ -39,10 +39,10 @@ public class VideoVinkkiController {
 
     @PostMapping("/lisaavideo")
     @ResponseBody
-    public RedirectView lisaavideo(@RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
+    public RedirectView lisaavideo(@RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url, @RequestParam(value = "kuvaus") String kuvaus) {
         Boolean lisatty = false;
         try {
-            lisatty = videoDao.lisaaVideo(otsikko, url);
+            lisatty = videoDao.lisaaVideo(otsikko, url, kuvaus);
         } catch (Exception ex) {
             return new RedirectView("/error");
         }
@@ -81,7 +81,7 @@ public class VideoVinkkiController {
         }
 
         viesti = "Videon nimi tai url ei voi olla tyhjä!";
-        return new RedirectView("/"+id+"/muokkaavideota");
+        return new RedirectView("/" + id + "/muokkaavideota");
     }
 
     @GetMapping("/{id}/poistavideo")
@@ -108,6 +108,17 @@ public class VideoVinkkiController {
         viesti = "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ".";
         return new RedirectView("/videovinkit");
 
+    }
+
+    @GetMapping("/video/{id}/info")
+    public String naytaInfo(Model model, @PathVariable String id) throws Exception {
+        try {
+            Video v = videoDao.haeVideo(id);
+            model.addAttribute("video", v);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "videon_infosivu";
     }
 
     @GetMapping("/{id}/onko_katsottu")

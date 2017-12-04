@@ -8,12 +8,18 @@ public class Video implements Vinkki {
     private String id;
     private String url;
     private String luettu;
+    private String kuvaus;
 
-    public Video(String otsikko, String url, String luettu) {
+    public Video(String otsikko, String url, String luettu, String kuvaus) {
         this.otsikko = otsikko;
         this.url = url;
         // Arvo 0 = ei luettu, arvo 1 = luettu
         this.luettu = luettu;
+        if (kuvaus == null) {
+            this.kuvaus = "";
+        } else {
+            this.kuvaus = kuvaus;
+        }
     }
 
     @Override
@@ -56,6 +62,14 @@ public class Video implements Vinkki {
 
     public void setLuettu(String luettu) {
         this.luettu = luettu;
+    }
+
+    public void setKuvaus(String kuvaus) {
+        this.kuvaus = kuvaus;
+    }
+
+    public String getKuvaus() {
+        return kuvaus;
     }
 
 }

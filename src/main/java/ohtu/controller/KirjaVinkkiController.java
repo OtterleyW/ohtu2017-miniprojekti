@@ -45,10 +45,10 @@ public class KirjaVinkkiController {
 
     @PostMapping("/lisaakirja")
     @ResponseBody
-    public RedirectView lisaakirja(@RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
+    public RedirectView lisaakirja(@RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "kuvaus") String kuvaus) {
         Boolean lisatty = false;
         try {
-            lisatty = kirjaDao.lisaaKirja(kirjoittaja, otsikko);
+            lisatty = kirjaDao.lisaaKirja(kirjoittaja, otsikko, kuvaus);
         } catch (Exception ex) {
             return new RedirectView("/error");
         }
