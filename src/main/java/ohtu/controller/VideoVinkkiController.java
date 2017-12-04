@@ -34,7 +34,7 @@ public class VideoVinkkiController {
     @GetMapping("/videonlisaaminen")
     public String videonlisaaminen(Model model) {
         tarkistaOnkoViestia(model);
-        return "/video";
+        return "video";
     }
 
     @PostMapping("/lisaavideo")
