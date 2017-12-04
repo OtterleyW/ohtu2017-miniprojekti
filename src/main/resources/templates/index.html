@@ -65,7 +65,7 @@
                 <div class="col-sm-3">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p>Lisää uusi videovinkki vinkkikirjasoton</p>
+                            <p>Lisää uusi videovinkki vinkkikirjastoon</p>
                             <a href="/videonlisaaminen" class="btn btn-primary">Lisää videovinkki</a>
                         </div>
                     </div>
@@ -79,7 +79,78 @@
                     </div>
                 </div>
             </div>
+
+            <div class="container sisalto">
+
+                <form th:action="@{/}" method="POST">
+                    <span>Hakusana:</span>
+                    <input type="text" name="hakusana"/>
+                    <input type="submit" value="Hae!"/>
+                </form>
+
+                <table class="table-striped" style="width: 100%" id="listId">
+                    <tr th:each="kirja : ${kirjat}">
+                        <td>
+                            <a th:href="@{/kirja/{id}/info(id=${kirja.id})}"><span th:text="${kirja.otsikko}">otsikko</span></a>
+                        </td>
+                        <td>
+                            <span th:text=" kirjoittajalta "></span>
+                            <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
+                        </td>
+                        <td>
+                            <span th:switch="${kirja.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei luettu</span>
+                                <span class="label label-success" th:case="1">Luettu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${kirja.luettu}"> 
+                                <span th:case="0"><a th:href="@{/{id}/onko_luettu(id=${kirja.id})}"  class="btn btn-sm btn-info">Merkitse luetuksi</a></span>
+                                <span th:case="1"><a th:href="@{/{id}/onko_luettu(id=${kirja.id})}"  class="btn btn-sm btn-info">Merkitse lukemattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="video : ${videot}">
+                        <td>
+                            <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
+                        </td>
+                        <td>
+                            <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                        </td>
+                        <td>
+                            <span th:switch="${video.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei katsottu</span>
+                                <span class="label label-success" th:case="1">Katsottu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${video.luettu}"> 
+                                <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
+                                <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
+
+        <br/>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
