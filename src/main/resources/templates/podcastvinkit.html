@@ -43,7 +43,7 @@
         </nav>
 
         <div class="container sisalto">
-            <h2 class="text-center">Lisätyt videovinkit</h2>
+            <h2 class="text-center">Lisätyt podcastvinkit</h2>
 
             <div th:if="${viesti}">
                 <div class="alert alert-info" role="alert">
@@ -52,60 +52,60 @@
             </div>
 
             <table class="table-striped" style="width: 100%">
-                <tr th:each="video : ${videot}">
+                <tr th:each="podcast : ${podcastit}">
                     <td>
-                        <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
+                        <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tekijä</span></a>
                     </td>
                     <td>
-                        <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                        <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
                     </td>
                     <td>
-                        <span th:switch="${video.luettu}"> 
-                            <span class="label label-warning" th:case="0">Ei katsottu</span>
-                            <span class="label label-success" th:case="1">Katsottu</span>
+                        <span th:switch="${podcast.luettu}"> 
+                            <span class="label label-warning" th:case="0">Ei kuunneltu</span>
+                            <span class="label label-success" th:case="1">Kuunneltu</span>
                         </span>
                     </td>
                     <td>
-                        <a th:href="@{/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        <a th:href="@{/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                     </td>
                     <td>
-                        <a th:href="@{/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        <a th:href="@{/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
                     </td>
                     <td>
-                        <span th:switch="${video.luettu}"> 
-                            <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
-                            <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
+                        <span th:switch="${podcast.luettu}"> 
+                            <span th:case="0"><a th:href="@{/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
+                            <span th:case="1"><a th:href="@{/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
                         </span>
                     </td>
                 </tr>
             </table>
 
-            <h2 class="text-center">Katsotut videovinkit</h2>
+            <h2 class="text-center">Kuunnellut podcastvinkit</h2>
 
             <table class="table-striped" style="width: 100%">
-                <tr th:each="video : ${katsotutVideot}">
+                <tr th:each="podcast : ${kuunnellutPodcastit}">
                     <td>
-                        <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
+                        <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tekijä</span></a>
                     </td>
                     <td>
-                        <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                        <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
                     </td>
                     <td>
-                        <span th:switch="${video.luettu}"> 
-                            <span class="label label-warning" th:case="0">Ei katsottu</span>
-                            <span class="label label-success" th:case="1">Katsottu</span>
+                        <span th:switch="${podcast.luettu}"> 
+                            <span class="label label-warning" th:case="0">Ei kuunneltu</span>
+                            <span class="label label-success" th:case="1">Kuunneltu</span>
                         </span>
                     </td>
                     <td>
-                        <a th:href="@{/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        <a th:href="@{/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                     </td>
                     <td>
-                        <a th:href="@{/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        <a th:href="@{/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
                     </td>
                     <td>
-                        <span th:switch="${video.luettu}"> 
-                            <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
-                            <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
+                        <span th:switch="${podcast.luettu}"> 
+                            <span th:case="0"><a th:href="@{/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
+                            <span th:case="1"><a th:href="@{/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
                         </span>
                     </td>
                 </tr>

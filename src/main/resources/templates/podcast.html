@@ -41,7 +41,7 @@
         </nav>
 
         <div class="container sisalto text-center">
-            <h2>Lisää kirja</h2>
+            <h2>Lisää podcast</h2>
 
             <div th:if="${viesti}">
                 <div class="alert alert-info" role="alert">
@@ -49,17 +49,17 @@
                 </div>
             </div>
 
-            <form method="POST" action="/lisaakirja">
+            <form method="POST" action="/lisaapodcast">
                 <div class="form-group">
-                    <label for="kirjoittaja">Kirjoittaja:</label>
-                    <input type="text" name="kirjoittaja"/>
+                    <label for="url">Podcastin url:</label>
+                    <input type="text" name="url"/>
                 </div>
                 <div class="form-group">
-                    <label for="otsikko">Kirjan nimi:</label>
-                    <input type="text" name="otsikko"/>
+                    <label for="tekija">Tekijä:</label>
+                    <input type="text" name="tekija"/>
                 </div>
                 <div class="form-group">
-                    <label for="otsikko">Kirjan kuvaus (vapaaehtoinen):</label>
+                    <label for="otsikko">Podcastin kuvaus (vapaaehtoinen):</label>
                     <input type="text" name="kuvaus"/>
                 </div>
                 <input type="submit" value="Lisää" name="lisaa" class="btn btn-default"/>
