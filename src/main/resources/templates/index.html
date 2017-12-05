@@ -164,6 +164,34 @@
                         </td>
                     </tr>
                 </table>
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="podcast : ${podcastit}">
+                        <td>
+                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tekijä</span></a>
+                        </td>
+                        <td>
+                            <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
+                        </td>
+                        <td>
+                            <span th:switch="${podcast.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei kuunneltu</span>
+                                <span class="label label-success" th:case="1">Kuunneltu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${podcast.luettu}"> 
+                                <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
+                                <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
 
             </div>
         </div>
