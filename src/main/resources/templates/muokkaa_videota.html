@@ -60,7 +60,7 @@
                 </div>
                 <div class="form-group">
                     <label for="kuvaus">Kuvaus:</label>
-                    <input type="text" name="kuvaus" th:value="${video.kuvaus}"/>
+                    <textarea class="form-control" rows="1" name="kuvaus"><span th:text="${video.kuvaus}" th:remove="tag">kuvaus</span></textarea>
                 </div>
                 <input type="submit" value="Muokkaa" name="muokkaa" class="btn btn-default"/>
             </form>

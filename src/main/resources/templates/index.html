@@ -56,6 +56,8 @@
                     <input type="submit" value="Hae!"/>
                 </form>
 
+                <h3>Kirjat</h3>
+
                 <table class="table-striped" style="width: 100%" id="listId">
                     <tr th:each="kirja : ${kirjat}">
                         <td>
@@ -86,6 +88,9 @@
                     </tr>
                 </table>
 
+                <br /><p></p>
+                <h3>Videot</h3>
+
                 <table class="table-striped" style="width: 100%">
                     <tr th:each="video : ${videot}">
                         <td>
@@ -114,10 +119,14 @@
                         </td>
                     </tr>
                 </table>
+
+                <br /><p></p>
+                <h3>Podcastit</h3>
+
                 <table class="table-striped" style="width: 100%">
                     <tr th:each="podcast : ${podcastit}">
                         <td>
-                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tekijä</span></a>
+                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.url}">tiedot</span></a>
                         </td>
                         <td>
                             <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
