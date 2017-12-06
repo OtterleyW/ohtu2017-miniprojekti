@@ -102,7 +102,7 @@ public class KirjaDaoTest {
     public void kirjaaVoiMuokata() throws Exception {
 
         Kirja k = apuLisaaKirjaJaHaeJaPalauta();
-        kirjaDao.muokkaaKirjaa(k.getId(), "jonna", "juo mäfää pelaa täfää");
+        kirjaDao.muokkaaKirjaa(k.getId(), "jonna", "juo mäfää pelaa täfää", "");
 
         k = kirjaDao.haeKirja(k.getId());
         assertEquals(k.getKirjoittaja(), "jonna");

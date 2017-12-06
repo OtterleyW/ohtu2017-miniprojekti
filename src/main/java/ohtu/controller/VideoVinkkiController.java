@@ -68,10 +68,10 @@ public class VideoVinkkiController {
 
     @PostMapping("/{id}/muokkaa_videota")
     @ResponseBody
-    public RedirectView muokkaaVideotaTietokantaan(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url) {
+    public RedirectView muokkaaVideotaTietokantaan(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url, @RequestParam(value = "kuvaus") String kuvaus) {
         Boolean muokattu = false;
         try {
-            muokattu = videoDao.muokkaaVideota(id, otsikko, url);
+            muokattu = videoDao.muokkaaVideota(id, otsikko, url, kuvaus);
         } catch (Exception ex) {
             return new RedirectView("/error");
         }

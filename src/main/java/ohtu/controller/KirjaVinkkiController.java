@@ -112,10 +112,10 @@ public class KirjaVinkkiController {
 
     @PostMapping("/{id}/muokkaa_kirjaa")
     @ResponseBody
-    public RedirectView muokkaaKirjaa(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko) {
+    public RedirectView muokkaaKirjaa(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "kuvaus") String kuvaus) {
         Boolean muokattu = false;
         try {
-            muokattu = kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko);
+            muokattu = kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko, kuvaus);
         } catch (Exception ex) {
             return new RedirectView("/error");
         }

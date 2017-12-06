@@ -83,13 +83,14 @@ public class VideoDao {
         conn.close();
     }
 
-    public boolean muokkaaVideota(String id, String otsikko, String url) throws Exception {
+    public boolean muokkaaVideota(String id, String otsikko, String url, String kuvaus) throws Exception {
         if (valid(otsikko, url)) {
             Connection conn = DriverManager.getConnection(tietokantaosoite);
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Video SET otsikko = ?, url = ? WHERE id = ? ");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Video SET otsikko = ?, url = ?, kuvaus = ? WHERE id = ? ");
             stmt.setString(1, otsikko);
             stmt.setString(2, url);
-            stmt.setString(3, id);
+            stmt.setString(3, kuvaus);
+            stmt.setString(4, id);
             stmt.execute();
             stmt.close();
             conn.close();

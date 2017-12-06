@@ -83,13 +83,14 @@ public class KirjaDao {
         conn.close();
     }
 
-    public boolean muokkaaKirjaa(String id, String kirjoittaja, String otsikko) throws Exception {
+    public boolean muokkaaKirjaa(String id, String kirjoittaja, String otsikko, String kuvaus) throws Exception {
         if (valid(kirjoittaja, otsikko)) {
             Connection conn = DriverManager.getConnection(tietokantaosoite);
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET kirjoittaja = ?, otsikko= ? WHERE id = ? ");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET kirjoittaja = ?, otsikko= ?, kuvaus = ? WHERE id = ? ");
             stmt.setString(1, kirjoittaja);
             stmt.setString(2, otsikko);
-            stmt.setString(3, id);
+            stmt.setString(3, kuvaus);
+            stmt.setString(4, id);
             stmt.execute();
             stmt.close();
             conn.close();

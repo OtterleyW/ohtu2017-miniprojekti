@@ -112,7 +112,7 @@ public class VideoDaoTest {
         Video v = videot.get(videot.size() - 1);
 
         String id = v.getId();
-        dao.muokkaaVideota(id, "uusi nimi", "joku url");
+        dao.muokkaaVideota(id, "uusi nimi", "joku url", "kuvaus");
         v = dao.haeVideo(id);
 
         assertEquals(v.getOtsikko(), "uusi nimi");
@@ -153,9 +153,9 @@ public class VideoDaoTest {
         List<Video> videot = dao.haeVideot();
         Video v = videot.get(videot.size() - 1);
 
-        assertFalse(dao.muokkaaVideota(v.getId(), "", "url"));
-        assertFalse(dao.muokkaaVideota(v.getId(), "otsikko", ""));
-        assertFalse(dao.muokkaaVideota(v.getId(), "", ""));
+        assertFalse(dao.muokkaaVideota(v.getId(), "", "url", ""));
+        assertFalse(dao.muokkaaVideota(v.getId(), "otsikko", "", ""));
+        assertFalse(dao.muokkaaVideota(v.getId(), "", "", ""));
     }
 
 }

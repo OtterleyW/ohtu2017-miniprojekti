@@ -69,10 +69,10 @@ public class PodcastVinkkiController {
 
     @PostMapping("/{id}/muokkaa_podcastia")
     @ResponseBody
-    public RedirectView muokkaaPodcastiaTietokantaan(@PathVariable String id, @RequestParam(value = "url") String url, @RequestParam(value = "tekija") String tekija) {
+    public RedirectView muokkaaPodcastiaTietokantaan(@PathVariable String id, @RequestParam(value = "url") String url, @RequestParam(value = "tekija") String tekija, @RequestParam(value = "kuvaus") String kuvaus) {
         Boolean muokattu = false;
         try {
-            muokattu = podcastDao.muokkaaPodcastia(id, url, tekija);
+            muokattu = podcastDao.muokkaaPodcastia(id, url, tekija, kuvaus);
         } catch (Exception ex) {
             return new RedirectView("/error");
         }

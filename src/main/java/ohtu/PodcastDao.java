@@ -83,13 +83,14 @@ public class PodcastDao {
         conn.close();
     }
 
-    public boolean muokkaaPodcastia(String id, String url, String tekija) throws Exception {
+    public boolean muokkaaPodcastia(String id, String url, String tekija, String kuvaus) throws Exception {
         if (valid(url, tekija)) {
             Connection conn = DriverManager.getConnection(tietokantaosoite);
-            PreparedStatement stmt = conn.prepareStatement("UPDATE Podcast SET url = ?, tekija = ? WHERE id = ? ");
+            PreparedStatement stmt = conn.prepareStatement("UPDATE Podcast SET url = ?, tekija = ?, kuvaus = ? WHERE id = ? ");
             stmt.setString(1, url);
             stmt.setString(2, tekija);
-            stmt.setString(3, id);
+            stmt.setString(3, kuvaus);
+            stmt.setString(4, id);
             stmt.execute();
             stmt.close();
             conn.close();

@@ -101,7 +101,8 @@ public class KirjaVinkkiControllerTest {
         mockMvc.perform(post("/" + id + "/muokkaa_kirjaa")
                 .param("id", id)
                 .param("kirjoittaja", "Minua on muokattu! :)")
-                .param("otsikko", uusiOtsikko));
+                .param("otsikko", uusiOtsikko)
+                .param("kuvaus", ""));
 
         assertTrue(kirjaDao.haeKirja(id).getKirjoittaja().equals("Minua on muokattu! :)")
                 && kirjaDao.haeKirja(id).getOtsikko().equals(uusiOtsikko));
