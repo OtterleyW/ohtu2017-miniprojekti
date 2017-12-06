@@ -145,6 +145,7 @@ public class KirjaDaoTest {
     public void validMetodiToimiiKunAnnettaanTyhjaOtsikkoMuttaOikeaKirjoittaja() throws Exception {
         String otsikko = "";
         String kirjoittaja = "Testikirjailija";
+        
 
         assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, ""));
     }
@@ -155,6 +156,31 @@ public class KirjaDaoTest {
         String kirjoittaja = "";
 
         assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, ""));
+    }
+    
+    @Test
+    public void validMetodiToimiiJosSyoteNull() throws Exception{
+        String otsikko = null;
+        String kirjoittaja = "Kirjailija";
+        
+        String otsikko2 = "Kirjan otsikko";
+        String kirjoittaja2 = null;
+        
+           assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, ""));
+           assertEquals(false, this.kirjaDao.lisaaKirja(kirjoittaja2, otsikko2, ""));
+    }
+    
+    @Test
+    public void hakusanallaLoytyyKirja() throws Exception{
+        List<Kirja> kirjat = new ArrayList();
+        String otsikko = "Haettava";
+        String kirjoittaja = "Testikirjailija";
+        
+        this.kirjaDao.lisaaKirja(kirjoittaja, otsikko, "");
+        
+        kirjat = this.kirjaDao.haeHakusanaaVastaavat("Haettava");
+        
+        assertEquals(false, kirjat.isEmpty());
     }
 
     private Kirja apuLisaaKirjaJaHaeJaPalauta() throws Exception {

@@ -157,5 +157,30 @@ public class VideoDaoTest {
         assertFalse(dao.muokkaaVideota(v.getId(), "otsikko", "", ""));
         assertFalse(dao.muokkaaVideota(v.getId(), "", "", ""));
     }
+    
+    @Test
+    public void validMetodiToimiiJosSyoteNull() throws Exception {
+        String nimi = null;
+        String url = "urli";
+        
+        String nimi2 = "nimi";
+        String url2 = null;
+
+        assertEquals(false, dao.lisaaVideo(nimi, url, ""));
+        assertEquals(false, dao.lisaaVideo(nimi2, url2, ""));
+    }
+
+    @Test
+    public void hakusanallaLoytyyVideo() throws Exception {
+        List<Video> videot = new ArrayList();
+        String nimi = "Haettava video";
+        String url = "www.haku.url";
+
+        dao.lisaaVideo(nimi, url, "");
+
+        videot = dao.haeHakusanaaVastaavat("Haettava");
+
+        assertEquals(false, videot.isEmpty());
+    }
 
 }

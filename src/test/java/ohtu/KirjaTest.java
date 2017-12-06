@@ -74,6 +74,14 @@ public class KirjaTest {
         assertEquals(k.getLuettu(), "0");
     }
     
+    @Test public void kirjalleLisataanKuvaus(){
+        Kirja k = new Kirja("kirjailija", "kirja", "1", "");
+        String kuvaus = "Tämä on kirja";
+        k.setKuvaus("Tämä on kirja");
+        
+        assertEquals(kuvaus, k.getKuvaus());
+    }
+    
 
     
 }

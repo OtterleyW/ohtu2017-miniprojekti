@@ -85,14 +85,24 @@ public class VideoTest {
         v.setLuettu("0");
         assertEquals(v.getLuettu(), "0");
     }
-    
+
     @Test
     public void merkitseLuetuksiToimii() {
-        
+
         Video v = new Video("mwahahaha", "youtube.com", "0", "");
         v.merkitseLuetuksi();
         assertEquals(v.getLuettu(), "1");
         v.merkitseLuetuksi();
         assertEquals(v.getLuettu(), "0");
     }
+
+    @Test
+    public void videolleLisataanKuvaus() {
+        Video v = new Video("Ankkavideo", "ankka.fi", "0", "");
+        String kuvaus = "Tämä on video";
+        v.setKuvaus(kuvaus);
+
+        assertEquals(kuvaus, v.getKuvaus());
+    }
+
 }
