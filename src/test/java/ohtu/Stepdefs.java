@@ -7,6 +7,7 @@ import cucumber.api.java.en.When;
 import java.io.File;
 import java.util.List;
 import ohtu.controller.KirjaVinkkiController;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -93,6 +94,12 @@ public class Stepdefs {
         element.click();
         Thread.sleep(1000);
     }
+    
+    @Given("^user goes to the search$")
+    public void go_to_search() throws Throwable{
+            driver.get("http://localhost:8080/");
+}
+    
     @When("^user click element lisaa$")
     public void user_click_element_lisaa() throws Throwable {
         pageHasContent("Lisää video");
@@ -171,7 +178,14 @@ public class Stepdefs {
         List<WebElement> kirjaLista = driver.findElements(By.tagName("td"));
         element = driver.findElement(By.linkText("Takaisin pääsivulle"));
         element.click();
-
+    }
+    
+    @When("^user has entered keyword \"([^\"]*)\"$")
+    public void search_with_keyword(String hakusana) throws Throwable {
+        WebElement element = driver.findElement(By.name("hakusana"));
+        element.sendKeys(hakusana);
+        element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
     }
 
     @Then("^null video is not added$")
@@ -250,23 +264,19 @@ public class Stepdefs {
     public void the_hint_is_marked_as_unread() throws Throwable {
         pageHasContent("Merkitse luetuksi");
     }
-
+    
+    @Then("^tips containig keyword \"([^\"]*)\" are listed$")
+    public void tips_containing_keyword_are_listed(String hakusana) throws Throwable {
+    WebElement element = driver.findElement(By.partialLinkText(hakusana));
+}
+    @Then("^list contains no tips$")
+    public void no_tips() throws Throwable{
+        List<WebElement> lista = driver.findElements(By.tagName("td"));
+        assertEquals(0, lista.size());
+    }
     @After
     public void tearDown() {
         driver.quit();
-    }
-
-    private void clickLinkWithText(String text) {
-        int trials = 0;
-        while (trials++ < 5) {
-            try {
-                WebElement element = driver.findElement(By.linkText(text));
-                element.click();
-                break;
-            } catch (Exception e) {
-                System.out.println(e.getStackTrace());
-            }
-        }
     }
 
     private void pageHasContent(String content) {
