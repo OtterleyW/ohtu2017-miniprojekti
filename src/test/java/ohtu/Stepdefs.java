@@ -235,7 +235,6 @@ public class Stepdefs {
         Thread.sleep(1000);
         WebElement element = driver.findElement(By.partialLinkText("Lisää kirjavinkki"));
         element = driver.findElement(By.partialLinkText("Näytä kirjavinkit"));
-
     }
 
     @Then("^system sent message sent error message$")
