@@ -13,4 +13,4 @@ Scenario: user searchs with a keyword and don't find results
 Scenario: user serachs with empty keyword
     Given user goes to the search
     When user has entered keyword ""
-    Then user user is redirect to mainpage
+    Then user is redirect to mainpage
