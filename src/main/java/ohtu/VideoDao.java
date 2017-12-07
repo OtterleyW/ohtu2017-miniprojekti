@@ -168,7 +168,10 @@ public class VideoDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
-            if (otsikko.contains(hakusana) || (kuvaus != null && kuvaus.contains(hakusana)) || url.contains(hakusana)) {
+            if ((otsikko != null && otsikko.toLowerCase().contains(hakusana))
+                    || (kuvaus != null && kuvaus.toLowerCase().contains(hakusana))
+                    || (url != null && url.toLowerCase().contains(hakusana))) {
+
                 Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
                 video.setId(id);
 

@@ -168,7 +168,10 @@ public class PodcastDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
-            if (tekija.contains(hakusana) || (kuvaus != null && kuvaus.contains(hakusana)) || url.contains(hakusana)) {
+            if ((tekija != null && tekija.toLowerCase().contains(hakusana))
+                    || (kuvaus != null && kuvaus.toLowerCase().contains(hakusana))
+                    || (url != null && url.toLowerCase().contains(hakusana))) {
+
                 Podcast podcast = new Podcast(url, tekija, onkoLuettu, kuvaus);
                 podcast.setId(id);
 

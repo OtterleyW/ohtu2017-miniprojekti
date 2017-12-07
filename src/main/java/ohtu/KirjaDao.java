@@ -168,17 +168,20 @@ public class KirjaDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
-            if (kirjoittaja.contains(hakusana) || otsikko.contains(hakusana) || (kuvaus != null && kuvaus.contains(hakusana))) {
+            if ((kirjoittaja != null && kirjoittaja.toLowerCase().contains(hakusana))
+                    || (otsikko != null && otsikko.toLowerCase().contains(hakusana))
+                    || (kuvaus != null && kuvaus.toLowerCase().contains(hakusana))) {
+
                 Kirja kirja = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
                 kirja.setId(id);
                 kirjat.add(kirja);
             }
         }
-        
+
         rs.close();
         stmt.close();
         conn.close();
-        
+
         return kirjat;
     }
 }
