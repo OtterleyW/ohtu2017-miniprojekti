@@ -94,19 +94,27 @@ public class Stepdefs {
         element.click();
         Thread.sleep(1000);
     }
-    
+
     @Given("^user goes to the search$")
-    public void go_to_search() throws Throwable{
-            driver.get("http://localhost:8080/");
-}
-    
+    public void go_to_search() throws Throwable {
+        driver.get("http://localhost:8080/");
+    }
+
+    @Given("^command lisaapodcast is selected$")
+    public void command_lisaapodcast_is_selected() throws Throwable {
+        driver.get("http://localhost:8080");
+        WebElement element = driver.findElement(By.partialLinkText("Lisää podcastvinkki"));
+        element.click();
+        Thread.sleep(1000);
+    }
+
     @When("^user click element lisaa$")
     public void user_click_element_lisaa() throws Throwable {
         pageHasContent("Lisää video");
         WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
         Thread.sleep(1000);
-        }
+    }
 
     @When("^user has entered \"([^\"]*)\" and a url \"([^\"]*)\"$")
     public void user_has_entered_and_a_url(String otsikko, String linkki) throws Throwable {
@@ -179,13 +187,29 @@ public class Stepdefs {
         element = driver.findElement(By.linkText("Takaisin pääsivulle"));
         element.click();
     }
-    
+
     @When("^user has entered keyword \"([^\"]*)\"$")
     public void search_with_keyword(String hakusana) throws Throwable {
         WebElement element = driver.findElement(By.name("hakusana"));
         element.sendKeys(hakusana);
         element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
+    }
+
+    @When("^user has entered url \"([^\"]*)\" and author \"([^\"]*)\"$")
+    public void when_user_has_entered_url_and_author(String url, String author) throws Throwable {
+        Thread.sleep(1000);
+        WebElement element = driver.findElement(By.name("url"));
+        element.clear();
+        element.sendKeys(url);
+        Thread.sleep(1000);
+        element = driver.findElement(By.name("tekija"));
+        element.clear();
+        element.sendKeys(author);
+        Thread.sleep(1000);
+        element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(1000);
     }
 
     @Then("^null video is not added$")
@@ -263,16 +287,23 @@ public class Stepdefs {
     public void the_hint_is_marked_as_unread() throws Throwable {
         pageHasContent("Merkitse luetuksi");
     }
-    
+
     @Then("^tips containig keyword \"([^\"]*)\" are listed$")
     public void tips_containing_keyword_are_listed(String hakusana) throws Throwable {
-    WebElement element = driver.findElement(By.partialLinkText(hakusana));
-}
+        WebElement element = driver.findElement(By.partialLinkText(hakusana));
+    }
+
     @Then("^list contains no tips$")
-    public void no_tips() throws Throwable{
+    public void no_tips() throws Throwable {
         List<WebElement> lista = driver.findElements(By.tagName("td"));
         assertEquals(0, lista.size());
     }
+
+    @Then("^new podcast is added$")
+    public void new_podcast_is_added() throws Throwable {
+        pageHasContent("Lisätty podcast myself and i url: podcast.me");
+    }
+
     @After
     public void tearDown() {
         driver.quit();
