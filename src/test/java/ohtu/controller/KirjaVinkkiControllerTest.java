@@ -35,13 +35,13 @@ public class KirjaVinkkiControllerTest {
     }
 
     @Test
-    public void juuripolkuStatusOk() throws Exception {
-        mockMvc.perform(get("/"))
+    public void kirjavinkitSivuStatusOk() throws Exception {
+        mockMvc.perform(get("/vinkit"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void vinkitStatusOkJaModelissaVinkit() throws Exception {
+    public void kirjavinkitStatusOkJaModelissaVinkit() throws Exception {
         mockMvc.perform(get("/vinkit"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("lukemattomat"))
@@ -74,10 +74,20 @@ public class KirjaVinkkiControllerTest {
 
     @Test
     public void muokkaussivunStatusOk() throws Exception {
-        String otsikko = UUID.randomUUID().toString().substring(0, 10);
+        String otsikko = UUID.randomUUID().toString().substring(0, 15);
 
         kirjaDao.lisaaKirja("Olen Kirjailija", otsikko, "");
-        mockMvc.perform(get("/1/muokkaa"))
+
+        List<Kirja> kirjat = kirjaDao.haeKirjat();
+        String id = "";
+
+        for (Kirja kirja : kirjat) {
+            if (kirja.getKirjoittaja().equals("Olen Kirjailija") && kirja.getOtsikko().equals(otsikko)) {
+                id = kirja.getId();
+            }
+        }
+
+        mockMvc.perform(get("/" + id + "/muokkaa"))
                 .andExpect(status().isOk());
     }
 
@@ -196,5 +206,35 @@ public class KirjaVinkkiControllerTest {
         }
 
         assertTrue(kirjaDao.haeKirja(id).getLuettu().equals("0") && kirjaLoytyiLukemattomista);
+    }
+
+    @Test
+    public void kirjanPoistoToimii() throws Exception {
+        String kirjoittaja = "Herra " + UUID.randomUUID().toString().substring(0, 10);
+        String otsikko = UUID.randomUUID().toString().substring(0, 15);
+        kirjaDao.lisaaKirja(kirjoittaja, otsikko, "");
+
+        List<Kirja> lukemattomat = kirjaDao.haeLuettuStatuksenPerusteella("0");
+        String id = "";
+
+        for (Kirja kirja : lukemattomat) {
+            if (kirja.getOtsikko().equals(otsikko) && kirja.getKirjoittaja().equals(kirjoittaja)) {
+                id = kirja.getId();
+                break;
+            }
+        }
+
+        mockMvc.perform(post("/" + id + "/poista_kirja")
+                .param("id", id));
+
+        boolean loytyi = false;
+
+        for (Kirja kirja : kirjaDao.haeKirjat()) {
+            if (kirja.getKirjoittaja().equals(kirjoittaja) && kirja.getOtsikko().equals(otsikko)) {
+                loytyi = true;
+            }
+        }
+
+        assertTrue(!loytyi);
     }
 }
