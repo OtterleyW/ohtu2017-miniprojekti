@@ -33,6 +33,14 @@ public class Stepdefs {
 
     }
 
+    @Given("^command lisaapodcast is selected$")
+    public void command_lisaapodcast_is_selected() throws Throwable {
+        driver.get("http://localhost:8080");
+        WebElement element = driver.findElement(By.partialLinkText("Lisää podcastvinkki"));
+        element.click();
+        Thread.sleep(1000);
+    }
+
     @Given("^command lisaavideo is selected$")
     public void command_lisaavideo_is_selected() throws Throwable {
         driver.get("http://localhost:8080");
@@ -44,6 +52,14 @@ public class Stepdefs {
     @Given("^user has selected command poista$")
     public void user_has_selected_command_poista() throws Throwable {
         driver.get("http://localhost:8080/vinkit");
+        WebElement element = driver.findElement(By.partialLinkText("Poista"));
+        element.click();
+        Thread.sleep(1000);
+    }
+
+    @Given("^command poistapodcast is selected$")
+    public void command_poistapodcast_is_selected() throws Throwable {
+        driver.get("http://localhost:8080/podcastvinkit");
         WebElement element = driver.findElement(By.partialLinkText("Poista"));
         element.click();
         Thread.sleep(1000);
@@ -100,14 +116,6 @@ public class Stepdefs {
         driver.get("http://localhost:8080/");
     }
 
-    @Given("^command lisaapodcast is selected$")
-    public void command_lisaapodcast_is_selected() throws Throwable {
-        driver.get("http://localhost:8080");
-        WebElement element = driver.findElement(By.partialLinkText("Lisää podcastvinkki"));
-        element.click();
-        Thread.sleep(1000);
-    }
-
     @When("^user click element lisaa$")
     public void user_click_element_lisaa() throws Throwable {
         pageHasContent("Lisää video");
@@ -152,6 +160,14 @@ public class Stepdefs {
     @When("^user click element poista$")
     public void user_click_element_poista() throws Throwable {
         pageHasContent("Poista kirja");
+        WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(1000);
+    }
+
+    @When("^user clicks element poistapodcast$")
+    public void user_clicks_element_poistapodcast() throws Throwable {
+        pageHasContent("Poista podcastvinkki");
         WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
         Thread.sleep(1000);
@@ -210,6 +226,11 @@ public class Stepdefs {
         element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
         Thread.sleep(1000);
+    }
+
+    @Then("^new podcast is added$")
+    public void new_podcast_is_added() throws Throwable {
+        pageHasContent("Lisätty podcast myself and i url: podcast.me");
     }
 
     @Then("^null video is not added$")
@@ -299,9 +320,15 @@ public class Stepdefs {
         assertEquals(0, lista.size());
     }
 
-    @Then("^new podcast is added$")
-    public void new_podcast_is_added() throws Throwable {
-        pageHasContent("Lisätty podcast myself and i url: podcast.me");
+    @Then("^new podcast is not added$")
+    public void new_podcast_is_not_added() throws Throwable {
+        pageHasContent("Podcastin tekijä tai url ei voi olla tyhjä!");
+    }
+
+    @Then("^the podcast is deleted$")
+    public void the_podcast_is_deleted() throws Throwable {
+        pageHasContent("Poistettu");
+
     }
 
     @After
