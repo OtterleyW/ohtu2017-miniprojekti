@@ -39,9 +39,9 @@ public class DefaultController {
             return "redirect:/";
         }
         
-        model.addAttribute("kirjat", kirjaDao.haeHakusanaaVastaavat(hakusana.trim().toLowerCase()));
-        model.addAttribute("videot", videoDao.haeHakusanaaVastaavat(hakusana.trim().toLowerCase()));
-        model.addAttribute("podcastit", podcastDao.haeHakusanaaVastaavat(hakusana.trim().toLowerCase()));
+        model.addAttribute("kirjat", kirjaDao.haeHakusanaaVastaavat(hakusana));
+        model.addAttribute("videot", videoDao.haeHakusanaaVastaavat(hakusana));
+        model.addAttribute("podcastit", podcastDao.haeHakusanaaVastaavat(hakusana));
 
         return "index";
     }

@@ -155,6 +155,7 @@ public class VideoDao {
     }
 
     public List<Video> haeHakusanaaVastaavat(String hakusana) throws Exception {
+        String haku = hakusana.toLowerCase().trim();
         List<Video> videot = new ArrayList();
 
         Connection conn = DriverManager.getConnection(tietokantaosoite);
@@ -168,9 +169,9 @@ public class VideoDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
-            if ((otsikko != null && otsikko.toLowerCase().contains(hakusana))
-                    || (kuvaus != null && kuvaus.toLowerCase().contains(hakusana))
-                    || (url != null && url.toLowerCase().contains(hakusana))) {
+            if ((otsikko != null && otsikko.toLowerCase().contains(haku))
+                    || (kuvaus != null && kuvaus.toLowerCase().contains(haku))
+                    || (url != null && url.toLowerCase().contains(haku))) {
 
                 Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
                 video.setId(id);

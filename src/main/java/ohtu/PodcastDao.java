@@ -155,6 +155,7 @@ public class PodcastDao {
     }
 
     public List<Podcast> haeHakusanaaVastaavat(String hakusana) throws Exception {
+        String haku = hakusana.toLowerCase().trim();
         List<Podcast> podcastit = new ArrayList();
 
         Connection conn = DriverManager.getConnection(tietokantaosoite);
@@ -168,9 +169,9 @@ public class PodcastDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
-            if ((tekija != null && tekija.toLowerCase().contains(hakusana))
-                    || (kuvaus != null && kuvaus.toLowerCase().contains(hakusana))
-                    || (url != null && url.toLowerCase().contains(hakusana))) {
+            if ((tekija != null && tekija.toLowerCase().contains(haku))
+                    || (kuvaus != null && kuvaus.toLowerCase().contains(haku))
+                    || (url != null && url.toLowerCase().contains(haku))) {
 
                 Podcast podcast = new Podcast(url, tekija, onkoLuettu, kuvaus);
                 podcast.setId(id);

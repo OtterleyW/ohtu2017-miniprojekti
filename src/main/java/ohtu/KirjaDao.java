@@ -155,6 +155,7 @@ public class KirjaDao {
     }
 
     public List<Kirja> haeHakusanaaVastaavat(String hakusana) throws Exception {
+        String haku = hakusana.toLowerCase().trim();
         List<Kirja> kirjat = new ArrayList();
 
         Connection conn = DriverManager.getConnection(tietokantaosoite);
@@ -168,9 +169,9 @@ public class KirjaDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
-            if ((kirjoittaja != null && kirjoittaja.toLowerCase().contains(hakusana))
-                    || (otsikko != null && otsikko.toLowerCase().contains(hakusana))
-                    || (kuvaus != null && kuvaus.toLowerCase().contains(hakusana))) {
+            if ((kirjoittaja != null && kirjoittaja.toLowerCase().contains(haku))
+                    || (otsikko != null && otsikko.toLowerCase().contains(haku))
+                    || (kuvaus != null && kuvaus.toLowerCase().contains(haku))) {
 
                 Kirja kirja = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
                 kirja.setId(id);
