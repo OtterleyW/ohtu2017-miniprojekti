@@ -36,7 +36,6 @@ public class KirjaVinkkiController {
 //    public String home() {
 //        return "index";
 //    }
-
     @GetMapping("/testi")
     public String testi(Model model) {
         tarkistaOnkoViestia(model);
@@ -89,10 +88,36 @@ public class KirjaVinkkiController {
         try {
             Kirja k = kirjaDao.haeKirja(id);
             model.addAttribute("kirja", k);
+            model.addAttribute("tagit", kirjaDao.haeTagitKirjanIdnPerusteella(id));
         } catch (Exception ex) {
             return "error";
         }
         return "kirjan_infosivu";
+    }
+
+    @GetMapping("/{id}/lisaatagi")
+    public String lisaaTagi(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            model.addAttribute("kirja", k);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "lisaa_kirjalle_tagi";
+    }
+
+    @PostMapping("/{id}/lisaa_kirjalle_tagi")
+    @ResponseBody
+    public RedirectView lisaaTagiTietokantaan(@PathVariable String id, @RequestParam(value = "tagi") String tagi) throws Exception {
+
+        Kirja k = kirjaDao.haeKirja(id);
+        try {
+            kirjaDao.lisaaTagi(id, tagi);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/kirja/" + id + "/info");
+
     }
 
     @PostMapping("/{id}/poista_kirja")

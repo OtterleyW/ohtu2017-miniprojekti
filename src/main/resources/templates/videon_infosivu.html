@@ -55,6 +55,20 @@
             <td>
                 <a th:href="@{/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
             </td>
+            <td>
+                <a th:href="@{/{id}/lisaavideolletagi(id=${video.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+            </td>
+            <p></p>
+
+            <h4> Tagit: </h4>
+            <table class="table-striped" style="width: 100%" id="listId">
+                <tr th:each="tagi : ${tagit}">
+                    <td>
+                        <span th:text="${tagi.nimi}">nimi</span>
+                    </td>
+                </tr>
+            </table>
+
             <p></p>
             <a th:href="@{/videovinkit}">Takaisin vinkkilistaukseen</a>
         </div>

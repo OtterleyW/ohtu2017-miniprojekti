@@ -66,6 +66,31 @@ public class VideoVinkkiController {
         return "muokkaa_videota";
     }
 
+    @GetMapping("/{id}/lisaavideolletagi")
+    public String lisaaTagi(Model model, @PathVariable String id) throws Exception {
+        try {
+            Video v = videoDao.haeVideo(id);
+            model.addAttribute("video", v);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "lisaa_videolle_tagi";
+    }
+
+    @PostMapping("/{id}/lisaa_videolle_tagi")
+    @ResponseBody
+    public RedirectView lisaaTagiTietokantaan(@PathVariable String id, @RequestParam(value = "tagi") String tagi) throws Exception {
+
+        Video v = videoDao.haeVideo(id);
+        try {
+            videoDao.lisaaTagi(id, tagi);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/video/" + id + "/info");
+
+    }
+
     @PostMapping("/{id}/muokkaa_videota")
     @ResponseBody
     public RedirectView muokkaaVideotaTietokantaan(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url, @RequestParam(value = "kuvaus") String kuvaus) {
@@ -115,6 +140,7 @@ public class VideoVinkkiController {
         try {
             Video v = videoDao.haeVideo(id);
             model.addAttribute("video", v);
+            model.addAttribute("tagit", videoDao.haeTagitVideonIdnPerusteella(id));
         } catch (Exception ex) {
             return "error";
         }

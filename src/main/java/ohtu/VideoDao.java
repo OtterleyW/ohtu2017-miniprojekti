@@ -186,4 +186,42 @@ public class VideoDao {
 
         return videot;
     }
+
+    public void lisaaTagi(String videoId, String tagi) throws Exception {
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Tag(nimi) "
+                + "VALUES ( ? )");
+        stmt.setString(1, tagi);
+        stmt.execute();
+        stmt = conn.prepareStatement("INSERT INTO videotag (video_id, tag_id) "
+                + "VALUES ( ? , (SELECT id FROM Tag ORDER BY id DESC LIMIT 1))");
+        stmt.setString(1, videoId);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+
+    }
+
+    public List<Tag> haeTagitVideonIdnPerusteella(String videoId) throws Exception {
+        List<Tag> tagit = new ArrayList();
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Tag WHERE Tag.id IN (SELECT tag_id FROM videotag WHERE video_id = ?)");
+        stmt.setString(1, videoId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String nimi = rs.getString("nimi");
+            Tag t = new Tag(nimi);
+            t.setId(id);
+            tagit.add(t);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return tagit;
+    }
 }

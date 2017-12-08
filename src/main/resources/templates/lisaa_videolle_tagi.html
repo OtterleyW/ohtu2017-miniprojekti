@@ -10,8 +10,6 @@
             .sisalto{
                 margin-top: 100px;
             }
-
-            .td {padding: 25px; margin-top: 10px;}
         </style>
     </head>
     <body>
@@ -42,35 +40,18 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container sisalto">
-            <h2> Kirjan info </h2>
-            <div>
-                <p>Kirjan nimi: <span th:text="${kirja.otsikko}">otsikko</span></p>
-                <p>Kirjoittaja: <span th:text="${kirja.kirjoittaja}">kirjoittaja</span></p>
-                <p>Kuvaus: <span th:text="${kirja.kuvaus}">kuvaus</span></p>
-            </div>
-            <td>
-                <a th:href="@{/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
-            </td>
-            <td>
-                <a th:href="@{/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
-            </td>
-            <td>
-                <a th:href="@{/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
-            </td>
-            <p></p>
+        <div class="container sisalto text-center">
 
-            <h4> Tagit: </h4>
-            <table class="table-striped" style="width: 100%" id="listId">
-                <tr th:each="tagi : ${tagit}">
-                    <td>
-                        <span th:text="${tagi.nimi}">nimi</span>
-                    </td>
-                </tr>
-            </table>
+            <h2>Lisää videolle tagi</h2>
 
-            <p></p>
-            <a th:href="@{/vinkit}">Takaisin vinkkilistaukseen</a>
+            <form method="POST" action="lisaa_videolle_tagi">
+                <div class="form-group">
+                    <label for="tagi">Tagi:</label>
+                    <input type="text" name="tagi" />
+                </div>
+                <input type="submit" value="Lisää tagi!" name="lisaatagi" class="btn btn-default"/>
+            </form>
+
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,5 +185,43 @@ public class KirjaDao {
         conn.close();
 
         return kirjat;
+    }
+
+    public void lisaaTagi(String kirjaId, String tagi) throws Exception {
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Tag(nimi) "
+                + "VALUES ( ? )");
+        stmt.setString(1, tagi);
+        stmt.execute();
+        stmt = conn.prepareStatement("INSERT INTO kirjatag (kirja_id, tag_id) "
+                + "VALUES ( ? , (SELECT id FROM Tag ORDER BY id DESC LIMIT 1))");
+        stmt.setString(1, kirjaId);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+
+    }
+
+    public List<Tag> haeTagitKirjanIdnPerusteella(String kirjaId) throws Exception {
+        List<Tag> tagit = new ArrayList();
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Tag WHERE Tag.id IN (SELECT tag_id FROM kirjatag WHERE kirja_id = ?)");
+        stmt.setString(1, kirjaId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String nimi = rs.getString("nimi");
+            Tag t = new Tag(nimi);
+            t.setId(id);
+            tagit.add(t);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return tagit;
     }
 }
