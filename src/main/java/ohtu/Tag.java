@@ -30,7 +30,7 @@ public class Tag {
         return nimi;
     }
 
-    public void setNimi(String Nimi) {
+    public void setNimi(String nimi) {
         this.nimi = nimi;
     }
 }
