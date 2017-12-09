@@ -158,7 +158,7 @@ public class PodcastVinkkiController {
             return new RedirectView("/error");
         }
         viesti = "Poistettu podcast " + p.getTekija() + ", jonka url on " + p.getUrl() + ".";
-        return new RedirectView("/podcastvinkit");
+        return new RedirectView("/");
 
     }
 
@@ -190,7 +190,7 @@ public class PodcastVinkkiController {
         } catch (Exception ex) {
             return new RedirectView("error");
         }
-        return new RedirectView("/podcastvinkit");
+        return new RedirectView("/");
     }
     
     private void muokkaaOnkoKuunneltu(Model model, String id) throws Exception{

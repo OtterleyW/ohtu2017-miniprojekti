@@ -216,7 +216,7 @@ public class VideoVinkkiController {
         } catch (Exception ex) {
             return new RedirectView("error");
         }
-        return new RedirectView("/videovinkit");
+        return new RedirectView("/");
     }
 
     private void muutaOnkoKatsottu(Model model, String id) throws Exception {
