@@ -57,6 +57,15 @@ public class PodcastVinkkiController {
 
     @GetMapping("/{id}/muokkaapodcastia")
     public String muokkaaPodcastia(Model model, @PathVariable String id) throws Exception {
+        return podcastinMuokkaus(model, id);
+    }
+    
+    @GetMapping("/e/{id}/muokkaapodcastia")
+    public String muokkaaPodcastiaEtusivulta(Model model, @PathVariable String id) throws Exception {
+       return podcastinMuokkaus(model, id);
+    }
+    
+    private String podcastinMuokkaus(Model model, String id) throws Exception{
         try {
             Podcast p = podcastDao.haePodcast(id);
             tarkistaOnkoViestia(model);
@@ -84,9 +93,36 @@ public class PodcastVinkkiController {
         viesti = "Podcastin tekijä tai url ei voi olla tyhjä!";
         return new RedirectView("/" + id + "/muokkaapodcastia");
     }
+    
+    @PostMapping("/e/{id}/muokkaa_podcastia")
+    @ResponseBody
+    public RedirectView muokkaaPodcastiaTietokantaanEtusivulta(@PathVariable String id, @RequestParam(value = "url") String url, @RequestParam(value = "tekija") String tekija, @RequestParam(value = "kuvaus") String kuvaus) {
+        Boolean muokattu = false;
+        try {
+            muokattu = podcastDao.muokkaaPodcastia(id, url, tekija, kuvaus);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        if (muokattu) {
+            viesti = "Muokattu podcast " + tekija + " url " + url + "!";
+            return new RedirectView("/");
+        }
+
+        viesti = "Podcastin tekijä tai url ei voi olla tyhjä!";
+        return new RedirectView("/" + id + "/muokkaapodcastia");
+    }
 
     @GetMapping("/{id}/poistapodcast")
     public String poistaPodcastVarmistus(Model model, @PathVariable String id) throws Exception {
+        return podcastinPoisto(model, id);
+    }
+    
+        @GetMapping("/e/{id}/poistapodcast")
+    public String poistaPodcastVarmistusEtusivulta(Model model, @PathVariable String id) throws Exception {
+        return podcastinPoisto(model, id);
+    }
+    
+    private String podcastinPoisto(Model model, String id) throws Exception {
         try {
             Podcast p = podcastDao.haePodcast(id);
             model.addAttribute("podcast", p);
@@ -99,6 +135,21 @@ public class PodcastVinkkiController {
     @PostMapping("/{id}/poista_podcast")
     @ResponseBody
     public RedirectView poistaPodcast(@PathVariable String id) throws Exception {
+
+        Podcast p = podcastDao.haePodcast(id);
+        try {
+            podcastDao.poistaPodcast(id);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        viesti = "Poistettu podcast " + p.getTekija() + ", jonka url on " + p.getUrl() + ".";
+        return new RedirectView("/podcastvinkit");
+
+    }
+    
+    @PostMapping("/e/{id}/poista_podcast")
+    @ResponseBody
+    public RedirectView poistaPodcastEtusivulta(@PathVariable String id) throws Exception {
 
         Podcast p = podcastDao.haePodcast(id);
         try {
@@ -125,14 +176,27 @@ public class PodcastVinkkiController {
     @GetMapping("/{id}/onko_kuunneltu")
     public RedirectView merkitseOnkoKuunneltu(Model model, @PathVariable String id) throws Exception {
         try {
-            Podcast p = podcastDao.haePodcast(id);
-            p.merkitseLuetuksi();
-            podcastDao.muutaOnkoLuettu(p.getLuettu(), id);
-
+            muokkaaOnkoKuunneltu(model, id);
         } catch (Exception ex) {
             return new RedirectView("error");
         }
         return new RedirectView("/podcastvinkit");
+    }
+    
+    @GetMapping("/e/{id}/onko_kuunneltu")
+    public RedirectView merkitseOnkoKuunneltuEtusivulta(Model model, @PathVariable String id) throws Exception {
+        try {
+            muokkaaOnkoKuunneltu(model, id);
+        } catch (Exception ex) {
+            return new RedirectView("error");
+        }
+        return new RedirectView("/podcastvinkit");
+    }
+    
+    private void muokkaaOnkoKuunneltu(Model model, String id) throws Exception{
+        Podcast p = podcastDao.haePodcast(id);
+        p.merkitseLuetuksi();
+        podcastDao.muutaOnkoLuettu(p.getLuettu(), id);
     }
 
     private void tarkistaOnkoViestia(Model model) {
