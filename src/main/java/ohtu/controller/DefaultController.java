@@ -30,9 +30,13 @@ public class DefaultController {
 
     @GetMapping("/")
     public String naytaPaasivu(Model model) throws Exception {
-        model.addAttribute("kirjat", kirjaDao.haeKirjat());
-        model.addAttribute("videot", videoDao.haeVideot());
-        model.addAttribute("podcastit", podcastDao.haePodcastit());
+        model.addAttribute("kirjat", kirjaDao.haeLuettuStatuksenPerusteella("0"));
+        model.addAttribute("videot", videoDao.haeVideotKatsotunPerusteella("0"));
+        model.addAttribute("podcastit", podcastDao.haePodcastitKuunnellunPerusteella("0"));
+        
+        model.addAttribute("luetut_kirjat", kirjaDao.haeLuettuStatuksenPerusteella("1"));
+        model.addAttribute("katsotut_videot", videoDao.haeVideotKatsotunPerusteella("1"));
+        model.addAttribute("kuunnellut_podcastit", podcastDao.haePodcastitKuunnellunPerusteella("1"));
 
         return "index";
     }
@@ -46,6 +50,7 @@ public class DefaultController {
         model.addAttribute("kirjat", kirjaDao.haeHakusanaaVastaavat(hakusana));
         model.addAttribute("videot", videoDao.haeHakusanaaVastaavat(hakusana));
         model.addAttribute("podcastit", podcastDao.haeHakusanaaVastaavat(hakusana));
+       
 
         return "index";
     }
