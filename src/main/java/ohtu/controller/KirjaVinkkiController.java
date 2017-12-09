@@ -71,9 +71,32 @@ public class KirjaVinkkiController {
         }
         return "muokkaa_kirjaa";
     }
+    
+        @GetMapping("/e/{id}/muokkaa")
+    public String muokkaaKirjaaEtusivulta(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            tarkistaOnkoViestia(model);
+            model.addAttribute("kirja", k);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "muokkaa_kirjaa";
+    }
 
     @GetMapping("/{id}/poista")
     public String poistaKirjaVarmistus(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            model.addAttribute("kirja", k);
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "poista_kirja";
+    }
+    
+    @GetMapping("/e/{id}/poista")
+    public String poistaKirjaVarmistusEtusivulta(Model model, @PathVariable String id) throws Exception {
         try {
             Kirja k = kirjaDao.haeKirja(id);
             model.addAttribute("kirja", k);
@@ -134,6 +157,21 @@ public class KirjaVinkkiController {
         return new RedirectView("/vinkit");
 
     }
+    
+    @PostMapping("/e/{id}/poista_kirja")
+    @ResponseBody
+    public RedirectView poistaKirjaEtusivulta(@PathVariable String id) throws Exception {
+
+        Kirja k = kirjaDao.haeKirja(id);
+        try {
+            kirjaDao.poistaKirja(id);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        viesti = "Poistettu kirja " + k.getOtsikko() + " kirjoittajalta " + k.getKirjoittaja() + "!";
+        return new RedirectView("/");
+
+    }
 
     @PostMapping("/{id}/muokkaa_kirjaa")
     @ResponseBody
@@ -152,6 +190,24 @@ public class KirjaVinkkiController {
         viesti = "Kirjan nimi tai kirjailija ei voi olla tyhjä!";
         return new RedirectView("/" + id + "/muokkaa");
     }
+    
+    @PostMapping("/e/{id}/muokkaa_kirjaa")
+    @ResponseBody
+    public RedirectView muokkaaKirjaaEtusivulta(@PathVariable String id, @RequestParam(value = "kirjoittaja") String kirjoittaja, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "kuvaus") String kuvaus) {
+        Boolean muokattu = false;
+        try {
+            muokattu = kirjaDao.muokkaaKirjaa(id, kirjoittaja, otsikko, kuvaus);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        if (muokattu) {
+            viesti = "Muokattu kirja " + otsikko + " kirjoittajalta " + kirjoittaja + "!";
+            return new RedirectView("/");
+        }
+
+        viesti = "Kirjan nimi tai kirjailija ei voi olla tyhjä!";
+        return new RedirectView("/" + id + "/muokkaa");
+    }
 
     @GetMapping("/{id}/onko_luettu")
     public RedirectView merkitseOnkoLuettu(Model model, @PathVariable String id) throws Exception {
@@ -164,6 +220,19 @@ public class KirjaVinkkiController {
             return new RedirectView("/error");
         }
         return new RedirectView("/vinkit");
+    }
+    
+    @GetMapping("/e/{id}/onko_luettu")
+    public RedirectView merkitseOnkoLuettuEtusivulta(Model model, @PathVariable String id) throws Exception {
+        try {
+            Kirja k = kirjaDao.haeKirja(id);
+            k.merkitseLuetuksi();
+            kirjaDao.muutaOnkoLuettu(k.getLuettu(), id);
+
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/");
     }
 
     private void tarkistaOnkoViestia(Model model) {
