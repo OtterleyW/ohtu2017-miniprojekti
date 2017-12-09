@@ -60,6 +60,7 @@ public class DefaultController {
         try {
             model.addAttribute("kirjat", kirjaDao.kaikkiVinkitTagilla(tagi));
             model.addAttribute("videot", videoDao.kaikkiVinkitTagilla(tagi));
+            model.addAttribute("podcastit", podcastDao.kaikkiVinkitTagilla(tagi));
         } catch (Exception ex) {
             return "error";
         }

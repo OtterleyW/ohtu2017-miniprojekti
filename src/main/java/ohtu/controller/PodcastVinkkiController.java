@@ -165,12 +165,37 @@ public class PodcastVinkkiController {
     @GetMapping("/podcast/{id}/info")
     public String naytaInfo(Model model, @PathVariable String id) throws Exception {
         try {
+            model.addAttribute("podcast", podcastDao.haePodcast(id));
+            model.addAttribute("tagit", podcastDao.haeTagitPodcastinIdnPerusteella(id));
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "podcastin_infosivu";
+    }
+    
+    @GetMapping("/{id}/lisaapodcastilletagi")
+    public String lisaaTagi(Model model, @PathVariable String id) throws Exception {
+        try {
             Podcast p = podcastDao.haePodcast(id);
             model.addAttribute("podcast", p);
         } catch (Exception ex) {
             return "error";
         }
-        return "podcastin_infosivu";
+        return "lisaa_podcastille_tagi";
+    }
+
+    @PostMapping("/{id}/lisaa_podcastille_tagi")
+    @ResponseBody
+    public RedirectView lisaaTagiTietokantaan(@PathVariable String id, @RequestParam(value = "tagi") String tagi) throws Exception {
+
+        Podcast p = podcastDao.haePodcast(id);
+        try {
+            podcastDao.lisaaTagi(id, tagi);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/podcast/" + id + "/info");
+
     }
 
     @GetMapping("/{id}/onko_kuunneltu")

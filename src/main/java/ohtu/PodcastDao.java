@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,6 +179,70 @@ public class PodcastDao {
 
                 podcastit.add(podcast);
             }
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return podcastit;
+    }
+    
+    public void lisaaTagi(String podcastId, String tagi) throws Exception {
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Tag(nimi) "
+                + "VALUES ( ? )");
+        stmt.setString(1, tagi);
+        stmt.execute();
+        stmt = conn.prepareStatement("INSERT INTO podcasttag (podcast_id, tag_id) "
+                + "VALUES ( ? , (SELECT id FROM Tag ORDER BY id DESC LIMIT 1))");
+        stmt.setString(1, podcastId);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+
+    }
+
+    public List<Tag> haeTagitPodcastinIdnPerusteella(String podcastId) throws Exception {
+        List<Tag> tagit = new ArrayList();
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Tag WHERE Tag.id IN (SELECT tag_id FROM podcasttag WHERE podcast_id = ?)");
+        stmt.setString(1, podcastId);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String nimi = rs.getString("nimi");
+            Tag t = new Tag(nimi);
+            t.setId(id);
+            tagit.add(t);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return tagit;
+    }
+
+    public List<Podcast> kaikkiVinkitTagilla(String taginNimi) throws SQLException {
+        List<Podcast> podcastit = new ArrayList();
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Podcast WHERE Podcast.id IN (SELECT podcast_id FROM podcasttag WHERE tag_id IN (SELECT id FROM Tag WHERE nimi = ? ))");
+        stmt.setString(1, taginNimi);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String url = rs.getString("url");
+            String tekija = rs.getString("tekija");
+            String onkoLuettu = rs.getString("luettu");
+            String kuvaus = rs.getString("kuvaus");
+            
+            Podcast p = new Podcast(url, tekija, onkoLuettu, kuvaus);
+            p.setId(id);
+            podcastit.add(p);
         }
 
         rs.close();

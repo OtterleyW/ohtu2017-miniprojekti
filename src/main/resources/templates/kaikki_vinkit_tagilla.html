@@ -68,12 +68,25 @@
                         <span th:text="${video.otsikko}">otsikko</span>
                     </td>
                     <td>
-                        <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                        <a th:href="${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
                     </td>
                 </tr>
             </table>
 
             <p><hr /></p> 
+            
+            <h2>Tagiin liittyvät podcastit</h2>
+
+            <table class="table-striped" style="width: 100%" id="listId">
+                <tr th:each="podcast : ${podcastit}">
+                    <td>
+                        <span th:text="${podcast.tekija}">otsikko</span>
+                    </td>
+                    <td>
+                        <a th:href="${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki videoon</span></a>
+                    </td>
+                </tr>
+            </table>
 
         </div>
 

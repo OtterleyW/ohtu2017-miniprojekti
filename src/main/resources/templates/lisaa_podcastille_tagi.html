@@ -10,8 +10,6 @@
             .sisalto{
                 margin-top: 100px;
             }
-
-            .td {padding: 25px; margin-top: 10px;}
         </style>
     </head>
     <body>
@@ -42,34 +40,18 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container sisalto">
-            <h2> Podcastin info </h2>
-            <div>
-                <p>Podcastin otsikko: <span th:text="${podcast.tekija}">tekijä</span></p>
-                <p>Podcastin url: <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a></p>
-                <p>Kuvaus: <span th:text="${podcast.kuvaus}">kuvaus</span></p>
-            </div>
-            <td>
-                <a th:href="@{/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
-            </td>
-            <td>
-                <a th:href="@{/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
-            </td>
-            <td>
-                <a th:href="@{/{id}/lisaapodcastilletagi(id=${podcast.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
-            </td>
-            <p></p>
+        <div class="container sisalto text-center">
 
-            <h4> Tagit: </h4>
-            <table class="table-striped" style="width: 100%" id="listId">
-                <tr th:each="tagi : ${tagit}">
-                    <td>
-                        <a th:href="@{/tagit/{tagi}(tagi=${tagi.nimi})}"><span th:text="${tagi.nimi}">nimi</span></a>
-                    </td>
-                </tr>
-            </table>
-            <p></p>
-            <a th:href="@{/podcastvinkit}">Takaisin vinkkilistaukseen</a>
+            <h2>Lisää podcastille tagi</h2>
+
+            <form method="POST" action="lisaa_podcastille_tagi">
+                <div class="form-group">
+                    <label for="tagi">Tagi:</label>
+                    <input type="text" name="tagi" />
+                </div>
+                <input type="submit" value="Lisää tagi!" name="lisaatagi" class="btn btn-default"/>
+            </form>
+
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
