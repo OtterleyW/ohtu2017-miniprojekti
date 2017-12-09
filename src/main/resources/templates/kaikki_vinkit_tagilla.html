@@ -41,36 +41,40 @@
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
-
+        
         <div class="container sisalto">
-            <h2> Kirjan info </h2>
-            <div>
-                <p>Kirjan nimi: <span th:text="${kirja.otsikko}">otsikko</span></p>
-                <p>Kirjoittaja: <span th:text="${kirja.kirjoittaja}">kirjoittaja</span></p>
-                <p>Kuvaus: <span th:text="${kirja.kuvaus}">kuvaus</span></p>
-            </div>
-            <td>
-                <a th:href="@{/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
-            </td>
-            <td>
-                <a th:href="@{/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
-            </td>
-            <td>
-                <a th:href="@{/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
-            </td>
-            <p></p>
+            <h2>Tagiin liittyvät kirjat</h2>
 
-            <h4> Tagit: </h4>
             <table class="table-striped" style="width: 100%" id="listId">
-                <tr th:each="tagi : ${tagit}">
+                <tr th:each="kirja : ${kirjat}">
                     <td>
-                        <a th:href="@{/tagit/{tagi}(tagi=${tagi.nimi})}"><span th:text="${tagi.nimi}">nimi</span></a>
+                        <span th:text="${kirja.otsikko}">otsikko</span>
+                    </td>
+                    <td>
+                        <span th:text=" kirjoittajalta "></span>
+                        <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
                     </td>
                 </tr>
             </table>
 
-            <p></p>
-            <a th:href="@{/vinkit}">Takaisin vinkkilistaukseen</a>
+
+            <p><hr /></p>        
+
+            <h2>Tagiin liittyvät videot</h2>
+
+            <table class="table-striped" style="width: 100%" id="listId">
+                <tr th:each="video : ${videot}">
+                    <td>
+                        <span th:text="${video.otsikko}">otsikko</span>
+                    </td>
+                    <td>
+                        <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                    </td>
+                </tr>
+            </table>
+
+            <p><hr /></p> 
+
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

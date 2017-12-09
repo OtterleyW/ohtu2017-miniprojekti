@@ -224,4 +224,30 @@ public class KirjaDao {
 
         return tagit;
     }
+
+    public List<Kirja> kaikkiVinkitTagilla(String taginNimi) throws SQLException {
+        List<Kirja> kirjat = new ArrayList();
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja WHERE Kirja.id IN (SELECT kirja_id FROM kirjatag WHERE tag_id IN (SELECT id FROM Tag WHERE nimi = ? ))");
+        stmt.setString(1, taginNimi);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String kirjoittaja = rs.getString("kirjoittaja");
+            String otsikko = rs.getString("otsikko");
+            String onkoLuettu = rs.getString("luettu");
+            String kuvaus = rs.getString("kuvaus");
+
+            Kirja kirja = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
+            kirja.setId(id);
+            kirjat.add(kirja);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return kirjat;
+    }
 }

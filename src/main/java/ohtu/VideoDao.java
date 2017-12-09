@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -223,5 +224,32 @@ public class VideoDao {
         conn.close();
 
         return tagit;
+    }
+
+    public List<Video> kaikkiVinkitTagilla(String taginNimi) throws Exception {
+        List<Video> videot = new ArrayList();
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Video WHERE Video.id IN (SELECT video_id FROM videotag WHERE tag_id IN (SELECT id FROM Tag WHERE nimi = ? ))");
+        stmt.setString(1, taginNimi);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            String id = rs.getString("id");
+            String otsikko = rs.getString("otsikko");
+            String url = rs.getString("url");
+            String onkoLuettu = rs.getString("luettu");
+            String kuvaus = rs.getString("kuvaus");
+
+            Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
+            video.setId(id);
+
+            videot.add(video);
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return videot;
     }
 }

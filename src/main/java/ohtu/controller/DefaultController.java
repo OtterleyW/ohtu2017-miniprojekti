@@ -10,18 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import ohtu.Kirja;
 import ohtu.PodcastDao;
+import ohtu.TagDao;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class DefaultController {
-    
+
     private KirjaDao kirjaDao;
     private VideoDao videoDao;
     private PodcastDao podcastDao;
-    
+    private TagDao tagDao;
+
     public DefaultController() {
         this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
         this.videoDao = new VideoDao("jdbc:sqlite:kirjasto.db");
         this.podcastDao = new PodcastDao("jdbc:sqlite:kirjasto.db");
+        this.tagDao = new TagDao("jdbc:sqlite:kirjasto.db");
     }
 
     @GetMapping("/")
@@ -38,11 +42,22 @@ public class DefaultController {
         if (hakusana == null || hakusana.trim().isEmpty()) {
             return "redirect:/";
         }
-        
+
         model.addAttribute("kirjat", kirjaDao.haeHakusanaaVastaavat(hakusana));
         model.addAttribute("videot", videoDao.haeHakusanaaVastaavat(hakusana));
         model.addAttribute("podcastit", podcastDao.haeHakusanaaVastaavat(hakusana));
 
         return "index";
+    }
+
+    @GetMapping("/tagit/{tagi}")
+    public String kaikkiVinkitTagilla(Model model, @PathVariable String tagi) throws Exception {
+        try {
+            model.addAttribute("kirjat", kirjaDao.kaikkiVinkitTagilla(tagi));
+            model.addAttribute("videot", videoDao.kaikkiVinkitTagilla(tagi));
+        } catch (Exception ex) {
+            return "error";
+        }
+        return "kaikki_vinkit_tagilla";
     }
 }

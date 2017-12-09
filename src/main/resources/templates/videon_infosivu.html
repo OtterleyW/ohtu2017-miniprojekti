@@ -64,7 +64,7 @@
             <table class="table-striped" style="width: 100%" id="listId">
                 <tr th:each="tagi : ${tagit}">
                     <td>
-                        <span th:text="${tagi.nimi}">nimi</span>
+                        <a th:href="@{/tagit/{tagi}(tagi=${tagi.nimi})}"><span th:text="${tagi.nimi}">nimi</span></a>
                     </td>
                 </tr>
             </table>
