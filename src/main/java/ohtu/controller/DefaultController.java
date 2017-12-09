@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import ohtu.Kirja;
 import ohtu.PodcastDao;
-import ohtu.TagDao;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
@@ -19,13 +18,12 @@ public class DefaultController {
     private KirjaDao kirjaDao;
     private VideoDao videoDao;
     private PodcastDao podcastDao;
-    private TagDao tagDao;
+  
 
     public DefaultController() {
         this.kirjaDao = new KirjaDao("jdbc:sqlite:kirjasto.db");
         this.videoDao = new VideoDao("jdbc:sqlite:kirjasto.db");
         this.podcastDao = new PodcastDao("jdbc:sqlite:kirjasto.db");
-        this.tagDao = new TagDao("jdbc:sqlite:kirjasto.db");
     }
 
     @GetMapping("/")
