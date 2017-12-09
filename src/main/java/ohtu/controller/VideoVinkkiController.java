@@ -56,6 +56,15 @@ public class VideoVinkkiController {
 
     @GetMapping("/{id}/muokkaavideota")
     public String muokkaaVideota(Model model, @PathVariable String id) throws Exception {
+        return videonMuokkaaminen(model, id);
+    }
+
+    @GetMapping("/e/{id}/muokkaavideota")
+    public String muokkaaVideotaEtusivulta(Model model, @PathVariable String id) throws Exception {
+        return videonMuokkaaminen(model, id);
+    }
+
+    private String videonMuokkaaminen(Model model, String id) throws Exception {
         try {
             Video v = videoDao.haeVideo(id);
             tarkistaOnkoViestia(model);
@@ -109,8 +118,35 @@ public class VideoVinkkiController {
         return new RedirectView("/" + id + "/muokkaavideota");
     }
 
+    @PostMapping("/e/{id}/muokkaa_videota")
+    @ResponseBody
+    public RedirectView muokkaaVideotaTietokantaanEtusivulta(@PathVariable String id, @RequestParam(value = "otsikko") String otsikko, @RequestParam(value = "url") String url, @RequestParam(value = "kuvaus") String kuvaus) {
+        Boolean muokattu = false;
+        try {
+            muokattu = videoDao.muokkaaVideota(id, otsikko, url, kuvaus);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        if (muokattu) {
+            viesti = "Muokattu video " + otsikko + " url " + url + "!";
+            return new RedirectView("/");
+        }
+
+        viesti = "Videon nimi tai url ei voi olla tyhjä!";
+        return new RedirectView("/" + id + "/muokkaavideota");
+    }
+
     @GetMapping("/{id}/poistavideo")
     public String poistaVideoVarmistus(Model model, @PathVariable String id) throws Exception {
+        return videonPoisto(model, id);
+    }
+
+    @GetMapping("/e/{id}/poistavideo")
+    public String poistaVideoVarmistusEtusivulta(Model model, @PathVariable String id) throws Exception {
+        return videonPoisto(model, id);
+    }
+
+    private String videonPoisto(Model model, String id) throws Exception {
         try {
             Video v = videoDao.haeVideo(id);
             model.addAttribute("video", v);
@@ -132,6 +168,20 @@ public class VideoVinkkiController {
         }
         viesti = "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ".";
         return new RedirectView("/videovinkit");
+    }
+
+    @PostMapping("/e/{id}/poista_video")
+    @ResponseBody
+    public RedirectView poistaVideoEtusivulta(@PathVariable String id) throws Exception {
+
+        Video v = videoDao.haeVideo(id);
+        try {
+            videoDao.poistaVideo(id);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        viesti = "Poistettu video " + v.getOtsikko() + ", jonka url on " + v.getUrl() + ".";
+        return new RedirectView("/");
 
     }
 
@@ -150,14 +200,29 @@ public class VideoVinkkiController {
     @GetMapping("/{id}/onko_katsottu")
     public RedirectView merkitseOnkoKatsottu(Model model, @PathVariable String id) throws Exception {
         try {
-            Video v = videoDao.haeVideo(id);
-            v.merkitseLuetuksi();
-            videoDao.muutaOnkoLuettu(v.getLuettu(), id);
+            muutaOnkoKatsottu(model, id);
 
         } catch (Exception ex) {
             return new RedirectView("error");
         }
         return new RedirectView("/videovinkit");
+    }
+
+    @GetMapping("/e/{id}/onko_katsottu")
+    public RedirectView merkitseOnkoKatsottuEtusivulta(Model model, @PathVariable String id) throws Exception {
+        try {
+            muutaOnkoKatsottu(model, id);
+
+        } catch (Exception ex) {
+            return new RedirectView("error");
+        }
+        return new RedirectView("/videovinkit");
+    }
+
+    private void muutaOnkoKatsottu(Model model, String id) throws Exception {
+        Video v = videoDao.haeVideo(id);
+        v.merkitseLuetuksi();
+        videoDao.muutaOnkoLuettu(v.getLuettu(), id);
     }
 
     private void tarkistaOnkoViestia(Model model) {

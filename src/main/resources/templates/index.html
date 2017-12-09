@@ -97,7 +97,7 @@
                             <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
                         </td>
                         <td>
-                            <a th:href="'http://' + ${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                            <a th:href="${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
                         </td>
                         <td>
                             <span th:switch="${video.luettu}"> 
@@ -106,15 +106,15 @@
                             </span>
                         </td>
                         <td>
-                            <a th:href="@{/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                            <a th:href="@{/e/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                         </td>
                         <td>
-                            <a th:href="@{/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
+                            <a th:href="@{/e/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
                         </td>
                         <td>
                             <span th:switch="${video.luettu}"> 
-                                <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
-                                <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
                             </span>
                         </td>
                     </tr>
@@ -126,10 +126,10 @@
                 <table class="table-striped" style="width: 100%">
                     <tr th:each="podcast : ${podcastit}">
                         <td>
-                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.url}">tiedot</span></a>
+                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tiedot</span></a>
                         </td>
                         <td>
-                            <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
+                            <a th:href="${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
                         </td>
                         <td>
                             <span th:switch="${podcast.luettu}"> 
@@ -138,15 +138,15 @@
                             </span>
                         </td>
                         <td>
-                            <a th:href="@{/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                            <a th:href="@{/e/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                         </td>
                         <td>
-                            <a th:href="@{/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
+                            <a th:href="@{/e/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
                         </td>
                         <td>
                             <span th:switch="${podcast.luettu}"> 
-                                <span th:case="0"><a th:href="@{/{id}/onko_katsottu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
-                                <span th:case="1"><a th:href="@{/{id}/onko_katsottu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_katsottu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_katsottu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
                             </span>
                         </td>
                     </tr>
