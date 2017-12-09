@@ -92,7 +92,10 @@
                             </span>
                         </td>
                     </tr>
-                    
+                </table>
+                <p>&nbsp;</p>
+                
+                <table class="table-striped" style="width: 100%">
                     <tr th:each="kirja : ${luetut_kirjat}">
                         <td>
                             <a th:href="@{/kirja/{id}/info(id=${kirja.id})}"><span th:text="${kirja.otsikko}">otsikko</span></a>
@@ -152,7 +155,11 @@
                             </span>
                         </td>
                     </tr>
-                    
+                </table>
+                
+                <p>&nbsp;</p>
+                
+                <table class="table-striped" style="width: 100%">
                     <tr th:each="video : ${katsotut_videot}">
                         <td>
                             <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
@@ -211,6 +218,11 @@
                             </span>
                         </td>
                     </tr>
+                </table>
+                
+                <p>&nbsp;</p>
+                
+                <table class="table-striped" style="width: 100%">
                     <tr th:each="podcast : ${kuunnellut_podcastit}">
                         <td>
                             <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tiedot</span></a>
