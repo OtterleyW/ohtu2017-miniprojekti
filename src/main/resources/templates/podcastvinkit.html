@@ -54,10 +54,10 @@
             <table class="table-striped" style="width: 100%">
                 <tr th:each="podcast : ${podcastit}">
                     <td>
-                        <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.url}">tiedot</span></a>
+                        <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tiedot</span></a>
                     </td>
                     <td>
-                        <a th:href="'http://' + ${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
+                        <a th:href="${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
                     </td>
                     <td>
                         <span th:switch="${podcast.luettu}"> 
