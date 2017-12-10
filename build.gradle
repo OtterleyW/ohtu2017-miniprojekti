@@ -12,6 +12,7 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'application'
 apply plugin: 'jacoco'
+apply plugin: 'eclipse'
 
 logging.captureStandardOutput LogLevel.QUIET
 
