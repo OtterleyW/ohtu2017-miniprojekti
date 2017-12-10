@@ -36,23 +36,10 @@ public class KirjaDao {
     }
 
     public List<Kirja> haeKirjat() throws Exception {
-        List<Kirja> kirjat = new ArrayList();
-
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Kirja");
 
-        while (rs.next()) {
-            String id = rs.getString("id");
-            String kirjoittaja = rs.getString("kirjoittaja");
-            String otsikko = rs.getString("otsikko");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
-            k.setId(id);
-
-            kirjat.add(k);
-        }
+        List<Kirja> kirjat = lataaKirjatResultSetista(rs);
 
         rs.close();
         conn.close();
@@ -128,28 +115,13 @@ public class KirjaDao {
     }
 
     public List<Kirja> haeLuettuStatuksenPerusteella(String luettu) throws Exception {
-        List<Kirja> kirjat = new ArrayList();
-
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja WHERE luettu = ?");
         stmt.setObject(1, luettu);
 
         ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            if (luettu.equals(rs.getString("luettu"))) {
-                String id = rs.getString("id");
-                String kirjoittaja = rs.getString("kirjoittaja");
-                String otsikko = rs.getString("otsikko");
-                String onkoLuettu = rs.getString("luettu");
-                String kuvaus = rs.getString("kuvaus");
-
-                Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
-                k.setId(id);
-
-                kirjat.add(k);
-            }
-        }
+        List<Kirja> kirjat = lataaKirjatResultSetista(rs);
 
         rs.close();
         stmt.close();
@@ -244,13 +216,24 @@ public class KirjaDao {
     }
 
     public List<Kirja> kaikkiVinkitTagilla(String taginNimi) throws SQLException {
-        List<Kirja> kirjat = new ArrayList();
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kirja WHERE Kirja.id IN (SELECT kirja_id FROM kirjatag WHERE tag_id IN (SELECT id FROM Tag WHERE nimi = ? ))");
         stmt.setString(1, taginNimi);
         ResultSet rs = stmt.executeQuery();
+        
+        List<Kirja> kirjat = lataaKirjatResultSetista(rs);
 
-        while (rs.next()) {
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return kirjat;
+    }
+    
+    private List<Kirja> lataaKirjatResultSetista(ResultSet rs) throws SQLException {
+    	List<Kirja> kirjat = new ArrayList();
+    	
+    	while (rs.next()) {
             String id = rs.getString("id");
             String kirjoittaja = rs.getString("kirjoittaja");
             String otsikko = rs.getString("otsikko");
@@ -261,11 +244,7 @@ public class KirjaDao {
             kirja.setId(id);
             kirjat.add(kirja);
         }
-
-        rs.close();
-        stmt.close();
-        conn.close();
-
-        return kirjat;
+    	
+    	return kirjat;
     }
 }
