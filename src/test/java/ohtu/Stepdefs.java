@@ -133,15 +133,15 @@ public class Stepdefs {
         Thread.sleep(1000);
     }
 
-    @When("^button Lisaa tagi is selected and user has entered tag \"([^\"]*)\"$")
-    public void button_Lisaa_tagi_is_selected_and_user_has_entered_tag(String tag) throws Throwable {
-        WebElement element = driver.findElement(By.name("tagi"));
-        element.sendKeys(tag);
-        Thread.sleep(1000);
-        element = driver.findElement(By.cssSelector("input[type='submit']"));
-        element.click();
-        Thread.sleep(1000);
-    }
+//    @When("^button Lisaa tagi is selected and user has entered tag \"([^\"]*)\"$")
+//    public void button_Lisaa_tagi_is_selected_and_user_has_entered_tag(String tag) throws Throwable {
+//        WebElement element = driver.findElement(By.name("tagi"));
+//        element.sendKeys(tag);
+//        Thread.sleep(1000);
+//        element = driver.findElement(By.cssSelector("input[type='submit']"));
+//        element.click();
+//        Thread.sleep(1000);
+//    }
 
     @When("^user click element lisaa$")
     public void user_click_element_lisaa() throws Throwable {
@@ -255,11 +255,11 @@ public class Stepdefs {
         Thread.sleep(1000);
     }
 
-    @Then("^new tag is added$")
-    public void new_tag_is_added() throws Throwable {
-        pageHasContent("omena");
-
-    }
+//    @Then("^new tag is added$")
+//    public void new_tag_is_added() throws Throwable {
+//        pageHasContent("omena");
+//
+//    }
 
     @Then("^new podcast is added$")
     public void new_podcast_is_added() throws Throwable {
