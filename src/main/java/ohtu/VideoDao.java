@@ -194,16 +194,32 @@ public class VideoDao {
     public void lisaaTagi(String videoId, String tagi) throws Exception {
 
         Connection conn = DriverManager.getConnection(tietokantaosoite);
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Tag(nimi) "
-                + "VALUES ( ? )");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Tag WHERE nimi = ?");
         stmt.setString(1, tagi);
-        stmt.execute();
-        stmt = conn.prepareStatement("INSERT INTO videotag (video_id, tag_id) "
-                + "VALUES ( ? , (SELECT id FROM Tag ORDER BY id DESC LIMIT 1))");
-        stmt.setString(1, videoId);
-        stmt.execute();
-        stmt.close();
-        conn.close();
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.isBeforeFirst()) {
+            String tagid = rs.getString("id");
+
+            stmt = conn.prepareStatement("INSERT INTO videotag (video_id, tag_id) "
+                    + "VALUES ( ? , ?)");
+            stmt.setString(1, videoId);
+            stmt.setString(2, tagid);
+            stmt.execute();
+            stmt.close();
+            conn.close();
+        } else {
+            stmt = conn.prepareStatement("INSERT INTO Tag(nimi) "
+                    + "VALUES ( ? )");
+            stmt.setString(1, tagi);
+            stmt.execute();
+            stmt = conn.prepareStatement("INSERT INTO videotag (video, tag_id) "
+                    + "VALUES ( ? , (SELECT id FROM Tag ORDER BY id DESC LIMIT 1))");
+            stmt.setString(1, videoId);
+            stmt.execute();
+            stmt.close();
+            conn.close();
+        }
 
     }
 
