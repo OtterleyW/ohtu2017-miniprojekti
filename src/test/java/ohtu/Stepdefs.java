@@ -137,7 +137,7 @@ public class Stepdefs {
     public void button_Lisaa_tagi_is_selected_and_user_has_entered_tag(String tag) throws Throwable {
         pageHasContent("Lisää kirjalle tagi");
         WebElement element = driver.findElement(By.name("tagi"));
-        element.sendKeys("omena");
+        element.sendKeys(tag);
         Thread.sleep(1000);
         element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
