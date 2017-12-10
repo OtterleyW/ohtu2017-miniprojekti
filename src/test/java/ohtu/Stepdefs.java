@@ -33,6 +33,15 @@ public class Stepdefs {
 
     }
 
+    @Given("user has selected Lisaa tagi")
+    public void user_has_selected_Lisaa_tagi() throws Throwable {
+        driver.get("http://localhost:8080");
+        WebElement element = driver.findElement(By.partialLinkText("Lisää tagi"));
+        element.click();
+        Thread.sleep(1000);
+
+    }
+
     @Given("^command lisaapodcast is selected$")
     public void command_lisaapodcast_is_selected() throws Throwable {
         driver.get("http://localhost:8080");
@@ -114,6 +123,25 @@ public class Stepdefs {
     @Given("^user goes to the search$")
     public void go_to_search() throws Throwable {
         driver.get("http://localhost:8080/");
+    }
+
+    @When("^button Lisaa tagi is selected$")
+    public void button_Lisaa_tagi_is_selected() throws Throwable {
+        pageHasContent("Lisää kirjalle tagi");
+        WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(1000);
+    }
+
+    @When("^button Lisaa tagi is selected and user has entered tag \"([^\"]*)\"$")
+    public void button_Lisaa_tagi_is_selected_and_user_has_entered_tag(String tag) throws Throwable {
+        pageHasContent("Lisää kirjalle tagi");
+        WebElement element = driver.findElement(By.name("tagi"));
+        element.sendKeys("omena");
+        Thread.sleep(1000);
+        element = driver.findElement(By.cssSelector("input[type='submit']"));
+        element.click();
+        Thread.sleep(1000);
     }
 
     @When("^user click element lisaa$")
@@ -226,6 +254,12 @@ public class Stepdefs {
         element = driver.findElement(By.cssSelector("input[type='submit']"));
         element.click();
         Thread.sleep(1000);
+    }
+
+    @Then("^new tag is added$")
+    public void new_tag_is_added() throws Throwable {
+        pageHasContent("omena");
+
     }
 
     @Then("^new podcast is added$")
