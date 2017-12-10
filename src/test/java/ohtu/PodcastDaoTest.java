@@ -27,7 +27,7 @@ public class PodcastDaoTest {
 
     @Before
     public void setUp() {
-        dao = new PodcastDao("jdbc:sqlite:testikanta.db");
+        dao = new PodcastDao("jdbc:sqlite:kirjasto.db");
     }
 
     @After
