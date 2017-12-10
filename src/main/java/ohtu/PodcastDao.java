@@ -80,6 +80,9 @@ public class PodcastDao {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Podcast WHERE id = ?");
         stmt.setString(1, id);
         stmt.execute();
+        stmt = conn.prepareStatement("DELETE FROM podcasttag WHERE podcast_id = ?");
+        stmt.setString(1, id);
+        stmt.execute();
         stmt.close();
         conn.close();
     }
@@ -187,7 +190,7 @@ public class PodcastDao {
 
         return podcastit;
     }
-    
+
     public void lisaaTagi(String podcastId, String tagi) throws Exception {
 
         Connection conn = DriverManager.getConnection(tietokantaosoite);
@@ -239,7 +242,7 @@ public class PodcastDao {
             String tekija = rs.getString("tekija");
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
-            
+
             Podcast p = new Podcast(url, tekija, onkoLuettu, kuvaus);
             p.setId(id);
             podcastit.add(p);

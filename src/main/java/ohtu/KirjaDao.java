@@ -80,6 +80,9 @@ public class KirjaDao {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kirja WHERE id = ?");
         stmt.setString(1, id);
         stmt.execute();
+        stmt = conn.prepareStatement("DELETE FROM kirjatag WHERE kirja_id = ?");
+        stmt.setString(1, id);
+        stmt.execute();
         stmt.close();
         conn.close();
     }

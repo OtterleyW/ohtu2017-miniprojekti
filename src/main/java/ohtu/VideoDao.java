@@ -80,6 +80,9 @@ public class VideoDao {
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Video WHERE id = ?");
         stmt.setString(1, id);
         stmt.execute();
+        stmt = conn.prepareStatement("DELETE FROM videotag WHERE video_id = ?");
+        stmt.setString(1, id);
+        stmt.execute();
         stmt.close();
         conn.close();
     }
