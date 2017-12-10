@@ -135,7 +135,6 @@ public class Stepdefs {
 
     @When("^button Lisaa tagi is selected and user has entered tag \"([^\"]*)\"$")
     public void button_Lisaa_tagi_is_selected_and_user_has_entered_tag(String tag) throws Throwable {
-        pageHasContent("Lisää kirjalle tagi");
         WebElement element = driver.findElement(By.name("tagi"));
         element.sendKeys(tag);
         Thread.sleep(1000);
