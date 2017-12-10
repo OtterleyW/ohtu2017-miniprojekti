@@ -42,12 +42,14 @@
             </div><!-- /.container-fluid -->
         </nav>
         <div class="container sisalto">
+
             <div th:if="${viesti}">
                 <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
+                    <span th:text="${viesti}">viesti</span>
                 </div>
             </div>
-            <h1>Lisätyt lukuvinkit, joita ei ole vielä luettu</h1>
+
+            <h2 class="text-center">Kirjavinkit (ei-luetut)</h2>
 
             <table class="table-striped" style="width: 100%" id="listId">
                 <tr th:each="kirja : ${lukemattomat}">
@@ -77,12 +79,9 @@
                         </span>
                     </td>
                 </tr>
-            </table>
+            </table>       
 
-
-            <p><hr /></p>        
-
-            <h1>Luetut lukuvinkit</h1>
+            <h2 class="text-center">Kirjavinkit (luetut)</h2>
 
             <table class="table-striped" style="width: 100%" id="listId2">
                 <tr th:each="kirja : ${luetut}">
@@ -115,7 +114,8 @@
             </table>
 
 
-            <a th:href="@{/}">Takaisin pääsivulle</a>
+            <br /><p><a th:href="@{/}">Takaisin pääsivulle</a></p>
+
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

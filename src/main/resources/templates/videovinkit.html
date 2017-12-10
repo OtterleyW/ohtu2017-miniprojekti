@@ -43,13 +43,14 @@
         </nav>
 
         <div class="container sisalto">
-            <h2 class="text-center">Lisätyt videovinkit</h2>
 
             <div th:if="${viesti}">
                 <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
+                    <span th:text="${viesti}">viesti</span>
                 </div>
             </div>
+
+            <h2 class="text-center">Videovinkit (ei-katsotut)</h2>
 
             <table class="table-striped" style="width: 100%">
                 <tr th:each="video : ${videot}">
@@ -80,7 +81,7 @@
                 </tr>
             </table>
 
-            <h2 class="text-center">Katsotut videovinkit</h2>
+            <h2 class="text-center">Videovinkit (katsotut)</h2>
 
             <table class="table-striped" style="width: 100%">
                 <tr th:each="video : ${katsotutVideot}">

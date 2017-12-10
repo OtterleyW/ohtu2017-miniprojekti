@@ -43,13 +43,14 @@
         </nav>
 
         <div class="container sisalto">
-            <h2 class="text-center">Lisätyt podcastvinkit</h2>
 
             <div th:if="${viesti}">
                 <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
+                    <span th:text="${viesti}">viesti</span>
                 </div>
             </div>
+
+            <h2 class="text-center">Podcastvinkit (ei-kuunnellut)</h2>
 
             <table class="table-striped" style="width: 100%">
                 <tr th:each="podcast : ${podcastit}">
@@ -80,7 +81,7 @@
                 </tr>
             </table>
 
-            <h2 class="text-center">Kuunnellut podcastvinkit</h2>
+            <h2 class="text-center">Podcastvinkit (kuunnellut)</h2>
 
             <table class="table-striped" style="width: 100%">
                 <tr th:each="podcast : ${kuunnellutPodcastit}">
