@@ -115,6 +115,15 @@ public class KirjaVinkkiController {
 
     @GetMapping("/{id}/lisaatagi")
     public String lisaaTagi(Model model, @PathVariable String id) throws Exception {
+        return taginLisays(model, id);
+    }
+    
+    @GetMapping("/e/{id}/lisaatagi")
+    public String lisaaTagiEtusivulta(Model model, @PathVariable String id) throws Exception {
+       return taginLisays(model, id);
+    }
+    
+    private String taginLisays(Model model, String id){
         try {
             Kirja k = kirjaDao.haeKirja(id);
             model.addAttribute("kirja", k);
@@ -135,6 +144,20 @@ public class KirjaVinkkiController {
             return new RedirectView("/error");
         }
         return new RedirectView("/kirja/" + id + "/info");
+
+    }
+    
+    @PostMapping("/e/{id}/lisaa_kirjalle_tagi")
+    @ResponseBody
+    public RedirectView lisaaTagiTietokantaanEtusivulta(@PathVariable String id, @RequestParam(value = "tagi") String tagi) throws Exception {
+
+        Kirja k = kirjaDao.haeKirja(id);
+        try {
+            kirjaDao.lisaaTagi(id, tagi);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/");
 
     }
 

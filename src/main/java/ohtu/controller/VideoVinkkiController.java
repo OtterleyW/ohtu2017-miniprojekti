@@ -77,6 +77,15 @@ public class VideoVinkkiController {
 
     @GetMapping("/{id}/lisaavideolletagi")
     public String lisaaTagi(Model model, @PathVariable String id) throws Exception {
+        return taginLisays(model, id);
+    }
+    
+    @GetMapping("/e/{id}/lisaavideolletagi")
+    public String lisaaTagiEtusivulta(Model model, @PathVariable String id) throws Exception {
+        return taginLisays(model, id);
+    }
+    
+    private String taginLisays(Model model, String id) throws Exception{
         try {
             Video v = videoDao.haeVideo(id);
             model.addAttribute("video", v);
@@ -85,6 +94,7 @@ public class VideoVinkkiController {
         }
         return "lisaa_videolle_tagi";
     }
+
 
     @PostMapping("/{id}/lisaa_videolle_tagi")
     @ResponseBody
@@ -97,6 +107,20 @@ public class VideoVinkkiController {
             return new RedirectView("/error");
         }
         return new RedirectView("/video/" + id + "/info");
+
+    }
+    
+    @PostMapping("/e/{id}/lisaa_videolle_tagi")
+    @ResponseBody
+    public RedirectView lisaaTagiTietokantaanEtusivulta(@PathVariable String id, @RequestParam(value = "tagi") String tagi) throws Exception {
+
+        Video v = videoDao.haeVideo(id);
+        try {
+            videoDao.lisaaTagi(id, tagi);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/");
 
     }
 

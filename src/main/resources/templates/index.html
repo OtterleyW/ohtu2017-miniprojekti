@@ -55,7 +55,7 @@
                     <input type="text" name="hakusana"/>
                     <input type="submit" value="Hae!"/>
                 </form>
-                
+
                 <div th:if="${viesti}">
                     <div class="alert alert-info" role="alert">
                         <span th:text="${viesti}">otsikko</span>
@@ -83,6 +83,9 @@
                             <a th:href="@{/e/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                         </td>
                         <td>
+                            <a th:href="@{/e/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
                             <a th:href="@{/e/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
                         </td>
                         <td>
@@ -94,7 +97,7 @@
                     </tr>
                 </table>
                 <p>&nbsp;</p>
-                
+
                 <table class="table-striped" style="width: 100%">
                     <tr th:each="kirja : ${luetut_kirjat}">
                         <td>
@@ -112,6 +115,9 @@
                         </td>
                         <td>
                             <a th:href="@{/e/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
                         </td>
                         <td>
                             <a th:href="@{/e/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
@@ -146,6 +152,9 @@
                             <a th:href="@{/e/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                         </td>
                         <td>
+                            <a th:href="@{/e/{id}/lisaavideolletagi(id=${video.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
                             <a th:href="@{/e/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
                         </td>
                         <td>
@@ -156,9 +165,9 @@
                         </td>
                     </tr>
                 </table>
-                
+
                 <p>&nbsp;</p>
-                
+
                 <table class="table-striped" style="width: 100%">
                     <tr th:each="video : ${katsotut_videot}">
                         <td>
@@ -175,6 +184,9 @@
                         </td>
                         <td>
                             <a th:href="@{/e/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaavideolletagi(id=${video.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
                         </td>
                         <td>
                             <a th:href="@{/e/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
@@ -209,6 +221,9 @@
                             <a th:href="@{/e/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
                         </td>
                         <td>
+                            <a th:href="@{/e/{id}/lisaapodcastilletagi(id=${podcast.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
                             <a th:href="@{/e/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
                         </td>
                         <td>
@@ -219,9 +234,9 @@
                         </td>
                     </tr>
                 </table>
-                
+
                 <p>&nbsp;</p>
-                
+
                 <table class="table-striped" style="width: 100%">
                     <tr th:each="podcast : ${kuunnellut_podcastit}">
                         <td>
@@ -238,6 +253,9 @@
                         </td>
                         <td>
                             <a th:href="@{/e/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaapodcastilletagi(id=${podcast.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
                         </td>
                         <td>
                             <a th:href="@{/e/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
