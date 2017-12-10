@@ -197,7 +197,7 @@ public class Stepdefs {
 
     @When("^page has list of all books and command Takaisin sivulle is selected$")
     public void all_existing_books_are_listed() throws Throwable {
-        pageHasContent("Lisätyt lukuvinkit");
+        pageHasContent("Kirjavinkit");
         WebElement element = driver.findElement(By.id("listId"));
         List<WebElement> kirjaLista = driver.findElements(By.tagName("td"));
         element = driver.findElement(By.linkText("Takaisin pääsivulle"));
@@ -245,7 +245,7 @@ public class Stepdefs {
 
     @Then("^user is redirected to listing page$")
     public void user_is_redirected_to_listing_page() throws Throwable {
-        pageHasContent("Lisätyt lukuvinkit");
+        pageHasContent("Kirjavinkit");
     }
 
     @Then("^selected book is deleted$")
