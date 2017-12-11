@@ -173,14 +173,29 @@ public class PodcastDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
+            boolean loytyiOmistaTiedoista = false;
+
             if ((tekija != null && tekija.toLowerCase().contains(haku))
                     || (kuvaus != null && kuvaus.toLowerCase().contains(haku))
                     || (url != null && url.toLowerCase().contains(haku))) {
 
+                loytyiOmistaTiedoista = true;
                 Podcast podcast = new Podcast(url, tekija, onkoLuettu, kuvaus);
                 podcast.setId(id);
-
                 podcastit.add(podcast);
+            }
+
+            if (!loytyiOmistaTiedoista) {
+                List<Tag> tagit = haeTagitPodcastinIdnPerusteella(id);
+
+                for (Tag tag : tagit) {
+                    if (tag.getNimi().toLowerCase().contains(haku)) {
+                        Podcast podcast = new Podcast(url, tekija, onkoLuettu, kuvaus);
+                        podcast.setId(id);
+                        podcastit.add(podcast);
+                        break;
+                    }
+                }
             }
         }
 

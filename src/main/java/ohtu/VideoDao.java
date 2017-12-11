@@ -75,7 +75,7 @@ public class VideoDao {
         return video;
     }
 
-    public void poistaVideo(String id) throws Exception {        
+    public void poistaVideo(String id) throws Exception {
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Video WHERE id = ?");
         stmt.setString(1, id);
@@ -173,14 +173,29 @@ public class VideoDao {
             String onkoLuettu = rs.getString("luettu");
             String kuvaus = rs.getString("kuvaus");
 
+            boolean loytyiOmistaTiedoista = false;
+
             if ((otsikko != null && otsikko.toLowerCase().contains(haku))
                     || (kuvaus != null && kuvaus.toLowerCase().contains(haku))
                     || (url != null && url.toLowerCase().contains(haku))) {
 
+                loytyiOmistaTiedoista = true;
                 Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
                 video.setId(id);
-
                 videot.add(video);
+            }
+
+            if (!loytyiOmistaTiedoista) {
+                List<Tag> tagit = haeTagitVideonIdnPerusteella(id);
+
+                for (Tag tag : tagit) {
+                    if (tag.getNimi().toLowerCase().contains(haku)) {
+                        Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
+                        video.setId(id);
+                        videot.add(video);
+                        break;
+                    }
+                }
             }
         }
 
