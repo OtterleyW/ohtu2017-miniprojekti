@@ -10,7 +10,7 @@ Feature: user can add tag
     When button Lisaa tagi is selected
     Then user is redirect to mainpage
 
-#   Scenario: user suspend action to add tag
-#    Given user has selected Lisaa tagi
-#    When user select link text to Vinkkikirjasto
-#    Then user is redirect to mainpage
+  Scenario: user suspend action to add tag
+    Given user has selected Lisaa tagi
+    When user select link text to Vinkkikirjasto
+    Then user is redirect to mainpage
