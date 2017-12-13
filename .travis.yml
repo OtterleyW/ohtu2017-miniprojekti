@@ -18,7 +18,6 @@ before_install:
 script:
   - ./gradlew check
   - ./gradlew jacocoTestReport
-  - ./.clear_database.sh
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 deploy:
