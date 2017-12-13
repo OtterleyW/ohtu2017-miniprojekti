@@ -19,9 +19,8 @@ script:
   - ./gradlew check
   - ./gradlew jacocoTestReport
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-before_deploy:
   - ./clear_database.sh
+  - bash <(curl -s https://codecov.io/bash)
 deploy:
  provider: heroku
  api-key:
