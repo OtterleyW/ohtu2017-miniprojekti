@@ -1,0 +1,4 @@
+DELETE FROM Kirja;
+DELETE FROM Video;
+DELETE FROM Podcast;
+DELETE FROM Tag;
