@@ -42,14 +42,7 @@ public class KirjaDao {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Kirja");
 
         while (rs.next()) {
-            String id = rs.getString("id");
-            String kirjoittaja = rs.getString("kirjoittaja");
-            String otsikko = rs.getString("otsikko");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
-            k.setId(id);
+            Kirja k = luoKirja(rs);
 
             kirjat.add(k);
         }
@@ -138,15 +131,7 @@ public class KirjaDao {
 
         while (rs.next()) {
             if (luettu.equals(rs.getString("luettu"))) {
-                String id = rs.getString("id");
-                String kirjoittaja = rs.getString("kirjoittaja");
-                String otsikko = rs.getString("otsikko");
-                String onkoLuettu = rs.getString("luettu");
-                String kuvaus = rs.getString("kuvaus");
-
-                Kirja k = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
-                k.setId(id);
-
+                Kirja k = luoKirja(rs);
                 kirjat.add(k);
             }
         }
@@ -267,14 +252,7 @@ public class KirjaDao {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            String id = rs.getString("id");
-            String kirjoittaja = rs.getString("kirjoittaja");
-            String otsikko = rs.getString("otsikko");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Kirja kirja = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
-            kirja.setId(id);
+            Kirja kirja = luoKirja(rs);
             kirjat.add(kirja);
         }
 
@@ -283,5 +261,17 @@ public class KirjaDao {
         conn.close();
 
         return kirjat;
+    }
+
+    private Kirja luoKirja(ResultSet rs) throws SQLException {
+        String id = rs.getString("id");
+        String kirjoittaja = rs.getString("kirjoittaja");
+        String otsikko = rs.getString("otsikko");
+        String onkoLuettu = rs.getString("luettu");
+        String kuvaus = rs.getString("kuvaus");
+
+        Kirja kirja = new Kirja(kirjoittaja, otsikko, onkoLuettu, kuvaus);
+        kirja.setId(id);
+        return kirja;
     }
 }

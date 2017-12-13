@@ -42,14 +42,7 @@ public class PodcastDao {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Podcast");
 
         while (rs.next()) {
-            String id = rs.getString("id");
-            String url = rs.getString("url");
-            String tekija = rs.getString("tekija");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Podcast p = new Podcast(url, tekija, onkoLuettu, kuvaus);
-            p.setId(id);
+            Podcast p = luoPodcast(rs);
 
             podcastit.add(p);
         }
@@ -138,15 +131,7 @@ public class PodcastDao {
 
         while (rs.next()) {
             if (kuunneltu.equals(rs.getString("luettu"))) {
-                String id = rs.getString("id");
-                String url = rs.getString("url");
-                String tekija = rs.getString("tekija");
-                String onkoLuettu = rs.getString("luettu");
-                String kuvaus = rs.getString("kuvaus");
-
-                Podcast podcast = new Podcast(url, tekija, onkoLuettu, kuvaus);
-                podcast.setId(id);
-
+                Podcast podcast = luoPodcast(rs);
                 podcastit.add(podcast);
             }
         }
@@ -268,14 +253,7 @@ public class PodcastDao {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            String id = rs.getString("id");
-            String url = rs.getString("url");
-            String tekija = rs.getString("tekija");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Podcast p = new Podcast(url, tekija, onkoLuettu, kuvaus);
-            p.setId(id);
+            Podcast p = luoPodcast(rs);
             podcastit.add(p);
         }
 
@@ -284,5 +262,17 @@ public class PodcastDao {
         conn.close();
 
         return podcastit;
+    }
+
+    private Podcast luoPodcast(ResultSet rs) throws SQLException {
+        String id = rs.getString("id");
+        String url = rs.getString("url");
+        String tekija = rs.getString("tekija");
+        String onkoLuettu = rs.getString("luettu");
+        String kuvaus = rs.getString("kuvaus");
+
+        Podcast p = new Podcast(url, tekija, onkoLuettu, kuvaus);
+        p.setId(id);
+        return p;
     }
 }

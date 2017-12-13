@@ -42,14 +42,7 @@ public class VideoDao {
         ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Video");
 
         while (rs.next()) {
-            String id = rs.getString("id");
-            String otsikko = rs.getString("otsikko");
-            String url = rs.getString("url");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Video v = new Video(otsikko, url, onkoLuettu, kuvaus);
-            v.setId(id);
+            Video v = luoVideo(rs);
 
             videot.add(v);
         }
@@ -138,14 +131,7 @@ public class VideoDao {
 
         while (rs.next()) {
             if (katsottu.equals(rs.getString("luettu"))) {
-                String id = rs.getString("id");
-                String otsikko = rs.getString("otsikko");
-                String url = rs.getString("url");
-                String onkoLuettu = rs.getString("luettu");
-                String kuvaus = rs.getString("kuvaus");
-
-                Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
-                video.setId(id);
+                Video video = luoVideo(rs);
 
                 videot.add(video);
             }
@@ -156,6 +142,18 @@ public class VideoDao {
         conn.close();
 
         return videot;
+    }
+
+    private Video luoVideo(ResultSet rs) throws SQLException {
+        String id = rs.getString("id");
+        String otsikko = rs.getString("otsikko");
+        String url = rs.getString("url");
+        String onkoLuettu = rs.getString("luettu");
+        String kuvaus = rs.getString("kuvaus");
+
+        Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
+        video.setId(id);
+        return video;
     }
 
     public List<Video> haeHakusanaaVastaavat(String hakusana) throws Exception {
@@ -268,15 +266,7 @@ public class VideoDao {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-            String id = rs.getString("id");
-            String otsikko = rs.getString("otsikko");
-            String url = rs.getString("url");
-            String onkoLuettu = rs.getString("luettu");
-            String kuvaus = rs.getString("kuvaus");
-
-            Video video = new Video(otsikko, url, onkoLuettu, kuvaus);
-            video.setId(id);
-
+            Video video = luoVideo(rs);
             videot.add(video);
         }
 
