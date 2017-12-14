@@ -226,7 +226,7 @@ public class VideoDao {
                     + "VALUES ( ? )");
             stmt.setString(1, tagi);
             stmt.execute();
-            stmt = conn.prepareStatement("INSERT INTO videotag (video, tag_id) "
+            stmt = conn.prepareStatement("INSERT INTO videotag (video_id, tag_id) "
                     + "VALUES ( ? , (SELECT id FROM Tag ORDER BY id DESC LIMIT 1))");
             stmt.setString(1, videoId);
             stmt.execute();

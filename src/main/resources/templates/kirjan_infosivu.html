@@ -66,6 +66,9 @@
                     <td>
                         <a th:href="@{/tagit/{tagi}(tagi=${tagi.nimi})}"><span th:text="${tagi.nimi}">nimi</span></a>
                     </td>
+                    <td>
+                        <a th:href="@{/tagit/{tagi}/kirja/{kirja}/poista(tagi=${tagi.id}, kirja=${kirja.id})}">(poista)</a>
+                    </td>
                 </tr>
             </table>
 
