@@ -258,6 +258,17 @@ public class VideoDao {
         return tagit;
     }
 
+    public void poistaVideoltaTagi(String tagiId, String videoId) throws SQLException {
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM videotag WHERE video_id = ? AND tag_id = ?");
+        stmt.setString(1, videoId);
+        stmt.setString(2, tagiId);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+    }
+
     public List<Video> kaikkiVinkitTagilla(String taginNimi) throws Exception {
         List<Video> videot = new ArrayList();
         Connection conn = DriverManager.getConnection(tietokantaosoite);

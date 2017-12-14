@@ -263,6 +263,17 @@ public class KirjaDao {
         return kirjat;
     }
 
+    public void poistaKirjaltaTagi(String tagiId, String kirjaId) throws SQLException {
+        
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM kirjatag WHERE kirja_id = ? AND tag_id = ?");
+        stmt.setString(1, kirjaId);
+        stmt.setString(2, tagiId);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+    }
+
     private Kirja luoKirja(ResultSet rs) throws SQLException {
         String id = rs.getString("id");
         String kirjoittaja = rs.getString("kirjoittaja");

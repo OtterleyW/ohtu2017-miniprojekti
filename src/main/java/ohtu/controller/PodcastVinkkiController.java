@@ -94,6 +94,16 @@ public class PodcastVinkkiController {
         return new RedirectView("/" + id + "/muokkaapodcastia");
     }
 
+    @GetMapping("/tagit/{tagi}/podcast/{podcast}/poista")
+    public RedirectView poistaTagi(@PathVariable String tagi, @PathVariable String podcast) throws Exception {
+        try {
+            podcastDao.poistaPodcastiltaTagi(tagi, podcast);
+        } catch (Exception ex) {
+            return new RedirectView("/error");
+        }
+        return new RedirectView("/podcast/{podcast}/info");
+    }
+
     @PostMapping("/e/{id}/muokkaa_podcastia")
     @ResponseBody
     public RedirectView muokkaaPodcastiaTietokantaanEtusivulta(@PathVariable String id, @RequestParam(value = "url") String url, @RequestParam(value = "tekija") String tekija, @RequestParam(value = "kuvaus") String kuvaus) {

@@ -264,6 +264,17 @@ public class PodcastDao {
         return podcastit;
     }
 
+    public void poistaPodcastiltaTagi(String tagiId, String podcastId) throws SQLException {
+
+        Connection conn = DriverManager.getConnection(tietokantaosoite);
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM podcasttag WHERE podcast_id = ? AND tag_id = ?");
+        stmt.setString(1, podcastId);
+        stmt.setString(2, tagiId);
+        stmt.execute();
+        stmt.close();
+        conn.close();
+    }
+
     private Podcast luoPodcast(ResultSet rs) throws SQLException {
         String id = rs.getString("id");
         String url = rs.getString("url");
