@@ -52,14 +52,17 @@ public class PodcastDaoTest {
         List<Podcast> podcastit = dao.haePodcastit();
 
         boolean lisatty = false;
-
+        String id = "";
+        
         for (Podcast podcast : podcastit) {
-            if (podcast.getUrl().equals(url) && podcast.getTekija().equals(tekija)) {
+            if (podcast.getUrl().equals("http://" + url) && podcast.getTekija().equals(tekija)) {
                 lisatty = true;
+                id = podcast.getId();
             }
         }
 
         assertTrue(lisatty);
+        dao.poistaPodcast(id);
     }
 
     @Test
@@ -109,7 +112,7 @@ public class PodcastDaoTest {
         dao.muokkaaPodcastia(id, "uusi url", "joku tekija", "kuvaus");
         v = dao.haePodcast(id);
 
-        assertEquals(v.getUrl(), "uusi url");
+        assertEquals(v.getUrl(), "http://uusi url");
         assertEquals(v.getTekija(), "joku tekija");
 
         dao.poistaPodcast(id);
@@ -150,6 +153,8 @@ public class PodcastDaoTest {
         assertFalse(dao.muokkaaPodcastia(v.getId(), "", "url", ""));
         assertFalse(dao.muokkaaPodcastia(v.getId(), "otsikko", "", ""));
         assertFalse(dao.muokkaaPodcastia(v.getId(), "", "", ""));
+        
+        dao.poistaPodcast(v.getId());
     }
 
     @Test
@@ -165,15 +170,19 @@ public class PodcastDaoTest {
     }
 
     @Test
-    public void hakusanallaLoytyyVideo() throws Exception {
+    public void hakusanallaLoytyyPodcast() throws Exception {
         List<Podcast> podcastit = new ArrayList();
-        String nimi = "Haettava video";
+        String nimi = "Haettava podcast";
         String url = "www.haku.url";
 
         dao.lisaaPodcast(nimi, url, "");
+        List<Podcast> kaikki = dao.haePodcastit();
+        Podcast v = kaikki.get(kaikki.size() - 1);
 
-        podcastit = dao.haeHakusanaaVastaavat("Haettava");
+        podcastit = dao.haeHakusanaaVastaavat("haettava po");
 
         assertEquals(false, podcastit.isEmpty());
+        
+        dao.poistaPodcast(v.getId());
     }
 }
