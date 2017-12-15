@@ -60,7 +60,7 @@ public class VideoDaoTest {
         boolean lisatty = false;
 
         for (Video video : videot) {
-            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals(url)) {
+            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("http://" + url)) {
                 lisatty = true;
             }
         }
@@ -106,7 +106,6 @@ public class VideoDaoTest {
 
     @Test
     public void muokkaaVideotaToimii() throws Exception {
-
         dao.lisaaVideo("video", "xyz.com", "");
         List<Video> videot = dao.haeVideot();
         Video v = videot.get(videot.size() - 1);
@@ -116,7 +115,7 @@ public class VideoDaoTest {
         v = dao.haeVideo(id);
 
         assertEquals(v.getOtsikko(), "uusi nimi");
-        assertEquals(v.getUrl(), "joku url");
+        assertEquals(v.getUrl(), "http://joku url");
 
         dao.poistaVideo(id);
     }

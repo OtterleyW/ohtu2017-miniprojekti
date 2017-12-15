@@ -63,15 +63,19 @@ public class PodcastVinkkiControllerTest {
         Collection<Podcast> podcastit = (Collection) res.getModelAndView().getModel().get("podcastit");
 
         boolean loytyi = false;
+        String id = "";
 
         for (Podcast podcast : podcastit) {
-            if (podcast.getTekija().equals(tekija) && podcast.getUrl().equals(url)) {
+            if (podcast.getTekija().equals(tekija) && podcast.getUrl().equals("http://" + url)) {
                 loytyi = true;
+                id = podcast.getId();
                 break;
             }
         }
 
         assertTrue(loytyi);
+        
+        podcastDao.poistaPodcast(id);
     }
 
     @Test
@@ -84,7 +88,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast podcast : podcastit) {
-            if (podcast.getTekija().equals(tekija) && podcast.getUrl().equals(url)) {
+            if (podcast.getTekija().equals(tekija) && podcast.getUrl().equals("http://" + url)) {
                 id = podcast.getId();
                 break;
             }
@@ -92,6 +96,8 @@ public class PodcastVinkkiControllerTest {
 
         mockMvc.perform(get("/" + id + "/muokkaapodcastia"))
                 .andExpect(status().isOk());
+        
+        podcastDao.poistaPodcast(id);
     }
 
     @Test
@@ -109,7 +115,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast pod : kuuntelemattomat) {
-            if (pod.getTekija().equals(tekija) && pod.getUrl().equals(url)) {
+            if (pod.getTekija().equals(tekija) && pod.getUrl().equals("http://" + url)) {
                 id = pod.getId();
                 break;
             }
@@ -122,8 +128,10 @@ public class PodcastVinkkiControllerTest {
                 .param("kuvaus", "muokattu kuvaus"));
 
         assertTrue(podcastDao.haePodcast(id).getTekija().equals(uusiTekija)
-                && podcastDao.haePodcast(id).getUrl().equals(uusiUrl)
+                && podcastDao.haePodcast(id).getUrl().equals("http://" + uusiUrl)
                 && podcastDao.haePodcast(id).getKuvaus().equals("muokattu kuvaus"));
+        
+        podcastDao.poistaPodcast(id);
     }
 
     @Test
@@ -136,7 +144,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast pod : kuuntelemattomat) {
-            if (pod.getTekija().equals(tekija) && pod.getUrl().equals(url)) {
+            if (pod.getTekija().equals(tekija) && pod.getUrl().equals("http://" + url)) {
                 id = pod.getId();
                 break;
             }
@@ -148,7 +156,7 @@ public class PodcastVinkkiControllerTest {
         boolean loytyi = false;
 
         for (Podcast pod : podcastDao.haePodcastit()) {
-            if (pod.getTekija().equals(tekija) && pod.getUrl().equals(url)) {
+            if (pod.getTekija().equals(tekija) && pod.getUrl().equals("http://" + url)) {
                 loytyi = true;
             }
         }
@@ -167,7 +175,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast pod : kuuntelemattomat) {
-            if (pod.getUrl().equals(url) && pod.getTekija().equals(tekija)) {
+            if (pod.getUrl().equals("http://" + url) && pod.getTekija().equals(tekija)) {
                 id = pod.getId();
             }
         }
@@ -176,6 +184,8 @@ public class PodcastVinkkiControllerTest {
                 .param("id", id));
 
         assertTrue(podcastDao.haePodcast(id).getLuettu().equals("1"));
+        
+        podcastDao.poistaPodcast(id);
     }
 
     @Test
@@ -189,7 +199,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast pod : kuuntelemattomat) {
-            if (pod.getUrl().equals(url) && pod.getTekija().equals(tekija)) {
+            if (pod.getUrl().equals("http://" + url) && pod.getTekija().equals(tekija)) {
                 id = pod.getId();
             }
         }
@@ -201,6 +211,8 @@ public class PodcastVinkkiControllerTest {
                 .param("id", id));
 
         assertTrue(podcastDao.haePodcast(id).getLuettu().equals("0"));
+        
+        podcastDao.poistaPodcast(id);
     }
 
     @Test
@@ -214,7 +226,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast pod : kuuntelemattomat) {
-            if (pod.getUrl().equals(url) && pod.getTekija().equals(tekija)) {
+            if (pod.getUrl().equals("http://" + url) && pod.getTekija().equals(tekija)) {
                 id = pod.getId();
             }
         }
@@ -222,6 +234,8 @@ public class PodcastVinkkiControllerTest {
         mockMvc.perform(get("/podcast/" + id + "/info")
                 .param("id", id))
                 .andExpect(status().isOk());
+        
+        podcastDao.poistaPodcast(id);
     }
 
     @Test
@@ -235,7 +249,7 @@ public class PodcastVinkkiControllerTest {
         String id = "";
 
         for (Podcast pod : kuuntelemattomat) {
-            if (pod.getUrl().equals(url) && pod.getTekija().equals(tekija)) {
+            if (pod.getUrl().equals("http://" + url) && pod.getTekija().equals(tekija)) {
                 id = pod.getId();
             }
         }
@@ -244,5 +258,7 @@ public class PodcastVinkkiControllerTest {
                 .param("id", id))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("podcast"));
+        
+        podcastDao.poistaPodcast(id);
     }
 }

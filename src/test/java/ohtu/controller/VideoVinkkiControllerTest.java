@@ -64,14 +64,18 @@ public class VideoVinkkiControllerTest {
 
         boolean loytyi = false;
 
+        String id = "";
+        
         for (Video video : videot) {
-            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals(url)) {
+            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("http://" + url)) {
+                id = video.getId();
                 loytyi = true;
                 break;
             }
         }
 
         assertTrue(loytyi);
+        videoDao.poistaVideo(id);
     }
 
     @Test
@@ -83,7 +87,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : videot) {
-            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("www.twitch.tv")) {
+            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("http://www.twitch.tv")) {
                 id = video.getId();
                 break;
             }
@@ -91,6 +95,8 @@ public class VideoVinkkiControllerTest {
 
         mockMvc.perform(get("/" + id + "/muokkaavideota"))
                 .andExpect(status().isOk());
+        
+        videoDao.poistaVideo(id);
     }
 
     @Test
@@ -104,7 +110,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : katsomattomat) {
-            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("www.youtube.com")) {
+            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("http://www.youtube.com")) {
                 id = video.getId();
                 break;
             }
@@ -117,8 +123,10 @@ public class VideoVinkkiControllerTest {
                 .param("kuvaus", "muokattu kuvaus"));
 
         assertTrue(videoDao.haeVideo(id).getOtsikko().equals(uusiOtsikko)
-                && videoDao.haeVideo(id).getUrl().equals("www.uusisaitti.com")
+                && videoDao.haeVideo(id).getUrl().equals("http://www.uusisaitti.com")
                 && videoDao.haeVideo(id).getKuvaus().equals("muokattu kuvaus"));
+        
+        videoDao.poistaVideo(id);
     }
 
     @Test
@@ -132,7 +140,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : katsomattomat) {
-            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals(url)) {
+            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("http://" + url)) {
                 id = video.getId();
                 break;
             }
@@ -144,7 +152,7 @@ public class VideoVinkkiControllerTest {
         boolean loytyi = false;
 
         for (Video video : videoDao.haeVideot()) {
-            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals(url)) {
+            if (video.getOtsikko().equals(otsikko) && video.getUrl().equals("http://" + url)) {
                 loytyi = true;
             }
         }
@@ -163,7 +171,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : katsomattomat) {
-            if (video.getUrl().equals(url) && video.getOtsikko().equals(otsikko)) {
+            if (video.getUrl().equals("http://" + url) && video.getOtsikko().equals(otsikko)) {
                 id = video.getId();
             }
         }
@@ -172,6 +180,7 @@ public class VideoVinkkiControllerTest {
                 .param("id", id));
 
         assertTrue(videoDao.haeVideo(id).getLuettu().equals("1"));
+        videoDao.poistaVideo(id);
     }
 
     @Test
@@ -185,7 +194,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : katsomattomat) {
-            if (video.getUrl().equals(url) && video.getOtsikko().equals(otsikko)) {
+            if (video.getUrl().equals("http://" + url) && video.getOtsikko().equals(otsikko)) {
                 id = video.getId();
             }
         }
@@ -197,6 +206,7 @@ public class VideoVinkkiControllerTest {
                 .param("id", id));
 
         assertTrue(videoDao.haeVideo(id).getLuettu().equals("0"));
+        videoDao.poistaVideo(id);
     }
 
     @Test
@@ -210,7 +220,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : katsomattomat) {
-            if (video.getUrl().equals(url) && video.getOtsikko().equals(otsikko)) {
+            if (video.getUrl().equals("http://" + url) && video.getOtsikko().equals(otsikko)) {
                 id = video.getId();
             }
         }
@@ -218,6 +228,8 @@ public class VideoVinkkiControllerTest {
         mockMvc.perform(get("/video/" + id + "/info")
                 .param("id", id))
                 .andExpect(status().isOk());
+        
+        videoDao.poistaVideo(id);
     }
 
     @Test
@@ -231,7 +243,7 @@ public class VideoVinkkiControllerTest {
         String id = "";
 
         for (Video video : katsomattomat) {
-            if (video.getUrl().equals(url) && video.getOtsikko().equals(otsikko)) {
+            if (video.getUrl().equals("http://" + url) && video.getOtsikko().equals(otsikko)) {
                 id = video.getId();
             }
         }
@@ -240,5 +252,7 @@ public class VideoVinkkiControllerTest {
                 .param("id", id))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("video"));
+        
+        videoDao.poistaVideo(id);
     }
 }

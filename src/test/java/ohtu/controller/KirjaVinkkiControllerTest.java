@@ -62,14 +62,18 @@ public class KirjaVinkkiControllerTest {
         Collection<Kirja> kirjat = (Collection) result.getModelAndView().getModel().get("lukemattomat");
 
         boolean loytyi = false;
+        
+        String id = "";
 
         for (Kirja kirja : kirjat) {
             if (kirja.getKirjoittaja().equals("Kirjoittava Kirjoittaja") && kirja.getOtsikko().equals(otsikko)) {
                 loytyi = true;
+                id = kirja.getId();
             }
         }
 
         assertTrue(loytyi);
+        kirjaDao.poistaKirja(id);
     }
 
     @Test
@@ -89,6 +93,8 @@ public class KirjaVinkkiControllerTest {
 
         mockMvc.perform(get("/" + id + "/muokkaa"))
                 .andExpect(status().isOk());
+        
+        kirjaDao.poistaKirja(id);
     }
 
     @Test
@@ -116,6 +122,8 @@ public class KirjaVinkkiControllerTest {
 
         assertTrue(kirjaDao.haeKirja(id).getKirjoittaja().equals("Minua on muokattu! :)")
                 && kirjaDao.haeKirja(id).getOtsikko().equals(uusiOtsikko));
+        
+        kirjaDao.poistaKirja(id);
     }
 
     @Test
@@ -153,6 +161,8 @@ public class KirjaVinkkiControllerTest {
         }
 
         assertTrue(kirjaDao.haeKirja(id).getLuettu().equals("1") && loytyiLuetuista);
+        
+        kirjaDao.poistaKirja(id);
     }
 
     @Test
@@ -206,6 +216,8 @@ public class KirjaVinkkiControllerTest {
         }
 
         assertTrue(kirjaDao.haeKirja(id).getLuettu().equals("0") && kirjaLoytyiLukemattomista);
+        
+        kirjaDao.poistaKirja(id);
     }
 
     @Test
