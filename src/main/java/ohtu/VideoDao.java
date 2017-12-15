@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import ohtu.utils.ValidatorUtils;
 
 public class VideoDao {
 
@@ -17,15 +18,17 @@ public class VideoDao {
     }
 
     public boolean lisaaVideo(String otsikko, String url, String kuvaus) throws Exception {
-        if (valid(otsikko, url)) {
-            Video video = new Video(otsikko, url, "0", kuvaus);
+        if (ValidatorUtils.areParametersValid(otsikko, url)) {
+            Video video = new Video(otsikko, ValidatorUtils.returnValidUrl(url), "0", kuvaus);
             String komento = "INSERT INTO Video(otsikko, url, luettu, kuvaus) "
                     + "VALUES ( ?, ?, ?, ?)";
+
             DaoHelper.createAndExecuteStatement(tietokantaosoite, komento, video.getOtsikko(), video.getUrl(), video.getLuettu(), video.getKuvaus());
+
             return true;
         }
-        return false;
 
+        return false;
     }
 
     public List<Video> haeVideot() throws Exception {
@@ -74,31 +77,19 @@ public class VideoDao {
     }
 
     public boolean muokkaaVideota(String id, String otsikko, String url, String kuvaus) throws Exception {
-        if (valid(otsikko, url)) {
+        if (ValidatorUtils.areParametersValid(otsikko, url)) {
             String komento = "UPDATE Video SET otsikko = ?, url = ?, kuvaus = ? WHERE id = ? ";
-            DaoHelper.createAndExecuteStatement(tietokantaosoite, komento, otsikko, url, kuvaus, id);
+            DaoHelper.createAndExecuteStatement(tietokantaosoite, komento, otsikko, ValidatorUtils.returnValidUrl(url), kuvaus, id);
+
             return true;
         }
+
         return false;
     }
 
     public void muutaOnkoLuettu(String onkoLuettu, String id) throws Exception {
         String komento = "UPDATE Video SET luettu = ? WHERE id = ? ";
         DaoHelper.createAndExecuteStatement(tietokantaosoite, komento, onkoLuettu, id);
-    }
-
-    private boolean valid(String otsikko, String url) {
-        if (otsikko == null || url == null) {
-            return false;
-        }
-
-        if (otsikko.trim().isEmpty()) {
-            return false;
-        } else if (url.trim().isEmpty()) {
-            return false;
-        }
-
-        return true;
     }
 
     public List<Video> haeVideotKatsotunPerusteella(String katsottu) throws Exception {
@@ -240,7 +231,6 @@ public class VideoDao {
     }
 
     public void poistaVideoltaTagi(String tagiId, String videoId) throws SQLException {
-
         Connection conn = DriverManager.getConnection(tietokantaosoite);
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM videotag WHERE video_id = ? AND tag_id = ?");
         stmt.setString(1, videoId);

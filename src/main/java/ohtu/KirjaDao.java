@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import ohtu.utils.ValidatorUtils;
 
 public class KirjaDao {
 
@@ -17,7 +18,7 @@ public class KirjaDao {
     }
 
     public boolean lisaaKirja(String kirjoittaja, String otsikko, String kuvaus) throws Exception {
-        if (valid(kirjoittaja, otsikko)) {
+        if (ValidatorUtils.areParametersValid(kirjoittaja, otsikko)) {
             Kirja kirja = new Kirja(kirjoittaja, otsikko, "0", kuvaus);
             Connection conn = DriverManager.getConnection(tietokantaosoite);
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kirja(kirjoittaja, otsikko, luettu, kuvaus) "
@@ -81,7 +82,7 @@ public class KirjaDao {
     }
 
     public boolean muokkaaKirjaa(String id, String kirjoittaja, String otsikko, String kuvaus) throws Exception {
-        if (valid(kirjoittaja, otsikko)) {
+        if (ValidatorUtils.areParametersValid(kirjoittaja, otsikko)) {
             Connection conn = DriverManager.getConnection(tietokantaosoite);
             PreparedStatement stmt = conn.prepareStatement("UPDATE Kirja SET kirjoittaja = ?, otsikko= ?, kuvaus = ? WHERE id = ? ");
             stmt.setString(1, kirjoittaja);
@@ -93,6 +94,7 @@ public class KirjaDao {
             conn.close();
             return true;
         }
+        
         return false;
     }
 
@@ -104,20 +106,6 @@ public class KirjaDao {
         stmt.execute();
         stmt.close();
         conn.close();
-    }
-
-    private boolean valid(String kirjoittaja, String otsikko) {
-        if (kirjoittaja == null || otsikko == null) {
-            return false;
-        }
-
-        if (kirjoittaja.trim().isEmpty()) {
-            return false;
-        } else if (otsikko.trim().isEmpty()) {
-            return false;
-        }
-
-        return true;
     }
 
     public List<Kirja> haeLuettuStatuksenPerusteella(String luettu) throws Exception {

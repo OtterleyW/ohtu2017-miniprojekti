@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import ohtu.utils.ValidatorUtils;
 
 public class PodcastDao {
 
@@ -17,8 +18,8 @@ public class PodcastDao {
     }
 
     public boolean lisaaPodcast(String url, String tekija, String kuvaus) throws Exception {
-        if (valid(url, tekija)) {
-            Podcast podcast = new Podcast(url, tekija, "0", kuvaus);
+        if (ValidatorUtils.areParametersValid(url, tekija)) {
+            Podcast podcast = new Podcast(ValidatorUtils.returnValidUrl(url), tekija, "0", kuvaus);
             Connection conn = DriverManager.getConnection(tietokantaosoite);
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Podcast(url, tekija, luettu, kuvaus) "
                     + "VALUES ( ?, ?, ?, ?)");
@@ -81,10 +82,10 @@ public class PodcastDao {
     }
 
     public boolean muokkaaPodcastia(String id, String url, String tekija, String kuvaus) throws Exception {
-        if (valid(url, tekija)) {
+        if (ValidatorUtils.areParametersValid(url, tekija)) {
             Connection conn = DriverManager.getConnection(tietokantaosoite);
             PreparedStatement stmt = conn.prepareStatement("UPDATE Podcast SET url = ?, tekija = ?, kuvaus = ? WHERE id = ? ");
-            stmt.setString(1, url);
+            stmt.setString(1, ValidatorUtils.returnValidUrl(url));
             stmt.setString(2, tekija);
             stmt.setString(3, kuvaus);
             stmt.setString(4, id);
@@ -104,20 +105,6 @@ public class PodcastDao {
         stmt.execute();
         stmt.close();
         conn.close();
-    }
-
-    private boolean valid(String url, String tekija) {
-        if (url == null || tekija == null) {
-            return false;
-        }
-
-        if (url.trim().isEmpty()) {
-            return false;
-        } else if (tekija.trim().isEmpty()) {
-            return false;
-        }
-
-        return true;
     }
 
     public List<Podcast> haePodcastitKuunnellunPerusteella(String kuunneltu) throws Exception {
