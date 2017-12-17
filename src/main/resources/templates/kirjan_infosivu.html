@@ -10,6 +10,8 @@
             .sisalto{
                 margin-top: 100px;
             }
+
+            .td {padding: 25px; margin-top: 10px;}
         </style>
     </head>
     <body>
@@ -40,34 +42,38 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container sisalto text-center">
-            <h2>Lisää kirja</h2>
-
-            <div th:if="${viesti}">
-                <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
-                </div>
+        <div class="container sisalto">
+            <h2> Kirjan info </h2>
+            <div>
+                <p>Kirjan nimi: <span th:text="${kirja.otsikko}">otsikko</span></p>
+                <p>Kirjoittaja: <span th:text="${kirja.kirjoittaja}">kirjoittaja</span></p>
+                <p>Kuvaus: <span th:text="${kirja.kuvaus}">kuvaus</span></p>
             </div>
+            <td>
+                <a th:href="@{/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+            </td>
+            <td>
+                <a th:href="@{/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
+            </td>
+            <td>
+                <a th:href="@{/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+            </td>
+            <p></p>
 
-            <form method="POST" action="/lisaakirja">
-                <div class="form-group">
-                    <label for="kirjoittaja">Kirjoittaja:</label>
-                    <input type="text" name="kirjoittaja"/>
-                </div>
-                <div class="form-group">
-                    <label for="otsikko">Kirjan nimi:</label>
-                    <input type="text" name="otsikko"/>
-                </div>
-                <div class="form-group">
-                    <label for="otsikko">Kirjan kuvaus (vapaaehtoinen):</label>
-                    <textarea class="form-control" rows="1" name="kuvaus"></textarea>
-                </div>
-                <input type="submit" value="Lisää" name="lisaa" class="btn btn-default"/>
-            </form>
+            <h4> Tagit: </h4>
+            <table class="table-striped" style="width: 100%" id="listId">
+                <tr th:each="tagi : ${tagit}">
+                    <td>
+                        <a th:href="@{/tagit/{tagi}(tagi=${tagi.nimi})}"><span th:text="${tagi.nimi}">nimi</span></a>
+                    </td>
+                    <td>
+                        <a th:href="@{/tagit/{tagi}/kirja/{kirja}/poista(tagi=${tagi.id}, kirja=${kirja.id})}">(poista)</a>
+                    </td>
+                </tr>
+            </table>
 
-            <p><a href="/">Takaisin</a></p>
-
-
+            <p></p>
+            <a th:href="@{/vinkit}">Takaisin vinkkilistaukseen</a>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

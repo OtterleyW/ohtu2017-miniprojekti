@@ -10,6 +10,8 @@
             .sisalto{
                 margin-top: 100px;
             }
+
+            .td {padding: 25px; margin-top: 10px;}
         </style>
     </head>
     <body>
@@ -40,34 +42,17 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container sisalto text-center">
-            <h2>Lisää kirja</h2>
+        <div class="container sisalto">
+          <h2> Poista kirja </h2>
+          <div class="alert alert-danger">
+                 <p>Haluatko varmasti poistaa kirjan <span th:text="${kirja.otsikko}">otsikko</span> kirjoittajalta <span th:text="${kirja.kirjoittaja}">kirjoittaja</span> ?</p>
+           </div>
 
-            <div th:if="${viesti}">
-                <div class="alert alert-info" role="alert">
-                    <span th:text="${viesti}">otsikko</span>
-                </div>
-            </div>
-
-            <form method="POST" action="/lisaakirja">
-                <div class="form-group">
-                    <label for="kirjoittaja">Kirjoittaja:</label>
-                    <input type="text" name="kirjoittaja"/>
-                </div>
-                <div class="form-group">
-                    <label for="otsikko">Kirjan nimi:</label>
-                    <input type="text" name="otsikko"/>
-                </div>
-                <div class="form-group">
-                    <label for="otsikko">Kirjan kuvaus (vapaaehtoinen):</label>
-                    <textarea class="form-control" rows="1" name="kuvaus"></textarea>
-                </div>
-                <input type="submit" value="Lisää" name="lisaa" class="btn btn-default"/>
-            </form>
-
-            <p><a href="/">Takaisin</a></p>
-
-
+                 <form method="POST" action="poista_kirja">
+                     <input type="submit" value="Poista" class="btn btn-default"/>
+                 </form>
+                 <p></p>
+                 <a th:href="@{/vinkit}">Takaisin vinkkilistaukseen</a>
         </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

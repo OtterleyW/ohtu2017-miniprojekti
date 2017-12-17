@@ -10,7 +10,12 @@ Feature: user can add new book with hint
     When user has selected command takaisin
     Then user is redirect to mainpage
 
-##  Scenario: user try add existing book with same title
-##    Given command lisaakirja is selected
-##    When user has entered an writer "Jussi Väisälä" and title "Topologia I"
-##    Then system sent message sent error message
+  Scenario: user can not add new book hint if title is empty
+    Given command lisaakirja is selected
+    When user has entered an writer "Jussi Väisälä" and title ""
+    Then new book is not added and error is shown
+
+  Scenario: user can not add new book hint if writer is empty
+    Given command lisaakirja is selected
+    When user has entered an writer "" and title "Testikirja"
+    Then new book is not added and error is shown

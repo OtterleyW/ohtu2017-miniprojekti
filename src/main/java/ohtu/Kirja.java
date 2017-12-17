@@ -7,13 +7,20 @@ public class Kirja implements Vinkki {
     private String otsikko;
     private String kirjoittaja;
     private String id;
-    private boolean luettu;
+    private String luettu;
+    private String kuvaus;
 
-    public Kirja(String kirjoittaja, String otsikko) {
+    public Kirja(String kirjoittaja, String otsikko, String luettu, String kuvaus) {
 
         this.kirjoittaja = kirjoittaja;
         this.otsikko = otsikko;
-        this.luettu = false;
+        // Arvo 0 = ei luettu, arvo 1 = luettu
+        this.luettu = luettu;
+        if (kuvaus == null) {
+            this.kuvaus = "";
+        } else {
+            this.kuvaus = kuvaus;
+        }
     }
 
     public String getOtsikko() {
@@ -42,10 +49,23 @@ public class Kirja implements Vinkki {
 
     @Override
     public void merkitseLuetuksi() {
-        this.luettu = true;
+        if (this.luettu.equals("1")) {
+            this.luettu = "0";
+        } else {
+            this.luettu = "1";
+        }
+
     }
 
-    public boolean getLuettu() {
+    public String getLuettu() {
         return luettu;
+    }
+
+    public void setKuvaus(String kuvaus) {
+        this.kuvaus = kuvaus;
+    }
+
+    public String getKuvaus() {
+        return kuvaus;
     }
 }

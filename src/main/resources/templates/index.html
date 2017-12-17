@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Vinkkikirjasto</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+        <style>
+            .sisalto{
+                margin-top: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">Vinkkikirjasto</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/testi">Lisää kirjavinkki</a></li>
+                        <li><a href="/vinkit">Näytä kirjavinkit</a></li>
+                        <li><a href="/videonlisaaminen">Lisää videovinkki</a></li>
+                        <li><a href="/videovinkit">Näytä videovinkit</a></li>
+                        <li><a href="/podcastinlisaaminen">Lisää podcastvinkki</a></li>
+                        <li><a href="/podcastvinkit">Näytä podcastvinkit</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container sisalto text-center">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-3">Meemimestareiden vinkkikirjasto</h1>
+                    <p class="lead">Ohjelmistotuontantokurssin miniprojekti syksy 2017</p>
+                </div>
+            </div>
+
+            <div class="container sisalto">
+
+                <form th:action="@{/}" method="POST">
+                    <span>Hakusana:</span>
+                    <input type="text" name="hakusana"/>
+                    <input type="submit" value="Hae!"/>
+                </form>
+
+                <div th:if="${viesti}">
+                    <div class="alert alert-info" role="alert">
+                        <span th:text="${viesti}">otsikko</span>
+                    </div>
+                </div>
+
+                <h3>Kirjat</h3>
+
+                <table class="table-striped" style="width: 100%" id="listId">
+                    <tr th:each="kirja : ${kirjat}">
+                        <td>
+                            <a th:href="@{/kirja/{id}/info(id=${kirja.id})}"><span th:text="${kirja.otsikko}">otsikko</span></a>
+                        </td>
+                        <td>
+                            <span th:text=" kirjoittajalta "></span>
+                            <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
+                        </td>
+                        <td>
+                            <span th:switch="${kirja.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei luettu</span>
+                                <span class="label label-success" th:case="1">Luettu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${kirja.luettu}"> 
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_luettu(id=${kirja.id})}"  class="btn btn-sm btn-info">Merkitse luetuksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_luettu(id=${kirja.id})}"  class="btn btn-sm btn-info">Merkitse lukemattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+                <p>&nbsp;</p>
+
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="kirja : ${luetut_kirjat}">
+                        <td>
+                            <a th:href="@{/kirja/{id}/info(id=${kirja.id})}"><span th:text="${kirja.otsikko}">otsikko</span></a>
+                        </td>
+                        <td>
+                            <span th:text=" kirjoittajalta "></span>
+                            <span th:text="${kirja.kirjoittaja}">kirjoittaja</span>
+                        </td>
+                        <td>
+                            <span th:switch="${kirja.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei luettu</span>
+                                <span class="label label-success" th:case="1">Luettu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/muokkaa(id=${kirja.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaatagi(id=${kirja.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/poista(id=${kirja.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${kirja.luettu}"> 
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_luettu(id=${kirja.id})}"  class="btn btn-sm btn-info">Merkitse luetuksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_luettu(id=${kirja.id})}"  class="btn btn-sm btn-info">Merkitse lukemattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+                <br /><p></p>
+                <h3>Videot</h3>
+
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="video : ${videot}">
+                        <td>
+                            <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
+                        </td>
+                        <td>
+                            <a th:href="${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                        </td>
+                        <td>
+                            <span th:switch="${video.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei katsottu</span>
+                                <span class="label label-success" th:case="1">Katsottu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaavideolletagi(id=${video.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${video.luettu}"> 
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+                <p>&nbsp;</p>
+
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="video : ${katsotut_videot}">
+                        <td>
+                            <a th:href="@{/video/{id}/info(id=${video.id})}"><span th:text="${video.otsikko}">otsikko</span></a>
+                        </td>
+                        <td>
+                            <a th:href="${video.url}" target="_blank"><span th:text="${video.url}">linkki videoon</span></a>
+                        </td>
+                        <td>
+                            <span th:switch="${video.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei katsottu</span>
+                                <span class="label label-success" th:case="1">Katsottu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/muokkaavideota(id=${video.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaavideolletagi(id=${video.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/poistavideo(id=${video.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${video.luettu}"> 
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsotuksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_katsottu(id=${video.id})}"  class="btn btn-sm btn-info">Merkitse katsomattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+                <br /><p></p>
+                <h3>Podcastit</h3>
+
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="podcast : ${podcastit}">
+                        <td>
+                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tiedot</span></a>
+                        </td>
+                        <td>
+                            <a th:href="${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
+                        </td>
+                        <td>
+                            <span th:switch="${podcast.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei kuunneltu</span>
+                                <span class="label label-success" th:case="1">Kuunneltu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaapodcastilletagi(id=${podcast.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${podcast.luettu}"> 
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+                <p>&nbsp;</p>
+
+                <table class="table-striped" style="width: 100%">
+                    <tr th:each="podcast : ${kuunnellut_podcastit}">
+                        <td>
+                            <a th:href="@{/podcast/{id}/info(id=${podcast.id})}"><span th:text="${podcast.tekija}">tiedot</span></a>
+                        </td>
+                        <td>
+                            <a th:href="${podcast.url}" target="_blank"><span th:text="${podcast.url}">linkki podcastiin</span></a>
+                        </td>
+                        <td>
+                            <span th:switch="${podcast.luettu}"> 
+                                <span class="label label-warning" th:case="0">Ei kuunneltu</span>
+                                <span class="label label-success" th:case="1">Kuunneltu</span>
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/muokkaapodcastia(id=${podcast.id})}" class="btn btn-sm btn-primary">Muokkaa</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/lisaapodcastilletagi(id=${podcast.id})}" class="btn btn-sm btn-info">Lisää tagi</a>
+                        </td>
+                        <td>
+                            <a th:href="@{/e/{id}/poistapodcast(id=${podcast.id})}" class="btn btn-sm btn-danger">Poista</a>
+                        </td>
+                        <td>
+                            <span th:switch="${podcast.luettu}"> 
+                                <span th:case="0"><a th:href="@{/e/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuunnelluksi</a></span>
+                                <span th:case="1"><a th:href="@{/e/{id}/onko_kuunneltu(id=${podcast.id})}"  class="btn btn-sm btn-info">Merkitse kuuntelemattomaksi</a></span>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+        <br/>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    </body>
+</html>

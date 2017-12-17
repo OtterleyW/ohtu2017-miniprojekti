@@ -41,7 +41,7 @@
         </nav>
 
         <div class="container sisalto text-center">
-            <h2>Lisää kirja</h2>
+            <h2>Lisää video</h2>
 
             <div th:if="${viesti}">
                 <div class="alert alert-info" role="alert">
@@ -49,17 +49,17 @@
                 </div>
             </div>
 
-            <form method="POST" action="/lisaakirja">
+            <form method="POST" action="/lisaavideo">
                 <div class="form-group">
-                    <label for="kirjoittaja">Kirjoittaja:</label>
-                    <input type="text" name="kirjoittaja"/>
-                </div>
-                <div class="form-group">
-                    <label for="otsikko">Kirjan nimi:</label>
+                    <label for="otsikko">Otsikko:</label>
                     <input type="text" name="otsikko"/>
                 </div>
                 <div class="form-group">
-                    <label for="otsikko">Kirjan kuvaus (vapaaehtoinen):</label>
+                    <label for="url">Videon url:</label>
+                    <input type="text" name="url"/>
+                </div>
+                <div class="form-group">
+                    <label for="otsikko">Videon kuvaus (vapaaehtoinen):</label>
                     <textarea class="form-control" rows="1" name="kuvaus"></textarea>
                 </div>
                 <input type="submit" value="Lisää" name="lisaa" class="btn btn-default"/>
